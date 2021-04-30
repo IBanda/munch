@@ -1,44 +1,61 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
-import { ApolloServer } from 'apollo-server';
+import express from 'express';
+import { ApolloServer } from 'apollo-server-express';
+import http from 'http';
 import typeDefs from './schema';
 import resolvers from './resolvers';
-import { Client } from '@googlemaps/google-maps-services-js';
 import './db';
 import User from './models/user';
 import Review from './models/review';
+import session from 'express-session';
+import mongoDBSession from 'connect-mongodb-session';
+import mapClient from './lib/mapClient';
 
-const client = new Client({});
+export default async function apolloExpressServer() {
+  const app = express();
+  const Store = mongoDBSession(session);
 
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  subscriptions: {
-    path: '/subscriptions',
-  },
-  context: ({ req, connection }) => {
-    let token;
-    if (connection) {
-      token = connection.context.authorization;
-    } else {
-      token = req.headers.authorization;
-    }
-    return {
-      mapClient: client,
+  const store = new Store({
+    uri: process.env.MONGO_URI,
+    collection: 'session',
+  });
+
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    subscriptions: {
+      path: '/subscriptions',
+    },
+    context: ({ req }) => ({
+      mapClient,
       models: {
         User,
         Review,
       },
-      token,
-    };
-  },
-});
-
-server
-  .listen({
-    port: process.env.PORT || 4000,
-  })
-  .then(({ url, subscriptionsUrl }) => {
-    console.log(`Server running at: ${url}`);
-    console.log(`Subscription server running at: ${subscriptionsUrl}`);
+      req,
+    }),
   });
+
+  await server.start();
+
+  app.use(
+    session({
+      secret: process.env.COOKIE_SECRET,
+      resave: false,
+      saveUninitialized: false,
+      store,
+      cookie: {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+      },
+    })
+  );
+  server.applyMiddleware({ app });
+
+  const httpServer = http.createServer(app);
+  server.installSubscriptionHandlers(httpServer);
+
+  return { server, httpServer };
+}

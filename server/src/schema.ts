@@ -1,11 +1,10 @@
-import { gql } from 'apollo-server';
+import { gql } from 'apollo-server-express';
 
 const typeDefs = gql`
   type User {
     id: ID!
     name: String
     email: String
-    jwt: String
   }
   type Restaurant {
     place_id: String
@@ -67,8 +66,8 @@ const typeDefs = gql`
   }
 
   type Query {
-    restraurants(coordinates: RestaurantInput): [Restaurant]
-    restraurant(id: ID!): Restaurant
+    restaurants(coordinates: RestaurantInput): [Restaurant]
+    restaurant(id: ID!): Restaurant
     reviews(placeId: String): [Review]
   }
 
@@ -76,6 +75,8 @@ const typeDefs = gql`
     signup(user: UserInput): User
     signin(user: UserInput): User
     postReview(review: ReviewInput): Review
+    deleteReview(id: ID!): ID
+    editReview(review: String!, id: ID!): Review
   }
 
   type Subscription {

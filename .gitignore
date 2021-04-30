@@ -2,3 +2,5 @@ node_modules
 kendo-ui-license.txt
 .env
 .env.local
+
+build

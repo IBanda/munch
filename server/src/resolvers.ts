@@ -1,5 +1,9 @@
-import { PubSub, withFilter } from 'apollo-server';
-import { verifyJWT } from './lib/jwt';
+import {
+  PubSub,
+  withFilter,
+  UserInputError,
+  ForbiddenError,
+} from 'apollo-server-express';
 
 const pubsub = new PubSub();
 
@@ -7,7 +11,7 @@ const key = process.env.GOOGLE_MAPS_API_KEY;
 
 const resolvers = {
   Query: {
-    restraurants: async (_, { coordinates: { lat, lng } }, { mapClient }) => {
+    restaurants: async (_, { coordinates: { lat, lng } }, { mapClient }) => {
       const places = await mapClient.placesNearby({
         params: {
           key,
@@ -16,9 +20,10 @@ const resolvers = {
           rankby: 'distance',
         },
       });
+
       return places.data.results;
     },
-    restraurant: async (_, { id }, { mapClient, models }) => {
+    restaurant: async (_, { id }, { mapClient, models }) => {
       const place = await mapClient.placeDetails({
         params: {
           key,
@@ -42,33 +47,55 @@ const resolvers = {
     },
   },
   Mutation: {
-    signup: async (_, { user: { email, name, password } }, { models }) => {
+    signup: async (_, { user: { email, name, password } }, { models, req }) => {
+      const doesUserExist = await models.User.exists({ email });
+      if (doesUserExist)
+        throw new UserInputError('User with this email already exists');
+
       const user = new models.User({ email, name });
-      const jwt = await user.pHash(password);
+      await user.pHash(password);
       const newUser = await user.save();
+      req.session.user = newUser.id;
       return {
         id: newUser._id,
         name: newUser.name,
         email: newUser.email,
-        jwt,
       };
     },
-    signin: async (_, { user: { email, password } }, { models }) => {
-      const user = models.User.findOne({ email });
-      const jwt: string | undefined = await user.compare(password);
+    signin: async (_, { user: { email, password } }, { models, req }) => {
+      const user = await models.User.findOne({ email });
+      if (!user)
+        throw new UserInputError('User with this email does not exist');
+
+      const isValidPassword = await user.compare(password);
+      if (!isValidPassword)
+        throw new ForbiddenError(
+          'The password provided does not match the user'
+        );
+      req.session.user = user.id;
       return {
         id: user._id,
         name: user.name,
         email: user.email,
-        jwt,
       };
     },
-    postReview: async (_, { review }, { models, token }) => {
-      const j = await verifyJWT(token, review.userId);
-      console.log(j);
+    postReview: async (_, { review }, { models }) => {
       const newReview = await models.Review.create(review);
       pubsub.publish('GET_REVIEW', { getReview: newReview });
       return newReview;
+    },
+    deleteReview: async (_, { id }, { models }) => {
+      const review = await models.Review.findOneAndDelete({ _id: id });
+      console.log(review);
+      return review._id;
+    },
+    editReview: async (_, { review, id }, { models }) => {
+      const updatedReview = await models.Review.findOneAndUpdate(
+        { _id: id },
+        { review },
+        { new: true }
+      );
+      return updatedReview;
     },
   },
   Subscription: {
