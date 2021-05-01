@@ -5,7 +5,6 @@ import { ApolloServer } from 'apollo-server-express';
 import http from 'http';
 import typeDefs from './schema';
 import resolvers from './resolvers';
-import './db';
 import User from './models/user';
 import Review from './models/review';
 import session from 'express-session';
@@ -36,12 +35,11 @@ export default async function apolloExpressServer() {
       req,
     }),
   });
-
   await server.start();
 
   app.use(
     session({
-      secret: process.env.COOKIE_SECRET,
+      secret: process.env.COOKIE_SECRET || 'secret',
       resave: false,
       saveUninitialized: false,
       store,
