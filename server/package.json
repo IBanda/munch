@@ -23,6 +23,7 @@
     "@types/node": "^15.0.0",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
+    "apollo-server-integration-testing": "^3.0.0",
     "babel-jest": "^26.6.3",
     "eslint": "^7.25.0",
     "jest": "^26.6.3",
@@ -34,16 +35,13 @@
   },
   "dependencies": {
     "@googlemaps/google-maps-services-js": "^3.1.16",
-    "apollo-datasource-rest": "^0.12.0",
     "apollo-server-express": "^2.23.0",
-    "apollo-server-testing": "^2.23.0",
     "connect-mongodb-session": "^2.4.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "graphql": "^15.5.0",
-    "mongoose": "^5.12.6",
-    "secure-random": "^1.1.2"
+    "mongoose": "^5.12.6"
   },
   "jest": {
     "testEnvironment": "node",
@@ -52,7 +50,7 @@
       "/__utils"
     ],
     "setupFilesAfterEnv": [
-      "<rootDir>/setupTests.ts"
+      "<rootDir>/src/setupTests.ts"
     ]
   }
 }
