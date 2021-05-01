@@ -1,5 +1,5 @@
 import apolloExpressServer from './server';
-
+import './db';
 async function start() {
   const { httpServer, server } = await apolloExpressServer();
   httpServer.listen(4000, () => {
