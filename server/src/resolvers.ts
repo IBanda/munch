@@ -86,7 +86,6 @@ const resolvers = {
     },
     deleteReview: async (_, { id }, { models }) => {
       const review = await models.Review.findOneAndDelete({ _id: id });
-      console.log(review);
       return review._id;
     },
     editReview: async (_, { review, id }, { models }) => {
