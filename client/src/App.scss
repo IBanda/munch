@@ -32,6 +32,47 @@ body {
   background: #f3f6f8;
   border: 0;
   &-content {
-    padding: 0 1em;
+    padding: 0 0.5em;
   }
+}
+
+/*
+* Marker
+*/
+
+.m__marker {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  &:hover {
+    z-index: 2;
+  }
+}
+.m__marker-tooltip {
+  position: absolute;
+  // left: 50%;
+  // top: 50%;
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
+  // border-radius: 50%;
+  // height: 30px;
+  // width: 30px;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  &:hover {
+    z-index: 2;
+  }
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
