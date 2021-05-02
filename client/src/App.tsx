@@ -1,8 +1,8 @@
-import React from 'react';
-import '@progress/kendo-theme-bootstrap/dist/all.css';
+import './App.scss';
+import Places from './pages/Places';
 
 function App() {
-  return <div className="App">Hello KendoReact</div>;
+  return <Places />;
 }
 
 export default App;
