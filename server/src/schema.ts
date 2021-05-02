@@ -6,6 +6,10 @@ const typeDefs = gql`
     name: String
     email: String
   }
+
+  """
+  Restaurants from google places API
+  """
   type Restaurant {
     place_id: String
     name: String
@@ -18,13 +22,14 @@ const typeDefs = gql`
     price_level: String
     opening_hours: OpenHours
     reviews: [Review]
+    vicinity: String
+    types: [String]
   }
 
   type Review {
     id: ID!
     review: String
-    name: String
-    userId: String
+    user: User
     placeId: String
     created_on: String
   }
@@ -59,6 +64,11 @@ const typeDefs = gql`
     open_now: Boolean
   }
 
+  """
+  Photo to match the google Photo
+  using the photo_reference to fetch the original photo
+  from the place photo API
+  """
   type Photo {
     width: Int
     height: Int
