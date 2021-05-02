@@ -15,9 +15,5 @@ const RenderItem = (props: any) => {
 };
 
 export default function PlaceListView({ data }: Props) {
-  return (
-    <div>
-      <ListView data={data.places} item={RenderItem} />
-    </div>
-  );
+  return <ListView data={data.places} item={RenderItem} />;
 }
