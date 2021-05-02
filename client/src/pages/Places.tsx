@@ -6,7 +6,7 @@ import PlaceListView from 'components/ListView';
 
 const GET_RESTAURANTS = gql`
   query GetRestaurants($coordinates: RestaurantInput) {
-    restaurants(coordinates: $coordinates) {
+    places: restaurants(coordinates: $coordinates) {
       name
       place_id
       opening_hours {
