@@ -1,0 +1,36 @@
+@import '~@progress/kendo-theme-bootstrap/dist/all.scss';
+@import '~bootstrap/scss/bootstrap.scss';
+
+/*
+Card 
+*/
+body {
+  margin: 0;
+}
+* {
+  box-sizing: border-box;
+}
+
+.m__card-image {
+  object-fit: cover;
+  object-position: center;
+  width: 6em;
+  height: 5em;
+}
+.m__card-title {
+  font-size: 1em;
+}
+.m__card-subtitle {
+  font-size: 14px;
+}
+
+/* 
+* ListView
+*/
+
+.k-listview {
+  background: #f3f6f8;
+  &-content {
+    padding: 0 1em;
+  }
+}
