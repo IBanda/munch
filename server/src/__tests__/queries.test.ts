@@ -1,4 +1,4 @@
-import db from './__utils/db';
+import db from '../db';
 import { testClient, gql } from './__utils/testClient';
 
 const GET_RESTAURANTS = gql`

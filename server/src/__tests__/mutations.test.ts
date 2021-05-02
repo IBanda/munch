@@ -1,4 +1,5 @@
-import db from './__utils/db';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import db from '../db';
 import User from '../models/user';
 import Review from '../models/review';
 
