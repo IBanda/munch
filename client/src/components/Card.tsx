@@ -34,9 +34,10 @@ export default function PlaceCard({ place }: Props) {
           >
             {isOpen ? 'Open' : 'Closed'}
           </CardSubtitle>
-          <small className="d-flex align-items-center">
-            <SvgIcon icon={mapMarkerIcon} size="small" /> {place?.vicinity}
-          </small>
+          <span className="d-flex align-items-center">
+            <SvgIcon icon={mapMarkerIcon} size="small" />
+            <small>{place?.vicinity}</small>
+          </span>
           <ul className="list-unstyled d-flex m-0 p-0 flex-wrap">
             {place?.types?.map((type) => (
               <li className="mr-1" key={type}>
