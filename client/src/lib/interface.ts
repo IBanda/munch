@@ -2,14 +2,19 @@ export interface Photo {
   photo_reference: string;
 }
 
-export interface OpenHours {
-  open_now: Boolean;
-}
-
 export interface Place {
+  place_id: string;
   name: string;
   photos: Photo[];
   vicinity: string;
-  opening_hours: OpenHours;
+  opening_hours: {
+    open_now: boolean;
+  };
   types: string[];
+  geometry: {
+    location: {
+      lat: number;
+      lng: number;
+    };
+  };
 }
