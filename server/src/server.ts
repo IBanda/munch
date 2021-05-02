@@ -10,6 +10,7 @@ import Review from './models/review';
 import session from 'express-session';
 import mongoDBSession from 'connect-mongodb-session';
 import mapClient from './lib/mapClient';
+import mocks from './utils/mocks';
 
 export default async function apolloExpressServer() {
   const app = express();
@@ -34,6 +35,7 @@ export default async function apolloExpressServer() {
       },
       req,
     }),
+    mocks: process.env.CLIENT_DEV ? mocks : false,
   });
   await server.start();
 
