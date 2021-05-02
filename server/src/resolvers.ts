@@ -30,7 +30,9 @@ const resolvers = {
           place_id: id,
         },
       });
-      const reviews = await models.Review.find({ placeId: id });
+      const reviews = await models.Review.find({ placeId: id }).populate(
+        'user'
+      );
       return { ...place.data.result, reviews };
     },
   },
