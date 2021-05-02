@@ -16,7 +16,7 @@ interface Props {
 export default function PlaceCard({ place }: Props) {
   const isOpen = place.opening_hours?.open_now;
   return (
-    <Card orientation="horizontal">
+    <Card orientation="horizontal" className="cursor-pointer">
       <CardBody className="d-flex">
         <CardImage
           // src={`data:image/png;base64,${place?.photos?.[0]?.photo_reference}`}
