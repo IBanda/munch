@@ -4,3 +4,4 @@ kendo-ui-license.txt
 .env.local
 
 build
+yarn-error.log
