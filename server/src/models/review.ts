@@ -8,7 +8,7 @@ interface Review extends Document {
 
 const ReviewSchema: Schema = new Schema({
   review: { type: String, required: true },
-  userId: { type: Schema.Types.ObjectId, ref: 'user' },
+  user: { type: Schema.Types.ObjectId, ref: 'user' },
   placeId: { type: String, required: true },
   created_on: { type: String, default: Date.now() },
 });
