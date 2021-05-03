@@ -58,11 +58,25 @@ body {
 }
 .m__marker-tooltip {
   font-size: 13px;
+  background-color: #fff;
+  color: #000;
+  box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.3);
 }
 
+.k-tooltip .k-callout {
+  color: #fff;
+}
 .z-index-2 {
   z-index: 2;
 }
 .cursor-pointer {
   cursor: pointer;
+}
+
+/*
+* Window
+*/
+
+.k-window-titlebar {
+  border: 0;
 }
