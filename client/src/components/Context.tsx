@@ -1,20 +1,26 @@
 import React, { createContext, useContext } from 'react';
 
-const AppState = createContext<string | null>(null);
-const AppDispatch = createContext<any>(null);
+interface Context {
+  id?: string;
+  setId?: any;
+  setWindow?: any;
+}
+const AppState = createContext<Context | null>(null);
+const AppDispatch = createContext<Context | null>(null);
 
 interface Props {
   children: React.ReactNode;
-  id?: string;
-  setId?: any;
+  context: Context;
 }
 
-export function AppStateProvider({ children, id }: Props) {
-  return <AppState.Provider value={id as string}>{children}</AppState.Provider>;
+export function AppStateProvider({ children, context }: Props) {
+  return <AppState.Provider value={context}>{children}</AppState.Provider>;
 }
 
-export function AppDispatchProvider({ children, setId }: Props) {
-  return <AppDispatch.Provider value={setId}>{children}</AppDispatch.Provider>;
+export function AppDispatchProvider({ children, context }: Props) {
+  return (
+    <AppDispatch.Provider value={context}>{children}</AppDispatch.Provider>
+  );
 }
 
 export function useAppState() {
