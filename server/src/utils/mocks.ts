@@ -355,6 +355,20 @@ const mocks = {
         ],
       },
     ],
+    restaurant: () => ({
+      name: 'Rules',
+      formatted_address: '34-35 Maiden Ln, London WC2E 7LB, UK',
+      formatted_phone_number: '020 7836 5314',
+      geometry: {
+        location: {
+          lat: 51.5107984,
+          lng: -0.1231629,
+        },
+      },
+      website: 'http://www.rules.co.uk/',
+      opening_hours: null,
+      reviews: [],
+    }),
   }),
 };
 export default mocks;
