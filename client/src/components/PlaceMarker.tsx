@@ -5,11 +5,13 @@ import { Tooltip } from '@progress/kendo-react-tooltip';
 
 interface Props {
   openTooltip: boolean;
+  id: string;
   name: string;
   open: boolean;
+  setWindow: any;
 }
 
-function Marker({ openTooltip, name, open }: Props) {
+function Marker({ openTooltip, name, open, setWindow, id }: Props) {
   const marker = useRef<HTMLDivElement>(null);
   return (
     <Tooltip
@@ -23,6 +25,7 @@ function Marker({ openTooltip, name, open }: Props) {
     >
       <div
         ref={marker}
+        onClick={() => setWindow({ open: true, id })}
         title={name}
         className={`${open ? 'bg-success' : 'bg-danger'} ${
           openTooltip ? 'z-index-2' : ''
@@ -69,12 +72,14 @@ function Marker({ openTooltip, name, open }: Props) {
 const MemoMarker = memo(Marker);
 
 export default function PlaceMarker(props: any) {
-  const globalId = useAppState();
+  const { id, setWindow } = useAppState();
   return (
     <MemoMarker
-      openTooltip={props.placeId === globalId}
+      openTooltip={props.placeId === id}
+      id={props.placeId}
       name={props.name}
       open={props.open}
+      setWindow={setWindow}
     />
   );
 }
