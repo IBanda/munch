@@ -7,7 +7,7 @@ import PlaceMap from 'components/PlaceMap';
 import PlaceDetails from 'components/PlaceDetails';
 import { AppDispatchProvider, AppStateProvider } from 'components/Context';
 
-const GET_RESTAURANTS = gql`
+const GET_PLACES = gql`
   query GetRestaurants($coordinates: RestaurantInput) {
     places: restaurants(coordinates: $coordinates) {
       name
@@ -34,7 +34,7 @@ export default function Places() {
   const coords = useGeo();
   const [id, setId] = useState('');
   const [{ id: placeId, open }, setWindow] = useState({ open: false, id: '' });
-  const [getPlaces, { data, error }] = useLazyQuery(GET_RESTAURANTS);
+  const [getPlaces, { data, error }] = useLazyQuery(GET_PLACES);
 
   const dispatchContext = useMemo(
     () => ({
@@ -67,7 +67,7 @@ export default function Places() {
       <div className="row no-gutters">
         <div
           className={`col-lg-4 vh-100 ${
-            open ? 'overflow-hidden' : 'overflow-auto'
+            open ? 'overflow-hidden ' : 'overflow-auto'
           }`}
         >
           <AppDispatchProvider context={dispatchContext}>
