@@ -8,11 +8,13 @@ interface Props {
 }
 
 const RenderItem = (props: any) => {
-  const setId = useDispatch();
+  const { setId, setWindow } = useDispatch();
+  const id = props.dataItem.place_id;
   return (
     <div
       className="mb-2"
-      onMouseOver={() => setId(props.dataItem.place_id)}
+      onClick={() => setWindow({ open: true, id })}
+      onMouseOver={() => setId(id)}
       onMouseOut={() => setId('')}
     >
       <PlaceCard place={props.dataItem} />
