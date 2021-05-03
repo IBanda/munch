@@ -57,22 +57,12 @@ body {
   }
 }
 .m__marker-tooltip {
-  position: absolute;
-  // left: 50%;
-  // top: 50%;
-  // display: flex;
-  // align-items: center;
-  // justify-content: center;
-  // border-radius: 50%;
-  // height: 30px;
-  // width: 30px;
-  transform: translate(-50%, -50%);
-  cursor: pointer;
-  &:hover {
-    z-index: 2;
-  }
+  font-size: 13px;
 }
 
+.z-index-2 {
+  z-index: 2;
+}
 .cursor-pointer {
   cursor: pointer;
 }
