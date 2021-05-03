@@ -18,12 +18,15 @@ function Marker({ openTooltip, name, open }: Props) {
       targetElement={marker.current}
       openDelay={50}
       className="relative"
+      position="top"
       tooltipClassName="m__marker-tooltip"
     >
       <div
         ref={marker}
         title={name}
-        className={`${open ? 'bg-success' : 'bg-danger'} m__marker`}
+        className={`${open ? 'bg-success' : 'bg-danger'} ${
+          openTooltip ? 'z-index-2' : ''
+        } m__marker`}
       >
         <SvgIcon
           style={{ width: 15, height: 15 }}
