@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "ts-node-dev src/start.ts",
-    "client:dev": "cross-env CLIENT_DEV=true yarn start",
+    "mock": "cross-env MOCK=true yarn start",
     "precommit": "lint-staged",
     "lint": "eslint src/*.ts --fix",
     "format": "prettier . --write",

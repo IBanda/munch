@@ -35,7 +35,7 @@ export default async function apolloExpressServer() {
       },
       req,
     }),
-    mocks: process.env.CLIENT_DEV ? mocks : false,
+    mocks: process.env.MOCK ? mocks : false,
   });
   await server.start();
 
