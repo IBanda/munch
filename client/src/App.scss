@@ -1,3 +1,5 @@
+$secondary: #edeeee;
+
 @import '~@progress/kendo-theme-bootstrap/dist/all.scss';
 @import '~bootstrap/scss/bootstrap.scss';
 
@@ -79,4 +81,60 @@ body {
 
 .k-window-titlebar {
   border: 0;
+}
+.m__window {
+  box-shadow: 14px 5px 25px 3px rgba(0, 0, 0, 0.23);
+}
+/*
+* Image Grid
+*/
+
+.m__img-grid {
+  max-width: 15em;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.m_img-drid-wrapper {
+  padding: 0.1em !important;
+}
+
+/*
+* Details
+*/
+
+.m__details {
+  &-name {
+    font-size: 16px;
+  }
+  &-status {
+    font-size: 10px;
+    padding: 0.125em 0.25em;
+  }
+  &-info {
+    font-size: 14px;
+  }
+  &-reviews {
+    &-title {
+      font-size: 16px;
+    }
+    &-name,
+    &-text {
+      font-size: 12px;
+    }
+    &-created {
+      font-size: 10px;
+    }
+    &-morebtn,
+    &-lessbtn {
+      padding-left: 0;
+      padding-right: 0;
+      font-size: 14px;
+      outline: none !important;
+      background-color: transparent;
+      border: 0;
+    }
+  }
 }

@@ -66,7 +66,7 @@ export default function Places() {
     <Layout className="p-0" fluid>
       <div className="row no-gutters">
         <div
-          className={`col-lg-4 vh-100 ${
+          className={`col-lg-4 vh-100 shadow-lg ${
             open ? 'overflow-hidden ' : 'overflow-auto'
           }`}
         >

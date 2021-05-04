@@ -16,8 +16,8 @@ export default function PlaceMap({ data: { places } }: Props) {
           key: String(process.env.REACT_APP_GOOGLE_MAP_API_KEY),
         }}
         zoom={12}
-        center={{ lat: Number(center.lat), lng: Number(center.lng) }}
-        // center={{ lat: 51.53453534509865, lng: -0.118092 }}
+        // center={{ lat: Number(center.lat), lng: Number(center.lng) }}
+        center={{ lat: 51.53453534509865, lng: -0.118092 }}
       >
         {places.map((place) => (
           <PlaceMarker

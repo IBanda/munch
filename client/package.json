@@ -4,14 +4,22 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.3.16",
+    "@progress/kendo-drawing": "^1.10.0",
     "@progress/kendo-licensing": "^1.1.4",
+    "@progress/kendo-react-buttons": "^4.5.0",
     "@progress/kendo-react-common": "^4.5.0",
     "@progress/kendo-react-dialogs": "^4.5.0",
+    "@progress/kendo-react-dropdowns": "^4.5.0",
+    "@progress/kendo-react-editor": "^4.5.0",
+    "@progress/kendo-react-inputs": "^4.5.0",
     "@progress/kendo-react-intl": "^4.5.0",
     "@progress/kendo-react-layout": "^4.5.0",
     "@progress/kendo-react-listview": "^4.5.0",
+    "@progress/kendo-react-pdf": "^4.5.0",
+    "@progress/kendo-react-popup": "^4.5.0",
     "@progress/kendo-react-progressbars": "^4.5.0",
     "@progress/kendo-react-tooltip": "^4.5.0",
+    "@progress/kendo-react-treeview": "^4.5.0",
     "@progress/kendo-svg-icons": "^0.1.2",
     "@progress/kendo-theme-bootstrap": "^4.34.0",
     "@testing-library/jest-dom": "^5.11.4",
@@ -22,6 +30,7 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "bootstrap": "^4.6.0",
+    "date-fns": "^2.21.1",
     "google-map-react": "^2.1.9",
     "graphql": "^15.5.0",
     "node-sass": "^5.0.0",
@@ -64,5 +73,8 @@
     "husky": "^6.0.0",
     "lint-staged": "^10.5.4",
     "prettier": "^2.2.1"
+  },
+  "resolutions": {
+    "prosemirror-model": "1.9.1"
   }
 }

@@ -9,6 +9,7 @@ export interface Place {
   vicinity: string;
   opening_hours: {
     open_now: boolean;
+    weekday_text: string[];
   };
   types: string[];
   geometry: {
