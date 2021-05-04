@@ -366,8 +366,50 @@ const mocks = {
         },
       },
       website: 'http://www.rules.co.uk/',
-      opening_hours: null,
-      reviews: [],
+      opening_hours: {
+        open_now: true,
+        weekday_text: [
+          'Monday: 9:00 AM – 5:30 PM',
+          'Tuesday: 9:00 AM – 5:30 PM',
+          'Wednesday: 9:00 AM – 5:30 PM',
+          'Thursday: 9:00 AM – 5:30 PM',
+          'Friday: 9:00 AM – 5:30 PM',
+          'Saturday: Closed',
+          'Sunday: Closed',
+        ],
+      },
+      reviews: [
+        {
+          id: '609187bd7f3bbb3f34abf6f4',
+          review:
+            'Loved the outdoor brunch experience just as much as I loved the pop-up! Freshly made bagels and donuts, and probably the best shrimp and grits I’ve ever had. My fave brunch of 2020 - thanks Chef Andrew!',
+          user: {
+            id: '608e48a01e1d61a54c208752',
+            name: 'Marco',
+          },
+          created_on: '1620150183873',
+        },
+        {
+          id: '609186bfacb42d3f40d21c66',
+          review:
+            'I look forward to Friday so I can place my early to rise order. The last batch of bagels was highly impressive. The bagels have evolved into a fine art with fluff and flavor. The doughnuts are equally impressive and although their descriptions sound heavy they are always light.  The house smoked salmon is flavorful and fresh. Now that outdoor is back open and the weather is getting better my new ritually maybe curbside dining. Thanks Chef & crew!',
+          user: {
+            id: '608e48a01e1d61a54c208752',
+            name: 'John',
+          },
+          created_on: '1620149753748',
+        },
+        {
+          id: '60918654acb42d3f40d21c64',
+          review:
+            "Scratch made brunch in a bag..how could this not be great. Everyone talks about New York bagels. I guess that's because they haven't had the home made bagels from Early to Rise (ETR).  Those with the house smoked salmon and brunch is ready to go. At $28 a bag it's an unbelievably good way to support local and enjoy a great Sunday!",
+          user: {
+            id: '608e48a01e1d61a54c208752',
+            name: 'Jane',
+          },
+          created_on: '1620149753748',
+        },
+      ],
     }),
   }),
 };
