@@ -41,7 +41,7 @@ export default async function apolloExpressServer() {
 
   app.use(
     session({
-      secret: process.env.COOKIE_SECRET || 'secret',
+      secret: process.env.COOKIE_SECRET,
       resave: false,
       saveUninitialized: false,
       store,
