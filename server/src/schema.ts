@@ -47,7 +47,7 @@ const typeDefs = gql`
 
   input ReviewInput {
     review: String
-    userId: String
+    user: String
     placeId: String
   }
 
@@ -62,6 +62,7 @@ const typeDefs = gql`
 
   type OpenHours {
     open_now: Boolean
+    weekday_text: [String]
   }
 
   """
