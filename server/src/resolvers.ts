@@ -84,12 +84,9 @@ const resolvers = {
     },
     postReview: async (_, { review }, { models }) => {
       const newReview = await models.Review.create(review);
+      await models.Review.populate(newReview, { path: 'user' });
       pubsub.publish('GET_REVIEW', { getReview: newReview });
       return newReview;
-    },
-    deleteReview: async (_, { id }, { models }) => {
-      const review = await models.Review.findOneAndDelete({ _id: id });
-      return review._id;
     },
     editReview: async (_, { review, id }, { models }) => {
       const updatedReview = await models.Review.findOneAndUpdate(
@@ -99,12 +96,18 @@ const resolvers = {
       );
       return updatedReview;
     },
+    deleteReview: async (_, { id }, { models }) => {
+      const review = await models.Review.findOneAndDelete({ _id: id });
+      return review._id;
+    },
   },
   Subscription: {
     getReview: {
       subscribe: withFilter(
         () => pubsub.asyncIterator(['GET_REVIEW']),
-        (payload, variables) => payload.placeId === variables.placeId
+        ({ getReview }, variables) => {
+          return getReview.placeId === variables.placeId;
+        }
       ),
     },
   },
