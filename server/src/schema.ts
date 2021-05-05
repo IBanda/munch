@@ -90,7 +90,7 @@ const typeDefs = gql`
   }
 
   type Subscription {
-    getReview(id: String): Review
+    getReview(placeId: ID!): Review
   }
 `;
 
