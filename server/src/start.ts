@@ -9,7 +9,7 @@ async function start() {
       `🚀 Server ready at http://localhost:4000${server.graphqlPath}`
     );
     console.log(
-      `🚀 Server ready at http://localhost:4000${server.subscriptionsPath}`
+      `🚀 Server ready at ws://localhost:4000${server.subscriptionsPath}`
     );
   });
 }
