@@ -21,7 +21,6 @@ const typeDefs = gql`
     website: String
     price_level: String
     opening_hours: OpenHours
-    reviews: [Review]
     vicinity: String
     types: [String]
   }
@@ -79,6 +78,7 @@ const typeDefs = gql`
   type Query {
     restaurants(coordinates: RestaurantInput): [Restaurant]
     restaurant(id: ID!): Restaurant
+    reviews(placeId: ID!): [Review]
   }
 
   type Mutation {

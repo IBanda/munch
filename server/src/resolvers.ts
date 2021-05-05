@@ -30,10 +30,11 @@ const resolvers = {
           place_id: id,
         },
       });
-      const reviews = await models.Review.find({ placeId: id }).populate(
-        'user'
-      );
-      return { ...place.data.result, reviews };
+      return place.data.result;
+    },
+    reviews: async (_, { placeId }, { models }) => {
+      const reviews = await models.Review.find({ placeId }).populate('user');
+      return reviews;
     },
   },
   Photo: {
