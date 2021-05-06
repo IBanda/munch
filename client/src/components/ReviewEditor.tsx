@@ -1,19 +1,51 @@
-import { Editor } from '@progress/kendo-react-editor';
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { Button } from '@progress/kendo-react-buttons';
+import { useMutation, gql } from '@apollo/client';
+import { TextArea, Rating } from '@progress/kendo-react-inputs';
 
-export default function ReviewEditor() {
-  const [value, setValue] = useState('<p>Share your experience</p>');
+const POST_REVIEW = gql`
+  mutation PostReview($review: ReviewInput) {
+    review: postReview(review: $review) {
+      id
+      review
+    }
+  }
+`;
+interface Props {
+  placeId: string;
+}
+
+export default function ReviewEditor({ placeId }: Props) {
+  const [value, setValue] = useState('');
+  const [rating, setRating] = useState(0);
+  const [postReview, { loading, error }] = useMutation(POST_REVIEW);
+  const onPostReview = (e: FormEvent) => {
+    e.preventDefault();
+    postReview({
+      variables: {
+        review: {
+          review: value,
+          placeId,
+          user: '608e48a01e1d61a54c208752',
+        },
+      },
+    });
+  };
   return (
-    <>
-      <Editor
-        contentStyle={{ height: 100 }}
+    <form onSubmit={onPostReview}>
+      <Rating value={rating} onChange={(e) => setRating(e.value)} />
+      <TextArea
+        placeholder="Share your experience"
         value={value}
-        onChange={(e) => setValue(e.html)}
+        rows={3}
+        onChange={(e) => {
+          setValue(e.value as any);
+        }}
+        className="w-100 bg-secondary m__editor"
       />
-      <Button className="mt-3 ml-auto" primary={true}>
+      <Button type="submit" className="mt-3 ml-auto btn-sm" primary={true}>
         Post
       </Button>
-    </>
+    </form>
   );
 }
