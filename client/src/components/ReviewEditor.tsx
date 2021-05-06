@@ -26,6 +26,7 @@ export default function ReviewEditor({ placeId }: Props) {
         review: {
           review: value,
           placeId,
+          rating,
           user: '608e48a01e1d61a54c208752',
         },
       },
@@ -33,7 +34,7 @@ export default function ReviewEditor({ placeId }: Props) {
   };
   return (
     <form onSubmit={onPostReview}>
-      <Rating value={rating} onChange={(e) => setRating(e.value)} />
+      <Rating value={rating} onChange={(e) => setRating(e.value)} required />
       <TextArea
         placeholder="Share your experience"
         value={value}
@@ -43,7 +44,12 @@ export default function ReviewEditor({ placeId }: Props) {
         }}
         className="w-100 bg-secondary m__editor"
       />
-      <Button type="submit" className="mt-3 ml-auto btn-sm" primary={true}>
+      <Button
+        disabled={!rating}
+        type="submit"
+        className="mt-3 ml-auto btn-sm"
+        primary={true}
+      >
         Post
       </Button>
     </form>
