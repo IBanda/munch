@@ -2,17 +2,23 @@ import { useEffect, useState } from 'react';
 import { useQuery, gql } from '@apollo/client';
 import { formatDistanceToNow } from 'date-fns';
 import ReviewEditor from './ReviewEditor';
+import { Rating } from '@progress/kendo-react-inputs';
+import { ListView } from '@progress/kendo-react-listview';
 
 const GET_REVIEWS = gql`
-  query GetReviews($placeId: ID!) {
-    reviews(placeId: $placeId, limit: 3) {
-      id
-      review
-      user {
+  query GetReviews($placeId: ID!, $offset: Int = 0) {
+    reviews(placeId: $placeId, limit: 6, offset: $offset) {
+      reviews {
         id
-        name
+        review
+        user {
+          id
+          name
+        }
+        rating
+        created_on
       }
-      created_on
+      hasMore
     }
   }
 `;
@@ -26,6 +32,7 @@ const GET_REVIEW = gql`
         id
         name
       }
+      rating
       created_on
     }
   }
@@ -35,26 +42,75 @@ interface Props {
 }
 
 interface Data {
-  reviews: [
-    {
-      id: string;
-      review: string;
-      user: {
+  reviews: {
+    reviews: [
+      {
         id: string;
-        name: string;
-      };
-      created_on: string;
-    }
-  ];
+        review: string;
+        user: {
+          id: string;
+          name: string;
+        };
+        rating: number;
+        created_on: string;
+      }
+    ];
+    hasMore: boolean;
+  };
+}
+
+function RenderItem(props: any) {
+  const item = props.dataItem;
+  return (
+    <div key={item.id} className="mb-4 py-2">
+      <div className="d-flex flex-column">
+        <div className="d-flex mb-2">
+          <div
+            style={{ width: 30, height: 30 }}
+            className="rounded-circle bg-primary text-white text-uppercase d-flex align-items-center justify-content-center"
+          >
+            {item.user.name[0]}
+          </div>
+          <div className="d-flex flex-column ml-1">
+            <span className="m__details-reviews-name">
+              <strong>{item.user.name}</strong>
+            </span>
+            <div className="d-flex align-items-center">
+              <Rating
+                className="m__rating"
+                value={item.rating}
+                id={`rating-${item.user.name}`}
+                readonly
+              />
+              <span className="m__details-reviews-created">
+                <strong>
+                  {formatDistanceToNow(+item.created_on, {
+                    addSuffix: true,
+                  })}
+                </strong>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div className="m__details-reviews-text">
+          <Review review={item.review} />
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default function Reviews({ placeId }: Props) {
-  const { data, loading, error, subscribeToMore } = useQuery(GET_REVIEWS, {
-    variables: {
-      placeId,
-    },
-  });
-  console.log(placeId);
+  const { data, loading, error, subscribeToMore, fetchMore } = useQuery(
+    GET_REVIEWS,
+    {
+      variables: {
+        placeId,
+      },
+    }
+  );
+  const [offset, setOffset] = useState(6);
+
   useEffect(() => {
     subscribeToMore({
       document: GET_REVIEW,
@@ -62,49 +118,61 @@ export default function Reviews({ placeId }: Props) {
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data) return prev;
         return {
-          reviews: [subscriptionData.data.review, ...prev.reviews.slice(0, 2)],
+          reviews: {
+            reviews: [subscriptionData.data.review, ...prev.reviews.reviews],
+            hasMore: prev.reviews.hasMore,
+          },
         };
       },
     });
   }, [placeId, subscribeToMore]);
 
-  console.log(data);
   if (loading) return <p>Loading...</p>;
 
   if (error) return <p>Error</p>;
-  const { reviews }: Data = data;
+
+  const {
+    reviews: { reviews, hasMore },
+  }: Data = data;
+  const scrollHandler = (event: any) => {
+    const e = event.nativeEvent;
+    if (
+      e.target.scrollTop + e.target.clientHeight + 10 > e.target.scrollHeight &&
+      hasMore
+    ) {
+      fetchMore({
+        variables: {
+          offset,
+        },
+        updateQuery: (prev, { fetchMoreResult }) => {
+          if (!fetchMoreResult) return prev;
+          return {
+            reviews: {
+              __typename: 'ReviewsResult',
+              reviews: [
+                ...(prev as any).reviews.reviews,
+                ...(fetchMoreResult as any).reviews.reviews,
+              ],
+              hasMore: (fetchMoreResult as any).reviews.hasMore,
+            },
+          };
+        },
+      });
+      setOffset((p) => p + 6);
+    }
+  };
 
   return (
     <div className="m__details-reviews">
       <h2 className="font-weight-bold my-4 m__details-reviews-title">
         Customer Reviews
       </h2>
-      {reviews.map((item) => (
-        <div key={item.id} className="mb-4">
-          <div className="d-flex flex-column">
-            <div className="d-flex mb-2">
-              <div
-                style={{ width: 30, height: 30 }}
-                className="rounded-circle bg-secondary text-uppercase d-flex align-items-center justify-content-center"
-              >
-                {item.user.name[0]}
-              </div>
-              <div className="d-flex flex-column ml-1">
-                <span className="m__details-reviews-name">
-                  <strong>{item.user.name}</strong>
-                </span>
-                <span className="m__details-reviews-created">
-                  {formatDistanceToNow(+item.created_on, { addSuffix: true })}
-                </span>
-              </div>
-            </div>
-            <div className="m__details-reviews-text">
-              <Review review={item.review} />
-            </div>
-          </div>
-        </div>
-      ))}
-      <ReviewEditor placeId={placeId} />
+      <div className="m__listview-reviews" onScroll={scrollHandler}>
+        <ListView item={RenderItem} data={reviews} className="rounded" />
+      </div>
+      <div className="mt-4">
+        <ReviewEditor placeId={placeId} />
+      </div>
     </div>
   );
 }
