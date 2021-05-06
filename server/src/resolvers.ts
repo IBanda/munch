@@ -23,7 +23,7 @@ const resolvers = {
 
       return places.data.results;
     },
-    restaurant: async (_, { id }, { mapClient, models }) => {
+    restaurant: async (_, { id }, { mapClient }) => {
       const place = await mapClient.placeDetails({
         params: {
           key,
@@ -32,8 +32,11 @@ const resolvers = {
       });
       return place.data.result;
     },
-    reviews: async (_, { placeId }, { models }) => {
-      const reviews = await models.Review.find({ placeId }).populate('user');
+    reviews: async (_, { placeId, limit = 3 }, { models }) => {
+      const reviews = await models.Review.find({ placeId })
+        .sort({ created_on: -1 })
+        .limit(limit)
+        .populate('user');
       return reviews;
     },
   },
