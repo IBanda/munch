@@ -32,12 +32,16 @@ const resolvers = {
       });
       return place.data.result;
     },
-    reviews: async (_, { placeId, limit = 3 }, { models }) => {
+    reviews: async (_, { placeId, limit = 6, offset = 0 }, { models }) => {
       const reviews = await models.Review.find({ placeId })
         .sort({ created_on: -1 })
         .limit(limit)
+        .skip(offset)
         .populate('user');
-      return reviews;
+      const count = await models.Review.countDocuments({ placeId });
+      const hasMore = count > offset + limit;
+
+      return { reviews, hasMore };
     },
   },
   Photo: {
