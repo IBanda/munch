@@ -105,7 +105,7 @@ function Details({ error, loading, data }: DetailsProps) {
             {place.formatted_address}
           </li>
           {!hide ? (
-            <li className="bg-light p-2 mt-2 rounded">
+            <li className="bg-secondary p-2 mt-2 rounded">
               <strong>Hours: </strong>
               <ul>
                 {place.opening_hours.weekday_text.map((txt) => (
