@@ -390,6 +390,7 @@ const mocks = {
           name: 'Marco',
         },
         created_on: '1620150183873',
+        rating: 3,
       },
       {
         id: '609186bfacb42d3f40d21c66',
@@ -400,6 +401,7 @@ const mocks = {
           name: 'John',
         },
         created_on: '1620149753748',
+        rating: 4,
       },
       {
         id: '60918654acb42d3f40d21c64',
@@ -410,6 +412,7 @@ const mocks = {
           name: 'Jane',
         },
         created_on: '1620149753748',
+        rating: 5,
       },
     ],
   }),
