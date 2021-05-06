@@ -2,10 +2,8 @@ import { Window } from '@progress/kendo-react-dialogs';
 import { useQuery, gql, ApolloError } from '@apollo/client';
 import { Place } from 'lib/interface';
 import ImageGrid from './ImageGrid';
-import { formatDistanceToNow } from 'date-fns';
-import ReviewEditor from './ReviewEditor';
 import isToday from 'utils/isToday';
-import { useState } from 'react';
+import Reviews from './Reviews';
 
 interface Props {
   id: string;
@@ -16,6 +14,7 @@ const GET_PLACE = gql`
   query GetPlace($id: ID!) {
     place: restaurant(id: $id) {
       name
+      place_id
       photos {
         photo_reference
       }
@@ -32,18 +31,10 @@ const GET_PLACE = gql`
         open_now
         weekday_text
       }
-      reviews {
-        id
-        review
-        user {
-          id
-          name
-        }
-        created_on
-      }
     }
   }
 `;
+
 export default function PlaceDetails({ id, setWindow }: Props) {
   const { data, error, loading } = useQuery(GET_PLACE, {
     variables: {
@@ -70,17 +61,6 @@ interface PlaceDetail extends Place {
   formatted_address: string;
   formatted_phone_number: string;
   website: string;
-  reviews: [
-    {
-      id: string;
-      review: string;
-      user: {
-        id: string;
-        name: string;
-      };
-      created_on: string;
-    }
-  ];
 }
 
 interface DetailsProps {
@@ -94,8 +74,8 @@ function Details({ error, loading, data }: DetailsProps) {
   if (error) return <p>Error</p>;
   const { place } = data;
 
-  const isOpen = place.opening_hours.open_now === true;
-  const hide = place.opening_hours.open_now == null;
+  const isOpen = place?.opening_hours?.open_now === true;
+  const hide = place?.opening_hours?.open_now == null;
   return (
     <div className="container m__details">
       <ImageGrid images={[]} name={place?.name} />
@@ -136,68 +116,7 @@ function Details({ error, loading, data }: DetailsProps) {
           ) : null}
         </ul>
       </div>
-      <div className="m__details-reviews">
-        <h2 className="font-weight-bold my-4 m__details-reviews-title">
-          Customer Reviews
-        </h2>
-        {place.reviews.map((item) => (
-          <div key={item.id} className="mb-4">
-            <div className="d-flex flex-column">
-              <div className="d-flex mb-2">
-                <div
-                  style={{ width: 30, height: 30 }}
-                  className="rounded-circle bg-secondary text-uppercase d-flex align-items-center justify-content-center"
-                >
-                  {item.user.name[0]}
-                </div>
-                <div className="d-flex flex-column ml-1">
-                  <span className="m__details-reviews-name">
-                    <strong>{item.user.name}</strong>
-                  </span>
-                  <span className="m__details-reviews-created">
-                    {formatDistanceToNow(+item.created_on, { addSuffix: true })}
-                  </span>
-                </div>
-              </div>
-              <div className="m__details-reviews-text">
-                <Review review={item.review} />
-              </div>
-            </div>
-          </div>
-        ))}
-        <ReviewEditor />
-      </div>
+      <Reviews placeId={place.place_id} />
     </div>
-  );
-}
-
-interface ReviewProp {
-  review: string;
-}
-function Review({ review }: ReviewProp) {
-  const [clip, setClip] = useState(true);
-  const { length } = review;
-  const isLongerthan = length > 250;
-  return (
-    <>
-      <span>{clip ? review.slice(0, 250) : review}</span>
-      {isLongerthan ? (
-        clip ? (
-          <button
-            onClick={() => setClip(false)}
-            className="text-primary m__details-reviews-morebtn"
-          >
-            <small>...More</small>
-          </button>
-        ) : (
-          <button
-            onClick={() => setClip(true)}
-            className="  text-primary  m__details-reviews-lessbtn"
-          >
-            <small> ...less</small>
-          </button>
-        )
-      ) : null}
-    </>
   );
 }
