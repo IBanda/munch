@@ -29,6 +29,7 @@ const typeDefs = gql`
     id: ID!
     review: String
     user: User
+    rating: Int
     placeId: String
     created_on: String
   }
@@ -47,6 +48,7 @@ const typeDefs = gql`
   input ReviewInput {
     review: String
     user: String
+    rating: Int
     placeId: String
   }
 
@@ -75,10 +77,14 @@ const typeDefs = gql`
     photo_reference: String
   }
 
+  type ReviewsResult {
+    reviews: [Review]
+    hasMore: Boolean
+  }
   type Query {
     restaurants(coordinates: RestaurantInput): [Restaurant]
     restaurant(id: ID!): Restaurant
-    reviews(placeId: ID!, limit: Int): [Review]
+    reviews(placeId: ID!, limit: Int, offset: Int): ReviewsResult
   }
 
   type Mutation {
