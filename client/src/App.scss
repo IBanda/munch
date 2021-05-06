@@ -1,4 +1,4 @@
-$secondary: #edeeee;
+$secondary: #f3f6f8;
 
 @import '~@progress/kendo-theme-bootstrap/dist/all.scss';
 @import '~bootstrap/scss/bootstrap.scss';
@@ -16,8 +16,8 @@ body {
 .m__card-image {
   object-fit: cover;
   object-position: center;
-  width: 6em;
-  height: 5em;
+  width: 5em;
+  height: 4em;
 }
 .m__card-title {
   font-size: 1em;
@@ -32,10 +32,16 @@ body {
 
 .k-listview {
   background: #f3f6f8;
+  height: 100%;
   border: 0;
   &-content {
     padding: 0 0.5em;
   }
+}
+
+.m__listview-reviews {
+  max-height: 400px;
+  overflow-y: auto;
 }
 
 /*
@@ -122,10 +128,13 @@ body {
     }
     &-name,
     &-text {
-      font-size: 12px;
+      font-size: 14px;
+    }
+    &-text p {
+      margin: 0;
     }
     &-created {
-      font-size: 10px;
+      font-size: 12px;
     }
     &-morebtn,
     &-lessbtn {
@@ -135,6 +144,32 @@ body {
       outline: none !important;
       background-color: transparent;
       border: 0;
+    }
+  }
+}
+
+/*
+* Rating
+*/
+.k-rating {
+  &-container {
+    margin: 0;
+  }
+  &-item {
+    padding: 0.5rem 0.25rem 0.5rem 0 !important;
+    .k-icon {
+      font-size: 20px !important;
+    }
+    &.k-state-selected {
+      color: #f8b805;
+    }
+  }
+  &.m__rating {
+    .k-rating-item {
+      padding-right: 0.1rem;
+      .k-icon {
+        font-size: 12px !important;
+      }
     }
   }
 }
