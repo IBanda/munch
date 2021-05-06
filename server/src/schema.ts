@@ -78,7 +78,7 @@ const typeDefs = gql`
   type Query {
     restaurants(coordinates: RestaurantInput): [Restaurant]
     restaurant(id: ID!): Restaurant
-    reviews(placeId: ID!): [Review]
+    reviews(placeId: ID!, limit: Int): [Review]
   }
 
   type Mutation {
