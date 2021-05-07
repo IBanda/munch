@@ -14,37 +14,36 @@ interface Props {
 }
 
 export default function PlaceCard({ place }: Props) {
-  const isOpen = place.opening_hours?.open_now;
+  const isOpen = place.opening_hours?.open_now === true;
+  const isUnknown = place.opening_hours?.open_now == null;
+  const photo = place?.photos?.[0]?.photo_reference;
   return (
     <Card orientation="horizontal" className="cursor-pointer">
       <CardBody className="d-flex">
         <CardImage
-          // src={`data:image/png;base64,${place?.photos?.[0]?.photo_reference}`}
-          src={
-            'https://www.elitetraveler.com/wp-content/uploads/2007/02/Alain-Ducasse-scaled.jpg'
-          }
+          src={`${
+            photo ? `data:image/png;base64,${photo}` : '/restaurant.png'
+          }`}
+          // src={
+          //   'https://www.elitetraveler.com/wp-content/uploads/2007/02/Alain-Ducasse-scaled.jpg'
+          // }
           className="m__card-image rounded mr-2"
         />
         <div>
-          <CardTitle className="m-0 m__card-title">{place.name}</CardTitle>
-          <CardSubtitle
-            className={`m-0  m__card-subtitle ${
-              isOpen ? 'text-success' : 'text-danger'
-            }`}
-          >
-            {isOpen ? 'Open' : 'Closed'}
-          </CardSubtitle>
-          <span className="d-flex align-items-center">
+          <CardTitle className="mb-1 m__card-title">{place.name}</CardTitle>
+          <CardSubtitle className=" m-0 text-truncate m__card-subtitle">
             <SvgIcon icon={mapMarkerIcon} size="small" />
-            <small className="text-truncate">{place?.vicinity}</small>
-          </span>
-          {/* <ul className="list-unstyled d-flex m-0 p-0 flex-wrap">
-            {place?.types?.map((type) => (
-              <li className="mr-1" key={type}>
-                <small>{type}</small>
-              </li>
-            ))}
-          </ul> */}
+            {place?.vicinity}
+          </CardSubtitle>
+          {!isUnknown ? (
+            <span
+              className={`m-0  m__card-status   d-inline text-white  ${
+                isOpen ? 'text-success' : 'text-danger'
+              }`}
+            >
+              {isOpen ? 'Open' : 'Closed'}
+            </span>
+          ) : null}
         </div>
       </CardBody>
     </Card>
