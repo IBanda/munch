@@ -76,9 +76,10 @@ function Details({ error, loading, data }: DetailsProps) {
 
   const isOpen = place?.opening_hours?.open_now === true;
   const hide = place?.opening_hours?.open_now == null;
+
   return (
     <div className="container m__details">
-      <ImageGrid images={[]} name={place?.name} />
+      <ImageGrid images={place?.photos} name={place?.name} />
       <div className="mt-2 d-flex align-items-center">
         <h2 className="font-weight-bold mt-2 m__details-name">{place.name}</h2>
         {!hide ? (
@@ -91,9 +92,11 @@ function Details({ error, loading, data }: DetailsProps) {
           </span>
         ) : null}
       </div>
-      <a href={place.website} target="_blank" rel="noreferrer">
-        <small>Website</small>
-      </a>
+      {place.website ? (
+        <a href={place.website} target="_blank" rel="noreferrer">
+          <small>Website</small>
+        </a>
+      ) : null}
       <div className="m__details-info rounded">
         <ul className="p-0 m-0 list-unstyled">
           <li>
