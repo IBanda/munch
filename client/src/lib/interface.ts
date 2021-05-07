@@ -19,3 +19,14 @@ export interface Place {
     };
   };
 }
+
+export interface Review {
+  id: string;
+  review: string;
+  user: {
+    id: string;
+    name: string;
+  };
+  rating: number;
+  created_on: string;
+}
