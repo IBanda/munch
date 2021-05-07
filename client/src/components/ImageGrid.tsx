@@ -1,5 +1,8 @@
+import { Photo } from 'lib/interface';
+import { StyleHTMLAttributes } from 'react';
+
 interface Props {
-  images: string[];
+  images: Photo[];
   name: string;
 }
 
@@ -15,29 +18,47 @@ const imgs = [
 ];
 
 export default function ImageGrid({ images, name }: Props) {
+  const hasImages = images?.[0].photo_reference == null;
   return (
     <div className="row no-gutters">
-      <div className={`relative col-lg-5 m_img-drid-wrapper`}>
-        <Image
-          //  src={`data:image/png;base64,${image}`}
-          src={imgs?.[0]}
-          alt={`${name}-${1}`}
-        />
-      </div>
-      <div className="col-lg-7">
-        <div className="row no-gutters">
-          {imgs.slice(1).map((img, indx) => (
-            <div key={indx} className={`${indexer(indx)}   m_img-drid-wrapper`}>
-              <img
-                className="m__img-grid"
-                //  src={`data:image/png;base64,${image}`}
-                src={img}
-                alt={`${name}-${indx + 1}`}
-              />
+      {!hasImages ? (
+        <>
+          <div className={`relative col-lg-5 m__img-grid-wrapper`}>
+            <Image
+              src={`data:image/png;base64,${images?.[0].photo_reference}`}
+              // src={images?.[0]}
+              style={{ height: '10em' }}
+              alt={`${name}-${1}`}
+            />
+          </div>
+          <div className="col-lg-7">
+            <div className="row no-gutters">
+              {images.slice(1).map((image, indx) => (
+                <div
+                  key={indx}
+                  className={`${indexer(indx)}   m__img-grid-wrapper`}
+                >
+                  <img
+                    className="m__img-grid"
+                    src={`data:image/png;base64,${image.photo_reference}`}
+                    style={{ height: indx > 2 ? '4em' : '5.8em' }}
+                    alt={`${name}-${indx + 1}`}
+                  />
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+        </>
+      ) : (
+        <div className="w-100 text-center bg-secondary py-4">
+          <img
+            style={{ maxWidth: '5em', width: '100%' }}
+            src="/restaurant.png"
+            alt="restaurant_placeholder"
+            className="mx-auto"
+          />
         </div>
-      </div>
+      )}
     </div>
   );
 }
@@ -45,12 +66,13 @@ export default function ImageGrid({ images, name }: Props) {
 interface ImageProps {
   src: string;
   alt: string;
+  style?: any;
 }
 function indexer(index: number) {
   if (index === 1 || index === 2) return 'col-lg-6';
   if (index >= 3 && index <= 5) return 'col-lg-4';
   return 'd-none';
 }
-function Image({ src, alt }: ImageProps) {
-  return <img className="m__img-grid" src={src} alt={alt} />;
+function Image({ src, alt, style }: ImageProps) {
+  return <img style={style} className="m__img-grid" src={src} alt={alt} />;
 }
