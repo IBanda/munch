@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useQuery, gql } from '@apollo/client';
-import { formatDistanceToNow } from 'date-fns';
 import ReviewEditor from './ReviewEditor';
-import { Rating } from '@progress/kendo-react-inputs';
-import { ListView } from '@progress/kendo-react-listview';
+import ReviewList from './ReviewList';
+import { Review } from 'lib/interface';
 
 const GET_REVIEWS = gql`
   query GetReviews($placeId: ID!, $offset: Int = 0) {
@@ -43,61 +42,9 @@ interface Props {
 
 interface Data {
   reviews: {
-    reviews: [
-      {
-        id: string;
-        review: string;
-        user: {
-          id: string;
-          name: string;
-        };
-        rating: number;
-        created_on: string;
-      }
-    ];
+    reviews: Review[];
     hasMore: boolean;
   };
-}
-
-function RenderItem(props: any) {
-  const item = props.dataItem;
-  return (
-    <div key={item.id} className="mb-4 py-2">
-      <div className="d-flex flex-column">
-        <div className="d-flex mb-2">
-          <div
-            style={{ width: 30, height: 30 }}
-            className="rounded-circle bg-primary text-white text-uppercase d-flex align-items-center justify-content-center"
-          >
-            {item.user.name[0]}
-          </div>
-          <div className="d-flex flex-column ml-1">
-            <span className="m__details-reviews-name">
-              <strong>{item.user.name}</strong>
-            </span>
-            <div className="d-flex align-items-center">
-              <Rating
-                className="m__rating"
-                value={item.rating}
-                id={`rating-${item.user.name}`}
-                readonly
-              />
-              <span className="m__details-reviews-created">
-                <strong>
-                  {formatDistanceToNow(+item.created_on, {
-                    addSuffix: true,
-                  })}
-                </strong>
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="m__details-reviews-text">
-          <Review review={item.review} />
-        </div>
-      </div>
-    </div>
-  );
 }
 
 export default function Reviews({ placeId }: Props) {
@@ -109,7 +56,6 @@ export default function Reviews({ placeId }: Props) {
       },
     }
   );
-  const [offset, setOffset] = useState(6);
 
   useEffect(() => {
     subscribeToMore({
@@ -127,77 +73,26 @@ export default function Reviews({ placeId }: Props) {
     });
   }, [placeId, subscribeToMore]);
 
+  const {
+    reviews: { reviews, hasMore },
+  }: Data = data ?? { reviews: {} };
+
   if (loading) return <p>Loading...</p>;
 
   if (error) return <p>Error</p>;
 
-  const {
-    reviews: { reviews, hasMore },
-  }: Data = data;
-  const scrollHandler = (event: any) => {
-    const e = event.nativeEvent;
-    if (
-      e.target.scrollTop + e.target.clientHeight + 10 > e.target.scrollHeight &&
-      hasMore
-    ) {
-      fetchMore({
-        variables: {
-          offset,
-        },
-        updateQuery: (prev, { fetchMoreResult }) => {
-          if (!fetchMoreResult) return prev;
-          return {
-            reviews: {
-              __typename: 'ReviewsResult',
-              reviews: [
-                ...(prev as any).reviews.reviews,
-                ...(fetchMoreResult as any).reviews.reviews,
-              ],
-              hasMore: (fetchMoreResult as any).reviews.hasMore,
-            },
-          };
-        },
-      });
-      setOffset((p) => p + 6);
-    }
-  };
+  console.log(data);
+  console.log(hasMore);
 
   return (
     <div className="m__details-reviews">
       <h2 className="font-weight-bold my-4 m__details-reviews-title">
         Customer Reviews
       </h2>
-      <div className="m__listview-reviews" onScroll={scrollHandler}>
-        <ListView item={RenderItem} data={reviews} className="rounded" />
-      </div>
+      <ReviewList fetchMore={fetchMore} hasMore={hasMore} reviews={reviews} />
       <div className="mt-4">
         <ReviewEditor placeId={placeId} />
       </div>
     </div>
-  );
-}
-
-interface ReviewProp {
-  review: string;
-}
-function Review({ review }: ReviewProp) {
-  const [clip, setClip] = useState(true);
-  const { length } = review;
-  const isLongerthan = length - 15 > 250;
-  return (
-    <>
-      <p>{clip ? review.trim().slice(0, 250) : review}</p>
-
-      {isLongerthan ? (
-        clip ? (
-          <button
-            onClick={() => setClip(false)}
-            className="text-primary m__details-reviews-morebtn"
-          >
-            <small>Show more</small>
-          </button>
-        ) : null
-      ) : null}
-    </>
   );
 }
