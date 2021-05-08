@@ -4,7 +4,7 @@ import PlaceCard from './Card';
 import { useDispatch } from './Context';
 
 interface Props {
-  data: { places: Place[] };
+  data: Place[];
 }
 
 const RenderItem = (props: any) => {
@@ -23,5 +23,7 @@ const RenderItem = (props: any) => {
 };
 
 export default function PlaceListView({ data }: Props) {
-  return <ListView data={data.places} item={RenderItem} />;
+  return (
+    <ListView data={data} item={RenderItem} className="m__places-listview" />
+  );
 }
