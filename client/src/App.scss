@@ -4,11 +4,17 @@ $secondary: #f3f6f8;
 @import '~bootstrap/scss/bootstrap.scss';
 
 /*
-Card 
+Card
 */
 body {
   margin: 0;
+  &.m__overflow-hidden {
+    overflow: hidden;
+    touch-action: none;
+    -ms-touch-action: none;
+  }
 }
+
 * {
   box-sizing: border-box;
 }
@@ -23,10 +29,18 @@ body {
   font-size: 1em;
 }
 .m__card-subtitle {
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 400;
+  width: 75%;
+}
+.m__card-status {
+  padding: 0.125em;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: bold;
 }
 
-/* 
+/*
 * ListView
 */
 
@@ -37,8 +51,12 @@ body {
   &-content {
     padding: 0 0.5em;
   }
+  &.m__places-listview {
+    .k-listview-content {
+      overflow: unset;
+    }
+  }
 }
-
 .m__listview-reviews {
   max-height: 400px;
   overflow-y: auto;
@@ -103,7 +121,7 @@ body {
   object-position: center;
 }
 
-.m_img-drid-wrapper {
+.m__img-grid-wrapper {
   padding: 0.1em !important;
 }
 
@@ -128,13 +146,13 @@ body {
     }
     &-name,
     &-text {
-      font-size: 14px;
+      font-size: 13px;
     }
     &-text p {
       margin: 0;
     }
     &-created {
-      font-size: 12px;
+      font-size: 10px;
     }
     &-morebtn,
     &-lessbtn {
@@ -151,25 +169,32 @@ body {
 /*
 * Rating
 */
-.k-rating {
-  &-container {
-    margin: 0;
-  }
-  &-item {
-    padding: 0.5rem 0.25rem 0.5rem 0 !important;
-    .k-icon {
-      font-size: 20px !important;
+.m__meta,
+form {
+  .k-rating {
+    &-container {
+      margin: 0;
     }
-    &.k-state-selected {
-      color: #f8b805;
-    }
-  }
-  &.m__rating {
-    .k-rating-item {
-      padding-right: 0.1rem;
+    &-item {
+      padding: 0.5rem 0.25rem 0.5rem 0 !important;
       .k-icon {
-        font-size: 12px !important;
+        font-size: 20px !important;
+      }
+      &.k-state-selected {
+        color: #f8b805;
+      }
+    }
+    &.m__rating {
+      .k-rating-item {
+        padding-right: 0.1rem;
+        .k-icon {
+          font-size: 12px !important;
+        }
       }
     }
   }
+}
+
+.k-rating-item.k-state-selected {
+  color: #f8b805;
 }
