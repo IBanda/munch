@@ -4,10 +4,10 @@ import { Place } from 'lib/interface';
 import PlaceMarker from './PlaceMarker';
 
 interface Props {
-  data: { places: Place[] };
+  data: Place[];
 }
 
-export default function PlaceMap({ data: { places } }: Props) {
+export default function PlaceMap({ data }: Props) {
   const center = useGeo();
   return center.lat || center.lng ? (
     <div className="h-100 w-100">
@@ -17,9 +17,8 @@ export default function PlaceMap({ data: { places } }: Props) {
         }}
         zoom={10}
         center={{ lat: Number(center.lat), lng: Number(center.lng) }}
-        // center={{ lat: 51.53453534509865, lng: -0.118092 }}
       >
-        {places.map((place) => (
+        {data.map((place) => (
           <PlaceMarker
             key={place?.place_id}
             placeId={place?.place_id}
