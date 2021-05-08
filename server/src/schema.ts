@@ -8,9 +8,9 @@ const typeDefs = gql`
   }
 
   """
-  Restaurants from google places API
+  Places from google places API
   """
-  type Restaurant {
+  type Place {
     place_id: String
     name: String
     icon: String
@@ -34,7 +34,7 @@ const typeDefs = gql`
     created_on: String
   }
 
-  input RestaurantInput {
+  input PlaceInput {
     lat: Float
     lng: Float
   }
@@ -81,10 +81,22 @@ const typeDefs = gql`
     reviews: [Review]
     hasMore: Boolean
   }
+
+  type PlacesResult {
+    places: [Place]
+    next_page_token: String
+  }
+
+  type RatingsResult {
+    placeId: ID
+    ratings: [Int]
+  }
+
   type Query {
-    restaurants(coordinates: RestaurantInput): [Restaurant]
-    restaurant(id: ID!): Restaurant
+    places(coordinates: PlaceInput, pagetoken: String): PlacesResult
+    place(placeId: ID!): Place
     reviews(placeId: ID!, limit: Int, offset: Int): ReviewsResult
+    ratings(placeId: ID!): RatingsResult
   }
 
   type Mutation {
@@ -97,6 +109,7 @@ const typeDefs = gql`
 
   type Subscription {
     getReview(placeId: ID!): Review
+    getRating(placeId: ID!): RatingsResult
   }
 `;
 

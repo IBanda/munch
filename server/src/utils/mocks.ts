@@ -1,6 +1,6 @@
 const mocks = {
   Query: () => ({
-    restaurants: () => [
+    places: () => [
       {
         name: 'Rules',
         place_id: 'ChIJbUnC58oEdkgR4pwzPtYGrbY',
@@ -355,7 +355,7 @@ const mocks = {
         ],
       },
     ],
-    restaurant: () => ({
+    place: () => ({
       name: 'Rules',
       place_id: 'ChIJzSQ5U1cbdkgREjrfEOazWE8',
       formatted_address: '34-35 Maiden Ln, London WC2E 7LB, UK',

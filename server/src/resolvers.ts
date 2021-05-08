@@ -11,23 +11,36 @@ const key = process.env.GOOGLE_MAPS_API_KEY;
 
 const resolvers = {
   Query: {
-    restaurants: async (_, { coordinates: { lat, lng } }, { mapClient }) => {
+    places: async (
+      _,
+      { coordinates: { lat, lng }, pagetoken = null },
+      { mapClient }
+    ) => {
+      const params = {
+        key,
+        location: `${lat},${lng}`,
+        keyword: 'indoor dinning',
+        rankby: 'distance',
+      };
+
+      if (pagetoken) {
+        (params as any).pagetoken = pagetoken;
+      }
+
       const places = await mapClient.placesNearby({
-        params: {
-          key,
-          location: `${lat},${lng}`,
-          keyword: 'indoor dinning',
-          rankby: 'distance',
-        },
+        params,
       });
 
-      return places.data.results;
+      return {
+        places: places.data.results,
+        next_page_token: places.data.next_page_token,
+      };
     },
-    restaurant: async (_, { id }, { mapClient }) => {
+    place: async (_, { placeId }, { mapClient }) => {
       const place = await mapClient.placeDetails({
         params: {
           key,
-          place_id: id,
+          place_id: placeId,
         },
       });
       return place.data.result;
@@ -42,6 +55,16 @@ const resolvers = {
       const hasMore = count > offset + limit;
 
       return { reviews, hasMore };
+    },
+    ratings: async (_, { placeId }, { models }) => {
+      let rating = 5;
+      const ratings = [];
+      while (rating) {
+        const count = await models.Review.countDocuments({ placeId, rating });
+        ratings.push(count);
+        rating--;
+      }
+      return { placeId, ratings };
     },
   },
   Photo: {
@@ -93,6 +116,9 @@ const resolvers = {
       const newReview = await models.Review.create(review);
       await models.Review.populate(newReview, { path: 'user' });
       pubsub.publish('GET_REVIEW', { getReview: newReview });
+      pubsub.publish('GET_RATINGS', {
+        getRating: { placeId: newReview.placeId, ratings: [newReview.rating] },
+      });
       return newReview;
     },
     editReview: async (_, { review, id }, { models }) => {
@@ -115,6 +141,12 @@ const resolvers = {
         ({ getReview }, variables) => {
           return getReview.placeId === variables.placeId;
         }
+      ),
+    },
+    getRating: {
+      subscribe: withFilter(
+        () => pubsub.asyncIterator(['GET_RATINGS']),
+        ({ getRating }, variables) => getRating.placeId === variables.placeId
       ),
     },
   },
