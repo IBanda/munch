@@ -21,20 +21,17 @@ export default function PlaceCard({ place }: Props) {
     <Card orientation="horizontal" className="cursor-pointer">
       <CardBody className="d-flex">
         <CardImage
-          src={`${
-            photo ? `data:image/png;base64,${photo}` : '/restaurant.png'
-          }`}
-          // src={
-          //   'https://www.elitetraveler.com/wp-content/uploads/2007/02/Alain-Ducasse-scaled.jpg'
-          // }
+          src={`${photo ? `data:image/png;base64,${photo}` : '/place.png'}`}
           className="m__card-image rounded mr-2"
         />
-        <div>
+        <div className="w-100">
           <CardTitle className="mb-1 m__card-title">{place.name}</CardTitle>
-          <CardSubtitle className=" m-0 text-truncate m__card-subtitle">
+          <div className="d-flex align-items-center w-100">
             <SvgIcon icon={mapMarkerIcon} size="small" />
-            {place?.vicinity}
-          </CardSubtitle>
+            <CardSubtitle className=" m-0  m__card-subtitle d-inline-block text-truncate">
+              {place?.vicinity}
+            </CardSubtitle>
+          </div>
           {!isUnknown ? (
             <span
               className={`m-0  m__card-status   d-inline text-white  ${
