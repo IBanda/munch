@@ -1,9 +1,9 @@
 import db from '../db';
 import { testClient, gql } from './__utils/testClient';
 
-const GET_RESTAURANTS = gql`
-  query GetRestaurants($coordinates: RestaurantInput) {
-    restaurants(coordinates: $coordinates) {
+const GET_PLACES = gql`
+  query GetPlaces($coordinates: PlaceInput) {
+    places(coordinates: $coordinates) {
       name
       place_id
       formatted_address
@@ -14,9 +14,9 @@ const GET_RESTAURANTS = gql`
   }
 `;
 
-const GET_RESTAURANT = gql`
-  query GetRestaurant($id: ID!) {
-    restaurant(id: $id) {
+const GET_PLACE = gql`
+  query GetPlace($id: ID!) {
+    place(id: $id) {
       name
       place_id
       formatted_address
@@ -30,11 +30,11 @@ const GET_RESTAURANT = gql`
 describe('Queries', () => {
   test('[Query]:Should get list of restraunts', async () => {
     const { query } = await testClient();
-    const res = await query(GET_RESTAURANTS, {
+    const res = await query(GET_PLACES, {
       variables: { coordinates: { lat: 40.73061, lng: -73.935242 } },
     });
     expect(res.data).toEqual({
-      restaurants: [
+      places: [
         {
           name: 'Court Square Diner',
           place_id: 'ChIJN6wFwihZwokRMtxwzGii9PI',
@@ -59,11 +59,11 @@ describe('Queries', () => {
     const { query } = await testClient();
     const { connect, disconnect } = db();
     await connect();
-    const res = await query(GET_RESTAURANT, {
+    const res = await query(GET_PLACE, {
       variables: { id: 'ChIJN6wFwihZwokRMtxwzGii9PI' },
     });
     expect(res.data).toEqual({
-      restaurant: {
+      place: {
         name: 'Court Square Diner',
         place_id: 'ChIJN6wFwihZwokRMtxwzGii9PI',
         formatted_address: null,
