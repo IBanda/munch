@@ -6,6 +6,7 @@ import { Rating } from '@progress/kendo-react-inputs';
 import ReviewText from './ReviewText';
 import 'simplebar/dist/simplebar.min.css';
 import { Review } from 'lib/interface';
+import isScrollatBottom from 'utils/isScrollatBottom';
 
 interface Props {
   fetchMore: any;
@@ -16,29 +17,13 @@ interface Props {
 export default function ReviewList({ fetchMore, reviews, hasMore }: Props) {
   const scrollBarRef = useRef<HTMLDivElement>(null);
   const [offset, setOffset] = useState(6);
+
   const scrollHandler = useCallback(
-    (event: any) => {
-      if (
-        event.target.scrollTop + event.target.clientHeight + 10 >
-          event.target.scrollHeight &&
-        hasMore
-      ) {
-        fetchMore({
+    async (event: any) => {
+      if (isScrollatBottom(event) && hasMore) {
+        await fetchMore({
           variables: {
             offset,
-          },
-          updateQuery: (prev: any, { fetchMoreResult }: any) => {
-            if (!fetchMoreResult) return prev;
-            return {
-              reviews: {
-                __typename: 'ReviewsResult',
-                reviews: [
-                  ...(prev as any).reviews.reviews,
-                  ...(fetchMoreResult as any).reviews.reviews,
-                ],
-                hasMore: (fetchMoreResult as any).reviews.hasMore,
-              },
-            };
           },
         });
         setOffset((p) => p + 6);
@@ -52,14 +37,14 @@ export default function ReviewList({ fetchMore, reviews, hasMore }: Props) {
     }
   }, [scrollHandler]);
 
-  return (
+  return reviews.length ? (
     <SimpleBar
       scrollableNodeProps={{ ref: scrollBarRef }}
-      className="m__listview-reviews"
+      className="m__listview-reviews shadow rounded mb-4"
     >
       <ListView item={RenderItem} data={reviews} className="rounded" />
     </SimpleBar>
-  );
+  ) : null;
 }
 
 function RenderItem(props: any) {
@@ -72,7 +57,7 @@ function RenderItem(props: any) {
             style={{ width: 30, height: 30 }}
             className="mr-2 rounded-circle bg-primary text-white text-uppercase d-flex align-items-center justify-content-center"
           >
-            {item.user.name[0]}
+            {item?.user?.name[0]}
           </div>
           <span className="m__details-reviews-name">
             <strong>{item.user.name}</strong>
@@ -81,7 +66,7 @@ function RenderItem(props: any) {
 
         <div className="d-flex flex-column ">
           <div>
-            <div className="d-flex align-items-center">
+            <div className="d-flex align-items-center m__meta">
               <Rating
                 className="m__rating"
                 value={item.rating}
