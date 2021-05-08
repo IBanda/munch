@@ -53,8 +53,8 @@ export default function ImageGrid({ images, name }: Props) {
         <div className="w-100 text-center bg-secondary py-4">
           <img
             style={{ maxWidth: '5em', width: '100%' }}
-            src="/restaurant.png"
-            alt="restaurant_placeholder"
+            src="/place.png"
+            alt="placeholder"
             className="mx-auto"
           />
         </div>
