@@ -11,8 +11,8 @@ interface Props {
 }
 
 const GET_PLACE = gql`
-  query GetPlace($id: ID!) {
-    place: restaurant(id: $id) {
+  query GetPlace($placeId: ID!) {
+    place(placeId: $placeId) {
       name
       place_id
       photos {
@@ -38,7 +38,7 @@ const GET_PLACE = gql`
 export default function PlaceDetails({ id, setWindow }: Props) {
   const { data, error, loading } = useQuery(GET_PLACE, {
     variables: {
-      id,
+      placeId: id,
     },
   });
 
@@ -47,7 +47,7 @@ export default function PlaceDetails({ id, setWindow }: Props) {
       draggable={false}
       initialLeft={0}
       initialTop={0}
-      className="w-100 h-100 shadow-lg m__window"
+      className="w-100 vh-100 shadow-lg m__window"
       minimizeButton={() => null}
       maximizeButton={() => null}
       onClose={() => setWindow({ open: false, id: '' })}
@@ -72,8 +72,8 @@ interface DetailsProps {
 function Details({ error, loading, data }: DetailsProps) {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error</p>;
-  const { place } = data;
 
+  const { place } = data;
   const isOpen = place?.opening_hours?.open_now === true;
   const hide = place?.opening_hours?.open_now == null;
 
