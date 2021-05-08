@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import Layout from 'components/Layout';
 import useGeo from 'lib/useGeo';
 import { useLazyQuery, gql } from '@apollo/client';
-import PlaceListView from 'components/ListView';
+import PlaceListView from 'components/PlaceListView';
 import PlaceMap from 'components/PlaceMap';
 import PlaceDetails from 'components/PlaceDetails';
 import { AppDispatchProvider, AppStateProvider } from 'components/Context';
