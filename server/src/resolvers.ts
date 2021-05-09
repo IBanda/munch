@@ -4,6 +4,7 @@ import {
   UserInputError,
   ForbiddenError,
 } from 'apollo-server-express';
+import getRatings from './utils/getRatings';
 
 const pubsub = new PubSub();
 
@@ -56,14 +57,8 @@ const resolvers = {
 
       return { reviews, hasMore };
     },
-    ratings: async (_, { placeId }, { models }) => {
-      let rating = 5;
-      const ratings = [];
-      while (rating) {
-        const count = await models.Review.countDocuments({ placeId, rating });
-        ratings.push(count);
-        rating--;
-      }
+    ratings: async (_, { placeId }) => {
+      const ratings = getRatings(placeId);
       return { placeId, ratings };
     },
   },
@@ -77,6 +72,12 @@ const resolvers = {
         },
       });
       return photo.data.toString('base64');
+    },
+  },
+  Place: {
+    async ratings(parent) {
+      const ratings = getRatings(parent.place_id);
+      return ratings;
     },
   },
   Mutation: {

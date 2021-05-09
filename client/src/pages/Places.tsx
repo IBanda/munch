@@ -8,6 +8,7 @@ import PlaceDetails from 'components/PlaceDetails';
 import { AppDispatchProvider, AppStateProvider } from 'components/Context';
 import isScrollatBottom from 'utils/isScrollatBottom';
 import useBodyOverflow from 'lib/useBodyOverflow';
+import { Loader } from '@progress/kendo-react-indicators';
 
 const GET_PLACES = gql`
   query GetPlaces($coordinates: PlaceInput, $pagetoken: String = "") {
@@ -29,6 +30,7 @@ const GET_PLACES = gql`
         }
         vicinity
         types
+        ratings
       }
       next_page_token
     }
@@ -69,11 +71,11 @@ export default function Places() {
       getPlaces({
         variables: {
           coordinates: { lat: coords.lat, lng: coords.lng },
+          // coordinates: { lat: 40.73061, lng: -73.935242 },
         },
       });
     }
   }, [coords.lat, coords.lng, getPlaces]);
-
   if (!data && !error) return <p>Loading ...</p>;
   if (error) return <p>Error</p>;
 
@@ -93,8 +95,8 @@ export default function Places() {
     <Layout className="p-0" fluid>
       <div className="row no-gutters">
         <div
-          className={`col-lg-4 mh-100 relative shadow-lg ${
-            open ? 'overflow-hidden ' : 'overflow-auto'
+          className={`col-lg-4  relative shadow-lg ${
+            open ? 'overflow-hidden min-vh-100' : 'overflow-auto vh-100'
           }`}
           onScroll={scrollHandler}
           ref={el}
@@ -102,10 +104,8 @@ export default function Places() {
           <AppDispatchProvider context={dispatchContext}>
             <PlaceListView data={places} />
             {loading ? (
-              <div
-                style={{ position: 'fixed', zIndex: 200, bottom: 0, left: 0 }}
-              >
-                <h1>Loading...</h1>
+              <div className="m__loader-overlay">
+                <Loader type="converging-spinner" themeColor="light" />
               </div>
             ) : null}
           </AppDispatchProvider>
