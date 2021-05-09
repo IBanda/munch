@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { ProgressBar } from '@progress/kendo-react-progressbars';
 import { useQuery, gql } from '@apollo/client';
 import { Rating } from '@progress/kendo-react-inputs';
+import ratingData from 'utils/ratingData';
 
 const GET_RATINGS = gql`
   query GetRatings($placeId: ID!) {
@@ -23,7 +24,6 @@ interface Props {
   placeId: string;
 }
 
-const ratingValue = [5, 4, 3, 2, 1];
 export default function Ratings({ placeId }: Props) {
   const { loading, error, data, subscribeToMore } = useQuery(GET_RATINGS, {
     variables: {
@@ -56,27 +56,14 @@ export default function Ratings({ placeId }: Props) {
     ratings: { ratings },
   } = data;
 
-  const overallTotal = ratings.reduce(
-    (acc: number, cur: number, idx: number) => {
-      return acc + cur * ratingValue[idx];
-    },
-    0
-  );
-
-  const totalNumofRatings = ratings.reduce(
-    (acc: number, cur: number) => acc + cur,
-    0
-  );
-
-  const averageRating = Number((overallTotal / totalNumofRatings).toFixed(1));
-
+  const { averageRating, totalNumofRatings, ratingValue } = ratingData(ratings);
   return (
     <div className=" mb-4 rounded">
       <div className="d-flex align-items-center">
         {averageRating ? <h1 className="mr-2">{averageRating}</h1> : null}
-        <Rating value={averageRating} readonly precision="half" />
+        <Rating value={averageRating} precision="half" readonly />
         <span>
-          <small>{totalNumofRatings || 'No'} Reviews</small>
+          <small>{totalNumofRatings || 'No'} Review(s)</small>
         </span>
       </div>
       <div>
