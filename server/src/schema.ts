@@ -20,6 +20,7 @@ const typeDefs = gql`
     geometry: Geometry
     website: String
     price_level: String
+    ratings: [Int]
     opening_hours: OpenHours
     vicinity: String
     types: [String]
