@@ -18,6 +18,7 @@ export interface Place {
       lng: number;
     };
   };
+  ratings: number[];
 }
 
 export interface Review {
