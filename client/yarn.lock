@@ -1553,7 +1553,7 @@
   resolved "https://registry.yarnpkg.com/@progress/kendo-popup-common/-/kendo-popup-common-1.8.0.tgz#02ec32974762f30bdb2bb968e3c5b73c76c82c33"
   integrity sha512-/cu0nV+3tHKPEE/bUbJTJHv6t8BMYpwI3uVOYENASYy+ZK1dlOfuRhdpSGH85glAH6NMtr/5pYOPojuXFFz/8A==
 
-"@progress/kendo-react-animation@4.5.0":
+"@progress/kendo-react-animation@4.5.0", "@progress/kendo-react-animation@^4.5.0":
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/@progress/kendo-react-animation/-/kendo-react-animation-4.5.0.tgz#d3e07c3b8a9c6d57cc7507dd9bc8b43e69cb6561"
   integrity sha512-nK9Gh2KYeXCkJ9P1e560CR3DWeL/hYvgX6pvUh4afoZrW/X8kK5pHRtL9pDhNXuMqxR/62df+VpSpRUl8RbPOQ==
@@ -1595,6 +1595,14 @@
     "@progress/kendo-react-common" "4.5.0"
     "@progress/kendo-react-labels" "4.5.0"
     "@progress/kendo-react-popup" "4.5.0"
+    prop-types "^15.6.0"
+
+"@progress/kendo-react-indicators@^4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@progress/kendo-react-indicators/-/kendo-react-indicators-4.5.0.tgz#765de5df410a243bb71c45f498b3615f11faab35"
+  integrity sha512-PSRGnWO+aZ+0yWx8wonSPS9e0qMtm+dtJcbXJQoJ/xtjifEM1jSwmpiuOCIoPdL3NcX0Rvs+6OlFtTzlWj+KQQ==
+  dependencies:
+    "@progress/kendo-react-common" "4.5.0"
     prop-types "^15.6.0"
 
 "@progress/kendo-react-inputs@^4.5.0":
