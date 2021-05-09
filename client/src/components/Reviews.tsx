@@ -84,11 +84,23 @@ export default function Reviews({ placeId }: Props) {
   if (error) return <p>Error</p>;
   return (
     <div className="m__details-reviews">
-      <h2 className="font-weight-bold my-4 m__details-reviews-title">
-        Customer Reviews
-      </h2>
-      <Ratings placeId={placeId} />
-      <ReviewList fetchMore={fetchMore} hasMore={hasMore} reviews={reviews} />
+      {reviews.length ? (
+        <>
+          <h2 className="font-weight-bold my-4 m__details-reviews-title">
+            Customer Reviews
+          </h2>
+          <Ratings placeId={placeId} />
+          <ReviewList
+            fetchMore={fetchMore}
+            hasMore={hasMore}
+            reviews={reviews}
+          />
+        </>
+      ) : (
+        <h2 className="font-weight-bold my-4 m__details-reviews-title">
+          No Reviews
+        </h2>
+      )}
       <div>
         <ReviewEditor placeId={placeId} />
       </div>
