@@ -8,39 +8,51 @@ import {
 import { SvgIcon } from '@progress/kendo-react-common';
 import { mapMarkerIcon } from '@progress/kendo-svg-icons';
 import { Place } from 'lib/interface';
+import { Rating } from '@progress/kendo-react-inputs';
+import ratingData from 'utils/ratingData';
 
 interface Props {
   place: Place;
 }
 
 export default function PlaceCard({ place }: Props) {
-  const isOpen = place.opening_hours?.open_now === true;
-  const isUnknown = place.opening_hours?.open_now == null;
   const photo = place?.photos?.[0]?.photo_reference;
+  const { averageRating, totalNumofRatings } = ratingData(place?.ratings);
+
   return (
     <Card orientation="horizontal" className="cursor-pointer">
       <CardBody className="d-flex">
         <CardImage
           src={`${photo ? `data:image/png;base64,${photo}` : '/place.png'}`}
+          // src={
+          //   'https://www.elitetraveler.com/wp-content/uploads/2007/02/Alain-Ducasse-scaled.jpg'
+          // }
           className="m__card-image rounded mr-2"
         />
         <div className="w-100">
-          <CardTitle className="mb-1 m__card-title">{place.name}</CardTitle>
+          <CardTitle className=" mb-0 m__card-title">{place.name}</CardTitle>
+          <div className="d-flex align-items-center">
+            {Boolean(averageRating) && (
+              <span className="mr-1">
+                <small>{averageRating || ''}</small>
+              </span>
+            )}
+            <Rating value={averageRating} precision="half" readonly />
+            <span>
+              <small>{totalNumofRatings || 'No'} Ratings</small>
+            </span>
+          </div>
           <div className="d-flex align-items-center w-100">
-            <SvgIcon icon={mapMarkerIcon} size="small" />
+            <SvgIcon
+              className="mt-n1"
+              icon={mapMarkerIcon}
+              themeColor={'success'}
+              size="small"
+            />
             <CardSubtitle className=" m-0  m__card-subtitle d-inline-block text-truncate">
               {place?.vicinity}
             </CardSubtitle>
           </div>
-          {!isUnknown ? (
-            <span
-              className={`m-0  m__card-status   d-inline text-white  ${
-                isOpen ? 'text-success' : 'text-danger'
-              }`}
-            >
-              {isOpen ? 'Open' : 'Closed'}
-            </span>
-          ) : null}
         </div>
       </CardBody>
     </Card>
