@@ -31,6 +31,7 @@ body {
 .m__card-subtitle {
   font-size: 13px;
   font-weight: 400;
+  padding-bottom: 0.25rem;
   width: 75%;
 }
 .m__card-status {
@@ -73,7 +74,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
   height: 30px;
   width: 30px;
   transform: translate(-50%, -50%);
@@ -172,9 +172,9 @@ body {
 .m__meta,
 form {
   .k-rating {
-    &-container {
-      margin: 0;
-    }
+    // &-container {
+    //   margin: 0;
+    // }
     &-item {
       padding: 0.5rem 0.25rem 0.5rem 0 !important;
       .k-icon {
@@ -182,6 +182,14 @@ form {
       }
       &.k-state-selected {
         color: #f8b805;
+      }
+      .k-rating-precision-complement,
+      .k-rating-precision-part {
+        width: 10px !important;
+      }
+      &:last-child {
+        height: 20px !important;
+        width: 20px !important;
       }
     }
     &.m__rating {
@@ -195,6 +203,50 @@ form {
   }
 }
 
-.k-rating-item.k-state-selected {
+.k-rating-item.k-state-selected,
+.k-rating-item {
   color: #f8b805;
+}
+.k-rating-container {
+  margin: 0;
+}
+
+.k-card-body {
+  span.k-rating-item {
+    padding: 0.3em;
+    padding-left: 0;
+    .k-rating-precision-complement {
+      width: 7px !important;
+      left: 37% !important;
+      top: unset;
+    }
+    .k-icon {
+      font-size: 14px !important;
+    }
+    .k-rating-precision-part {
+      width: 7px !important;
+      top: unset;
+      left: unset;
+    }
+    & span:last-child {
+      width: 14px !important;
+      height: 14px !important;
+    }
+  }
+}
+
+/*
+* LOADER OVERLAY
+*/
+.m__loader-overlay {
+  position: sticky;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.23);
+  padding-top: 1em;
 }
