@@ -4,6 +4,8 @@ import { Place } from 'lib/interface';
 import ImageGrid from './ImageGrid';
 import isToday from 'utils/isToday';
 import Reviews from './Reviews';
+import { SvgIcon } from '@progress/kendo-react-common';
+import { globeLinkIcon } from '@progress/kendo-svg-icons';
 
 interface Props {
   id: string;
@@ -82,7 +84,7 @@ function Details({ error, loading, data }: DetailsProps) {
       <ImageGrid images={place?.photos} name={place?.name} />
       <div className="mt-2 d-flex align-items-center">
         <h2 className="font-weight-bold mt-2 m__details-name">{place.name}</h2>
-        {!hide ? (
+        {!hide && (
           <span
             className={`${
               isOpen ? 'bg-success' : 'bg-danger'
@@ -90,10 +92,11 @@ function Details({ error, loading, data }: DetailsProps) {
           >
             {isOpen ? 'Open' : 'Closed'}
           </span>
-        ) : null}
+        )}
       </div>
       {place.website ? (
         <a href={place.website} target="_blank" rel="noreferrer">
+          <SvgIcon icon={globeLinkIcon} />
           <small>Website</small>
         </a>
       ) : null}
