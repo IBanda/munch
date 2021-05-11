@@ -2,8 +2,8 @@ import React, { createContext, useContext } from 'react';
 
 interface Context {
   id?: string;
-  setId?: any;
-  setWindow?: any;
+  setId?: React.SetStateAction<any>;
+  setWindow?: React.SetStateAction<any>;
 }
 const AppState = createContext<Context | null>(null);
 const AppDispatch = createContext<Context | null>(null);
