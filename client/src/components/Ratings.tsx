@@ -3,6 +3,7 @@ import { ProgressBar } from '@progress/kendo-react-progressbars';
 import { useQuery, gql } from '@apollo/client';
 import { Rating } from '@progress/kendo-react-inputs';
 import ratingData from 'utils/ratingData';
+import ContentLoader from 'react-content-loader';
 
 const GET_RATINGS = gql`
   query GetRatings($placeId: ID!) {
@@ -49,7 +50,24 @@ export default function Ratings({ placeId }: Props) {
     });
   }, [placeId, subscribeToMore]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading)
+    return (
+      <ContentLoader
+        speed={2}
+        width={400}
+        height={160}
+        viewBox="0 0 400 160"
+        backgroundColor="#f3f3f3"
+        foregroundColor="#ecebeb"
+      >
+        <rect x="0" y="6" rx="0" ry="0" width="190" height="21" />
+        <rect x="0" y="41" rx="5" ry="5" width="300" height="15" />
+        <rect x="0" y="62" rx="5" ry="5" width="300" height="15" />
+        <rect x="0" y="83" rx="5" ry="5" width="300" height="15" />
+        <rect x="0" y="104" rx="5" ry="5" width="300" height="15" />
+        <rect x="0" y="125" rx="5" ry="5" width="300" height="15" />
+      </ContentLoader>
+    );
   if (error) return <p>Error</p>;
 
   const {
@@ -57,7 +75,8 @@ export default function Ratings({ placeId }: Props) {
   } = data;
 
   const { averageRating, totalNumofRatings, ratingValue } = ratingData(ratings);
-  return (
+
+  return totalNumofRatings ? (
     <div className=" mb-4 rounded">
       <div className="d-flex align-items-center">
         {averageRating ? <h1 className="mr-2">{averageRating}</h1> : null}
@@ -80,7 +99,7 @@ export default function Ratings({ placeId }: Props) {
         })}
       </div>
     </div>
-  );
+  ) : null;
 }
 
 interface RatingBarProps {
