@@ -1,13 +1,20 @@
+import getRatings from './utils/getRatings';
+import uploadImage from './lib/uploadImage';
+import st from 'stream';
+import { promisify } from 'util';
+import fs from 'fs';
+import { tmpdir } from 'os';
+import { join } from 'path';
 import {
   PubSub,
   withFilter,
   UserInputError,
   ForbiddenError,
 } from 'apollo-server-express';
-import getRatings from './utils/getRatings';
+
+const pipeline = promisify(st.pipeline);
 
 const pubsub = new PubSub();
-
 const key = process.env.GOOGLE_MAPS_API_KEY;
 
 const resolvers = {
@@ -113,8 +120,24 @@ const resolvers = {
         email: user.email,
       };
     },
-    postReview: async (_, { review }, { models }) => {
-      const newReview = await models.Review.create(review);
+    postReview: async (_, { review, files }, { models }) => {
+      const resolvedFiles = await Promise.all(
+        files.map((file) => file.promise)
+      );
+      const fileUrls = [];
+      while (resolvedFiles.length) {
+        const file: any = resolvedFiles.pop();
+        const path = join(tmpdir(), file.filename);
+        await pipeline(file.createReadStream(), fs.createWriteStream(path));
+        const objUrl = await uploadImage(file.filename, path);
+        fileUrls.push(objUrl);
+      }
+
+      const newReview = await models.Review.create({
+        ...review,
+        images: fileUrls,
+      });
+
       await models.Review.populate(newReview, { path: 'user' });
       pubsub.publish('GET_REVIEW', { getReview: newReview });
       pubsub.publish('GET_RATINGS', {
