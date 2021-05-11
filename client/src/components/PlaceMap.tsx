@@ -1,4 +1,5 @@
 import GoogleMapReact from 'google-map-react';
+import { Loader } from '@progress/kendo-react-indicators';
 import useGeo from 'lib/useGeo';
 import { Place } from 'lib/interface';
 import PlaceMarker from './PlaceMarker';
@@ -17,11 +18,12 @@ export default function PlaceMap({ data }: Props) {
         }}
         zoom={10}
         center={{ lat: Number(center.lat), lng: Number(center.lng) }}
+        // center={{ lat: 40.73061, lng: -73.935242 }}
       >
         {data.map((place) => (
           <PlaceMarker
             key={place?.place_id}
-            placeId={place?.place_id}
+            id={place?.place_id}
             name={place?.name}
             lat={place?.geometry?.location.lat}
             lng={place?.geometry?.location.lng}
@@ -31,6 +33,8 @@ export default function PlaceMap({ data }: Props) {
       </GoogleMapReact>
     </div>
   ) : (
-    <h1>loading</h1>
+    <div className="h-100 w-100 d-flex align-items-center justify-content-center">
+      <Loader themeColor="primary" type="converging-spinner" />
+    </div>
   );
 }
