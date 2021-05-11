@@ -4,6 +4,7 @@ interface Review extends Document {
   review: string;
   userId: string;
   placeId: string;
+  images: string[];
   rating: number;
 }
 
@@ -12,6 +13,7 @@ const ReviewSchema: Schema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: 'user' },
   placeId: { type: String, required: true },
   rating: Number,
+  images: [String],
   created_on: { type: String, default: Date.now() },
 });
 
