@@ -41,12 +41,12 @@ export default function Places() {
   const coords = useGeo();
   const [id, setId] = useState('');
   const [{ id: placeId, open }, setWindow] = useState({ open: false, id: '' });
-  const [getPlaces, { data, error, loading, fetchMore }] = useLazyQuery(
-    GET_PLACES,
-    {
-      notifyOnNetworkStatusChange: true,
-    }
-  );
+  const [
+    getPlaces,
+    { data, error, loading, fetchMore, networkStatus },
+  ] = useLazyQuery(GET_PLACES, {
+    notifyOnNetworkStatusChange: true,
+  });
   const el = useRef<HTMLDivElement>(null);
   useBodyOverflow(open);
 
@@ -76,12 +76,12 @@ export default function Places() {
       });
     }
   }, [coords.lat, coords.lng, getPlaces]);
-  if (!data && !error) return <p>Loading ...</p>;
+  // if () return <p>Loading ...</p>;
   if (error) return <p>Error</p>;
 
   const {
     places: { places, next_page_token },
-  } = data;
+  } = data || { places: {} };
   const scrollHandler = (event: any) => {
     if (isScrollatBottom(event.nativeEvent) && next_page_token) {
       fetchMore?.({
@@ -91,6 +91,7 @@ export default function Places() {
       });
     }
   };
+  const placeholder = Array(7).fill(1);
   return (
     <Layout className="p-0" fluid>
       <div className="row no-gutters">
@@ -102,8 +103,11 @@ export default function Places() {
           ref={el}
         >
           <AppDispatchProvider context={dispatchContext}>
-            <PlaceListView data={places} />
-            {loading ? (
+            <PlaceListView
+              data={places || placeholder}
+              loading={!data && !error}
+            />
+            {loading && networkStatus === 3 ? (
               <div className="m__loader-overlay">
                 <Loader type="converging-spinner" themeColor="light" />
               </div>
@@ -113,7 +117,7 @@ export default function Places() {
         </div>
         <div className="col-lg-8 vh-100">
           <AppStateProvider context={appStateContext}>
-            <PlaceMap data={places} />
+            <PlaceMap data={places || []} />
           </AppStateProvider>
         </div>
       </div>
