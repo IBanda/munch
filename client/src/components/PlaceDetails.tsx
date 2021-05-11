@@ -6,11 +6,7 @@ import isToday from 'utils/isToday';
 import Reviews from './Reviews';
 import { SvgIcon } from '@progress/kendo-react-common';
 import { globeLinkIcon } from '@progress/kendo-svg-icons';
-
-interface Props {
-  id: string;
-  setWindow: any;
-}
+import AppLoader from './AppLoader';
 
 const GET_PLACE = gql`
   query GetPlace($placeId: ID!) {
@@ -36,6 +32,11 @@ const GET_PLACE = gql`
     }
   }
 `;
+
+interface Props {
+  id: string;
+  setWindow: any;
+}
 
 export default function PlaceDetails({ id, setWindow }: Props) {
   const { data, error, loading } = useQuery(GET_PLACE, {
@@ -72,7 +73,7 @@ interface DetailsProps {
 }
 
 function Details({ error, loading, data }: DetailsProps) {
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <AppLoader />;
   if (error) return <p>Error</p>;
 
   const { place } = data;
@@ -87,7 +88,7 @@ function Details({ error, loading, data }: DetailsProps) {
         {!hide && (
           <span
             className={`${
-              isOpen ? 'bg-success' : 'bg-danger'
+              isOpen ? 'bg-success' : 'bg-error'
             } ml-2  text-white text-uppercase m__details-status`}
           >
             {isOpen ? 'Open' : 'Closed'}
@@ -110,7 +111,7 @@ function Details({ error, loading, data }: DetailsProps) {
             <strong>Address: </strong>
             {place.formatted_address}
           </li>
-          {!hide ? (
+          {!hide && (
             <li className="bg-secondary p-2 mt-2 rounded">
               <strong>Hours: </strong>
               <ul>
@@ -119,7 +120,7 @@ function Details({ error, loading, data }: DetailsProps) {
                 ))}
               </ul>
             </li>
-          ) : null}
+          )}
         </ul>
       </div>
       <Reviews placeId={place.place_id} />
