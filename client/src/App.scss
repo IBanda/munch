@@ -46,7 +46,6 @@ body {
 */
 
 .k-listview {
-  background: #f3f6f8;
   height: 100%;
   border: 0;
   &-content {
@@ -249,4 +248,90 @@ form {
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.23);
   padding-top: 1em;
+}
+
+.m__outline-none {
+  outline: none !important;
+}
+
+/*
+* Upload
+*/
+
+.m__upload-preview {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.k-widget.k-upload {
+  border: 0;
+  display: flex;
+  margin-top: 10px;
+  .k-dropzone {
+    width: 5em;
+    height: 4em;
+    background: $secondary;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    position: relative;
+    margin-right: 5px;
+    .k-upload-button {
+      position: absolute;
+      opacity: 0;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      min-width: unset !important;
+      padding: 0;
+      z-index: 2;
+    }
+    &-hint {
+      display: none;
+    }
+    &::after {
+      content: '+';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: translate(-50%, -50%);
+      color: lightgray;
+      font-size: 20px;
+      width: 16px;
+      height: 16px;
+    }
+  }
+  .k-upload-files {
+    display: flex;
+    align-items: center;
+    border: 0 !important;
+    .k-file {
+      display: flex;
+      align-items: center !important;
+      justify-content: center;
+      border: 1px solid $secondary !important;
+      border-radius: 5px;
+      overflow: hidden;
+      width: 5em;
+      height: 4em;
+      padding: 0 !important;
+      margin-right: 5px;
+    }
+  }
+}
+
+/*
+* Review Images
+*/
+.m__review-img {
+  width: 4em;
+  height: 3em;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 2px;
 }
