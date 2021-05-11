@@ -11,6 +11,7 @@ import session from 'express-session';
 import mongoDBSession from 'connect-mongodb-session';
 import mapClient from './lib/mapClient';
 import mocks from './utils/mocks';
+import { graphqlUploadExpress } from 'graphql-upload';
 
 export default async function apolloExpressServer() {
   const app = express();
@@ -24,6 +25,7 @@ export default async function apolloExpressServer() {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
+    uploads: false,
     subscriptions: {
       path: '/subscriptions',
     },
@@ -52,6 +54,7 @@ export default async function apolloExpressServer() {
       },
     })
   );
+  app.use(graphqlUploadExpress({ maxFileSize: 250000, maxFiles: 3 }));
   server.applyMiddleware({ app });
 
   const httpServer = http.createServer(app);
