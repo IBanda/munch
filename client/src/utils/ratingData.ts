@@ -9,7 +9,8 @@ export default function ratingData(data: number[]) {
     0
   );
 
-  const averageRating = Number((overallTotal / totalNumofRatings).toFixed(1));
+  const averageRating =
+    Number((overallTotal / totalNumofRatings).toFixed(1)) || 0;
 
   return {
     overallTotal,
