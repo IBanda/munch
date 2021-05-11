@@ -4,17 +4,21 @@ import { useAppState } from './Context';
 import { Tooltip } from '@progress/kendo-react-tooltip';
 import { mapMarkerTargetIcon } from '@progress/kendo-svg-icons';
 
-interface Props {
-  openTooltip: boolean;
+interface MarkerProps {
+  openTooltip?: boolean;
   id: string;
   name: string;
-  open: boolean;
-  setWindow: any;
+  open: boolean | null;
+  setWindow?: React.SetStateAction<any>;
+  lat?: number;
+  lng?: number;
 }
 
-function Marker({ openTooltip, name, open, setWindow, id }: Props) {
+function Marker({ openTooltip, name, open, setWindow, id }: MarkerProps) {
   const marker = useRef<HTMLDivElement>(null);
   const [shouldOpenTooltip, setTooltipState] = useState(false);
+  const isUnknown = open == null;
+
   return (
     <Tooltip
       open={openTooltip || shouldOpenTooltip}
@@ -37,7 +41,7 @@ function Marker({ openTooltip, name, open, setWindow, id }: Props) {
           style={{ width: 25, height: 25 }}
           className="mt-n1"
           icon={mapMarkerTargetIcon}
-          themeColor={open ? 'success' : 'error'}
+          themeColor={!isUnknown ? (open ? 'success' : 'error') : 'primary'}
           size="medium"
         />
       </div>
@@ -47,14 +51,14 @@ function Marker({ openTooltip, name, open, setWindow, id }: Props) {
 
 const MemoMarker = memo(Marker);
 
-export default function PlaceMarker(props: any) {
+export default function PlaceMarker({ id: placeId, name, open }: MarkerProps) {
   const { id, setWindow } = useAppState();
   return (
     <MemoMarker
-      openTooltip={props.placeId === id}
-      id={props.placeId}
-      name={props.name}
-      open={props.open}
+      openTooltip={placeId === id}
+      id={placeId}
+      name={name}
+      open={open}
       setWindow={setWindow}
     />
   );
