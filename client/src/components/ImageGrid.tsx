@@ -1,5 +1,6 @@
+import React from 'react';
 import { Photo } from 'lib/interface';
-import { StyleHTMLAttributes } from 'react';
+import Image from './Image';
 
 interface Props {
   images: Photo[];
@@ -29,6 +30,7 @@ export default function ImageGrid({ images, name }: Props) {
               // src={images?.[0]}
               style={{ height: '10em' }}
               alt={`${name}-${1}`}
+              className="m__img-grid"
             />
           </div>
           <div className="col-lg-7">
@@ -63,16 +65,8 @@ export default function ImageGrid({ images, name }: Props) {
   );
 }
 
-interface ImageProps {
-  src: string;
-  alt: string;
-  style?: any;
-}
 function indexer(index: number) {
   if (index === 1 || index === 2) return 'col-lg-6';
   if (index >= 3 && index <= 5) return 'col-lg-4';
   return 'd-none';
-}
-function Image({ src, alt, style }: ImageProps) {
-  return <img style={style} className="m__img-grid" src={src} alt={alt} />;
 }
