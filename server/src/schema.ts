@@ -7,6 +7,8 @@ const typeDefs = gql`
     email: String
   }
 
+  scalar Upload
+
   """
   Places from google places API
   """
@@ -32,6 +34,7 @@ const typeDefs = gql`
     user: User
     rating: Int
     placeId: String
+    images: [String]
     created_on: String
   }
 
@@ -103,7 +106,7 @@ const typeDefs = gql`
   type Mutation {
     signup(user: UserInput): User
     signin(user: UserInput): User
-    postReview(review: ReviewInput): Review
+    postReview(review: ReviewInput, files: [Upload]): Review
     deleteReview(id: ID!): ID
     editReview(review: String!, id: ID!): Review
   }
