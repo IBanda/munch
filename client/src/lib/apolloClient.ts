@@ -2,6 +2,7 @@ import { ApolloClient, InMemoryCache, HttpLink, split } from '@apollo/client';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import simpleMerge from 'utils/simpleMerge';
+import { createUploadLink } from 'apollo-upload-client';
 
 const wsLink = new WebSocketLink({
   uri: 'ws://localhost:4000/subscriptions',
@@ -10,7 +11,7 @@ const wsLink = new WebSocketLink({
   },
 });
 
-const httpLink = new HttpLink({
+const httpLink = createUploadLink({
   uri: 'http://localhost:4000/graphql',
 });
 
@@ -44,13 +45,23 @@ const apolloClient = new ApolloClient({
             read(existing) {
               return existing;
             },
-            merge(existing = { reviews: [] }, incoming, { readField }) {
-              return {
-                hasMore: incoming.hasMore,
-                reviews: simpleMerge(existing.reviews, incoming.reviews, {
+            merge(existing = { reviews: [] }, incoming, { readField, args }) {
+              let merged;
+              if (existing.reviews.length && incoming.reviews.length === 1) {
+                let existingCopy = [...existing.reviews].reverse();
+                merged = simpleMerge(existingCopy, incoming.reviews, {
                   readField,
                   key: 'id',
-                }),
+                }).reverse();
+              } else {
+                merged = simpleMerge(existing.reviews, incoming.reviews, {
+                  readField,
+                  key: 'id',
+                });
+              }
+              return {
+                hasMore: incoming.hasMore,
+                reviews: merged,
               };
             },
           },
