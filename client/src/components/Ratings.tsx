@@ -79,7 +79,9 @@ export default function Ratings({ placeId }: Props) {
   return totalNumofRatings ? (
     <div className=" mb-4 rounded">
       <div className="d-flex align-items-center">
-        {averageRating ? <h1 className="mr-2">{averageRating}</h1> : null}
+        {averageRating ? (
+          <h1 className="mr-2 text-muted">{averageRating.toPrecision(2)}</h1>
+        ) : null}
         <Rating value={averageRating} precision="half" readonly />
         <span>
           <small>{totalNumofRatings || 'No'} Review(s)</small>
