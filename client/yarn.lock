@@ -1579,6 +1579,14 @@
     "@telerik/kendo-draggable" "^2.1.0"
     prop-types "^15.6.0"
 
+"@progress/kendo-react-common@4.6.0":
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/@progress/kendo-react-common/-/kendo-react-common-4.6.0.tgz#832be850c1c3f911cea112622aaf2e518721319b"
+  integrity sha512-qB7p/GNJaXMecs/qEH+OzeIwJf0NoRNh3CzmQyyurSwvIiV79gpkSxdnxzTr30xWVm525Nvj3ZemJbT4nu8r9w==
+  dependencies:
+    "@telerik/kendo-draggable" "^2.2.1"
+    prop-types "^15.6.0"
+
 "@progress/kendo-react-dialogs@^4.5.0":
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/@progress/kendo-react-dialogs/-/kendo-react-dialogs-4.5.0.tgz#7449f0cfa60945f3c85a4664725141f4e39b8a81"
@@ -1629,6 +1637,14 @@
   integrity sha512-elhDzLmjwRKJ3XsVhmfdb/mJgHi46w0/JWTr0tXg73+hpbWjndfdtw42BLLHX/e93qskLObMfKDwfu1TO6i6Ug==
   dependencies:
     "@progress/kendo-react-common" "4.5.0"
+    prop-types "^15.6.0"
+
+"@progress/kendo-react-labels@^4.6.0":
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/@progress/kendo-react-labels/-/kendo-react-labels-4.6.0.tgz#11c6f85678250283ee9000fbb5b895f776eac0f7"
+  integrity sha512-8DOz8hCIsRCZRZleNhrWHi2Pp1NDgT7D9YwrohPpf5uN3tbpOPbaYatgecGlQLVG788kZs+Ic+L3m8HpWoB72A==
+  dependencies:
+    "@progress/kendo-react-common" "4.6.0"
     prop-types "^15.6.0"
 
 "@progress/kendo-react-layout@^4.5.0":
@@ -1866,7 +1882,7 @@
     "@svgr/plugin-svgo" "^5.5.0"
     loader-utils "^2.0.0"
 
-"@telerik/kendo-draggable@^2.1.0":
+"@telerik/kendo-draggable@^2.1.0", "@telerik/kendo-draggable@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@telerik/kendo-draggable/-/kendo-draggable-2.2.1.tgz#27d86fd5b3273676b744bd82dbcebfffd911ad5c"
   integrity sha512-qmuRJnjByOIjSKi0BKYK7fJ/+ITgL0aumc4IRIEwiYAQgDJWumuSpAOp2p8ctIWzP0JfEUmITs6ziJaoyKIYwQ==
