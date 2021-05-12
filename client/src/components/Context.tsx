@@ -37,3 +37,9 @@ export function useDispatch() {
   }
   return context;
 }
+
+interface UploadContext {
+  (id: string): void;
+}
+
+export const UploadState = createContext<UploadContext | null>(null);
