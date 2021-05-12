@@ -1,8 +1,9 @@
-import { ApolloClient, InMemoryCache, HttpLink, split } from '@apollo/client';
+import { ApolloClient, InMemoryCache, split } from '@apollo/client';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import simpleMerge from 'utils/simpleMerge';
 import { createUploadLink } from 'apollo-upload-client';
+import updateRating from 'utils/updateRating';
 
 const wsLink = new WebSocketLink({
   uri: 'ws://localhost:4000/subscriptions',
@@ -26,14 +27,6 @@ const link = split(
   httpLink
 );
 
-const indexMapper = {
-  5: 0,
-  4: 1,
-  3: 2,
-  2: 3,
-  1: 4,
-};
-
 const apolloClient = new ApolloClient({
   link,
   cache: new InMemoryCache({
@@ -45,8 +38,9 @@ const apolloClient = new ApolloClient({
             read(existing) {
               return existing;
             },
-            merge(existing = { reviews: [] }, incoming, { readField, args }) {
+            merge(existing = { reviews: [] }, incoming, { readField }) {
               let merged;
+
               if (existing.reviews.length && incoming.reviews.length === 1) {
                 let existingCopy = [...existing.reviews].reverse();
                 merged = simpleMerge(existingCopy, incoming.reviews, {
@@ -59,6 +53,7 @@ const apolloClient = new ApolloClient({
                   key: 'id',
                 });
               }
+
               return {
                 hasMore: incoming.hasMore,
                 reviews: merged,
@@ -84,10 +79,9 @@ const apolloClient = new ApolloClient({
             keyArgs: ['placeId'],
             read: (rating) => rating,
             merge: (existing = { ratings: [] }, incoming) => {
-              const updated = [...existing.ratings];
+              let updated = [...existing.ratings];
               if (incoming.ratings.length === 1) {
-                const pos: 1 | 2 | 3 | 4 | 5 = incoming.ratings[0];
-                updated[indexMapper[pos]] += 1;
+                updated = updateRating(updated, incoming.ratings[0]);
               }
               return {
                 ratings: updated.length ? updated : incoming.ratings,
