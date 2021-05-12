@@ -6,6 +6,11 @@ $secondary: #f3f6f8;
 /*
 Card
 */
+html,
+body,
+#root {
+  height: 100%;
+}
 body {
   margin: 0;
   &.m__overflow-hidden {
@@ -46,7 +51,7 @@ body {
 */
 
 .k-listview {
-  height: 100%;
+  // height: 100%;
   border: 0;
   &-content {
     padding: 0 0.5em;
@@ -171,9 +176,6 @@ body {
 .m__meta,
 form {
   .k-rating {
-    // &-container {
-    //   margin: 0;
-    // }
     &-item {
       padding: 0.5rem 0.25rem 0.5rem 0 !important;
       .k-icon {
@@ -198,6 +200,11 @@ form {
           font-size: 12px !important;
         }
       }
+    }
+    &.m__shadow-rating {
+      position: absolute;
+      opacity: 0;
+      z-index: 20;
     }
   }
 }
@@ -334,4 +341,12 @@ form {
   object-fit: cover;
   object-position: center;
   border-radius: 2px;
+}
+
+.h-90 {
+  height: 90%;
+}
+
+.min-h-100 {
+  min-height: 100%;
 }
