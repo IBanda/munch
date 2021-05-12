@@ -24,7 +24,7 @@ export default function ImageGrid({ images, name }: Props) {
     <div className="row no-gutters">
       {!hasImages ? (
         <>
-          <div className={`relative col-lg-5 m__img-grid-wrapper`}>
+          <div className={`position-relative col-lg-5 m__img-grid-wrapper`}>
             <Image
               src={`data:image/png;base64,${images?.[0].photo_reference}`}
               // src={images?.[0]}
