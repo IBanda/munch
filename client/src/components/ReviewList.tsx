@@ -40,6 +40,7 @@ const GET_REVIEW = gql`
       }
       rating
       created_on
+      images
     }
   }
 `;
@@ -57,15 +58,19 @@ interface Data {
 export default function ReviewList({ placeId }: Props) {
   const scrollBarRef = useRef<HTMLDivElement>(null);
   const [offset, setOffset] = useState(6);
-  const { data, loading, error, fetchMore, subscribeToMore } = useQuery(
-    GET_REVIEWS,
-    {
-      variables: {
-        placeId,
-      },
-      notifyOnNetworkStatusChange: true,
-    }
-  );
+  const {
+    data,
+    loading,
+    error,
+    fetchMore,
+    subscribeToMore,
+    networkStatus,
+  } = useQuery(GET_REVIEWS, {
+    variables: {
+      placeId,
+    },
+    notifyOnNetworkStatusChange: true,
+  });
 
   const {
     reviews: { reviews = [], hasMore },
@@ -110,15 +115,17 @@ export default function ReviewList({ placeId }: Props) {
   console.log(reviews);
   if (error) return <p>Error</p>;
 
-  return reviews.length ? (
+  return (
     <SimpleBar
       scrollableNodeProps={{ ref: scrollBarRef }}
       className="m__listview-reviews shadow rounded mb-4"
     >
       <ListView item={RenderItem} data={reviews} className="rounded" />
-      {loading && <AppLoader wrapperClassName="py-2" type="pulsing" />}
+      {loading && networkStatus === 3 && (
+        <AppLoader wrapperClassName="py-2" type="pulsing" />
+      )}
     </SimpleBar>
-  ) : null;
+  );
 }
 
 function RenderItem(props: any) {
