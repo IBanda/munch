@@ -6,10 +6,10 @@ interface ReviewProp {
 export default function ReviewText({ review }: ReviewProp) {
   const [clip, setClip] = useState(true);
   const { length } = review;
-  const isLongerthan = length - 15 > 250;
+  const isLongerthan = length - 15 > 150;
   return (
     <>
-      <p>{clip ? review.trim().slice(0, 250) : review}</p>
+      <p>{clip ? review.trim().slice(0, 150) : review}</p>
 
       {isLongerthan ? (
         clip ? (
