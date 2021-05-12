@@ -121,18 +121,19 @@ const resolvers = {
       };
     },
     postReview: async (_, { review, files }, { models }) => {
-      const resolvedFiles = await Promise.all(
-        files.map((file) => file.promise)
-      );
       const fileUrls = [];
-      while (resolvedFiles.length) {
-        const file: any = resolvedFiles.pop();
-        const path = join(tmpdir(), file.filename);
-        await pipeline(file.createReadStream(), fs.createWriteStream(path));
-        const objUrl = await uploadImage(file.filename, path);
-        fileUrls.push(objUrl);
+      if (files?.length) {
+        const resolvedFiles = await Promise.all(
+          files.map((file) => file.promise)
+        );
+        while (resolvedFiles.length) {
+          const file: any = resolvedFiles.pop();
+          const path = join(tmpdir(), file.filename);
+          await pipeline(file.createReadStream(), fs.createWriteStream(path));
+          const objUrl = await uploadImage(file.filename, path);
+          fileUrls.push(objUrl);
+        }
       }
-
       const newReview = await models.Review.create({
         ...review,
         images: fileUrls,
