@@ -29,7 +29,7 @@ export default function PlaceListView({ data, loading }: Props) {
     <ListView
       data={data}
       item={!loading ? RenderItem : CardLoader}
-      className="m__places-listview"
+      className="m__places-listview my-4"
     />
   );
 }

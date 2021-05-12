@@ -50,7 +50,7 @@ export default function PlaceDetails({ id, setWindow }: Props) {
       draggable={false}
       initialLeft={0}
       initialTop={0}
-      className="w-100 vh-100 shadow-lg m__window"
+      className="w-100 vh-100 shadow-lg m__window border-0"
       minimizeButton={() => null}
       maximizeButton={() => null}
       onClose={() => setWindow({ open: false, id: '' })}
