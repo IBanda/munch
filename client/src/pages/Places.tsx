@@ -29,7 +29,6 @@ const GET_PLACES = gql`
           }
         }
         vicinity
-        types
         ratings
       }
       next_page_token
@@ -96,7 +95,7 @@ export default function Places() {
     <Layout className="p-0" fluid>
       <div className="row no-gutters">
         <div
-          className={`col-lg-4  relative shadow-lg ${
+          className={`col-lg-4  position-relative shadow-lg ${
             open ? 'overflow-hidden min-vh-100' : 'overflow-auto vh-100'
           }`}
           onScroll={scrollHandler}
