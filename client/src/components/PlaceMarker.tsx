@@ -25,7 +25,6 @@ function Marker({ openTooltip, name, open, setWindow, id }: MarkerProps) {
       anchorElement="target"
       targetElement={marker.current}
       openDelay={50}
-      className="relative"
       position="top"
       tooltipClassName="m__marker-tooltip"
     >
