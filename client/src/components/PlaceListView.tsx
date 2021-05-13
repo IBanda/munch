@@ -14,7 +14,7 @@ const RenderItem = (props: any) => {
   const id = props.dataItem.place_id;
   return (
     <button
-      className="mb-2 w-100 bg-transparent border-0 text-left m__outline-none"
+      className="mb-2 w-100 bg-transparent border-0 p-0 text-left m__outline-none"
       onClick={() => setWindow({ open: true, id })}
       onMouseOver={() => setId(id)}
       onMouseOut={() => setId('')}
@@ -29,7 +29,7 @@ export default function PlaceListView({ data, loading }: Props) {
     <ListView
       data={data}
       item={!loading ? RenderItem : CardLoader}
-      className="m__places-listview my-4"
+      className="m__places-listview p-0"
     />
   );
 }
