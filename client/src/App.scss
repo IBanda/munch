@@ -24,6 +24,14 @@ body {
   box-sizing: border-box;
 }
 
+header {
+  height: 80px;
+}
+.logo {
+  max-width: 70px;
+  width: 100%;
+}
+
 .m__card-image {
   object-fit: cover;
   object-position: center;
@@ -59,6 +67,7 @@ body {
   &.m__places-listview {
     .k-listview-content {
       overflow: unset;
+      padding: 0;
     }
   }
 }
