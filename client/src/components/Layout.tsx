@@ -1,3 +1,5 @@
+import Header from './Header';
+
 interface Props {
   children: React.ReactNode;
   fluid?: boolean;
@@ -7,6 +9,7 @@ interface Props {
 export default function Layout({ children, fluid, className }: Props) {
   return (
     <div className={`container${fluid ? '-fluid' : ''} ${className}`}>
+      <Header />
       {children}
     </div>
   );
