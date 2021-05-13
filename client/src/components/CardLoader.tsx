@@ -5,7 +5,7 @@ export default function CardLoader(props: any) {
     <ContentLoader
       speed={2}
       width="100%"
-      height={100}
+      height={97}
       backgroundColor="#f3f3f3"
       foregroundColor="#ecebeb"
     >
