@@ -90,13 +90,21 @@ export default function Places() {
       });
     }
   };
-  const placeholder = Array(7).fill(1);
+  const placeholder = Array(6).fill(1);
   return (
-    <Layout className="p-0" fluid>
-      <div className="row no-gutters">
+    <Layout className="p-0 h-100" fluid>
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          top: 80,
+          width: '100%',
+        }}
+        className="row no-gutters"
+      >
         <div
-          className={`col-lg-4  position-relative shadow-lg ${
-            open ? 'overflow-hidden min-vh-100' : 'overflow-auto vh-100'
+          className={`col-lg-4  position-relative h-100  ${
+            open ? '' : 'overflow-auto '
           }`}
           onScroll={scrollHandler}
           ref={el}
@@ -114,7 +122,7 @@ export default function Places() {
           </AppDispatchProvider>
           {open ? <PlaceDetails id={placeId} setWindow={setWindow} /> : null}
         </div>
-        <div className="col-lg-8 vh-100">
+        <div className="col-lg-8 h-100">
           <AppStateProvider context={appStateContext}>
             <PlaceMap data={places || []} />
           </AppStateProvider>
