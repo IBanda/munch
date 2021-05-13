@@ -20,13 +20,16 @@ export default function PlaceCard({ place }: Props) {
   const { averageRating, totalNumofRatings } = ratingData(place?.ratings);
 
   return (
-    <Card orientation="horizontal" className="cursor-pointer">
+    <Card
+      orientation="horizontal"
+      className="cursor-pointer border-top-0 border-left-0 border-right-0 rounded-0  border-bottom  "
+    >
       <CardBody className="d-flex">
         <CardImage
-          src={`${photo ? `data:image/png;base64,${photo}` : '/place.png'}`}
-          // src={
-          //   'https://www.elitetraveler.com/wp-content/uploads/2007/02/Alain-Ducasse-scaled.jpg'
-          // }
+          // src={`${photo ? `data:image/png;base64,${photo}` : '/place.png'}`}
+          src={
+            'https://www.elitetraveler.com/wp-content/uploads/2007/02/Alain-Ducasse-scaled.jpg'
+          }
           className="m__card-image rounded mr-2"
         />
         <div className="w-100">
