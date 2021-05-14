@@ -97,7 +97,12 @@ const typeDefs = gql`
   }
 
   type Query {
-    places(coordinates: PlaceInput, pagetoken: String): PlacesResult
+    places(
+      coordinates: PlaceInput
+      pagetoken: String
+      keyword: String
+      opennow: Boolean
+    ): PlacesResult
     place(placeId: ID!): Place
     reviews(placeId: ID!, limit: Int, offset: Int): ReviewsResult
     ratings(placeId: ID!): RatingsResult

@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import Layout from 'components/Layout';
+import { useEffect, useMemo, useState } from 'react';
 import useGeo from 'lib/useGeo';
 import { useLazyQuery, gql } from '@apollo/client';
 import PlaceListView from 'components/PlaceListView';
@@ -9,10 +8,23 @@ import { AppDispatchProvider, AppStateProvider } from 'components/Context';
 import isScrollatBottom from 'utils/isScrollatBottom';
 import useBodyOverflow from 'lib/useBodyOverflow';
 import { Loader } from '@progress/kendo-react-indicators';
+import PlacesContainer from 'components/PlacesContainer';
+import useQueryParams from 'lib/useQueryParams';
+import extractVariables from 'utils/extractVariables';
 
 const GET_PLACES = gql`
-  query GetPlaces($coordinates: PlaceInput, $pagetoken: String = "") {
-    places(coordinates: $coordinates, pagetoken: $pagetoken) {
+  query GetPlaces(
+    $coordinates: PlaceInput
+    $pagetoken: String = ""
+    $keyword: String
+    $opennow: Boolean
+  ) {
+    places(
+      coordinates: $coordinates
+      keyword: $keyword
+      opennow: $opennow
+      pagetoken: $pagetoken
+    ) {
       places {
         name
         place_id
@@ -46,7 +58,8 @@ export default function Places() {
   ] = useLazyQuery(GET_PLACES, {
     notifyOnNetworkStatusChange: true,
   });
-  const el = useRef<HTMLDivElement>(null);
+  const params = useQueryParams();
+
   useBodyOverflow(open);
 
   const dispatchContext = useMemo(
@@ -67,22 +80,25 @@ export default function Places() {
 
   useEffect(() => {
     if (coords.lat || coords.lng) {
+      const variables = extractVariables(params);
       getPlaces({
         variables: {
-          coordinates: { lat: coords.lat, lng: coords.lng },
-          // coordinates: { lat: 40.73061, lng: -73.935242 },
+          // coordinates: { lat: coords.lat, lng: coords.lng },
+          coordinates: { lat: 40.73061, lng: -73.935242 },
+          ...variables,
         },
       });
     }
-  }, [coords.lat, coords.lng, getPlaces]);
-  // if () return <p>Loading ...</p>;
+  }, [coords.lat, coords.lng, getPlaces, params]);
+
   if (error) return <p>Error</p>;
 
   const {
     places: { places, next_page_token },
   } = data || { places: {} };
+
   const scrollHandler = (event: any) => {
-    if (isScrollatBottom(event.nativeEvent) && next_page_token) {
+    if (isScrollatBottom(event.nativeEvent) && next_page_token && !loading) {
       fetchMore?.({
         variables: {
           pagetoken: next_page_token,
@@ -92,22 +108,21 @@ export default function Places() {
   };
   const placeholder = Array(6).fill(1);
   return (
-    <Layout className="p-0 h-100" fluid>
+    <PlacesContainer>
       <div
         style={{
           position: 'absolute',
           bottom: 0,
-          top: 80,
+          top: 0,
           width: '100%',
         }}
         className="row no-gutters"
       >
         <div
-          className={`col-lg-4  position-relative h-100  ${
+          className={`col-lg-4 col-md-6  position-relative h-100 border-right  ${
             open ? '' : 'overflow-auto '
           }`}
           onScroll={scrollHandler}
-          ref={el}
         >
           <AppDispatchProvider context={dispatchContext}>
             <PlaceListView
@@ -122,12 +137,12 @@ export default function Places() {
           </AppDispatchProvider>
           {open ? <PlaceDetails id={placeId} setWindow={setWindow} /> : null}
         </div>
-        <div className="col-lg-8 h-100">
+        <div className="col-lg-8 col-md-6 d-none d-md-block h-100">
           <AppStateProvider context={appStateContext}>
             <PlaceMap data={places || []} />
           </AppStateProvider>
         </div>
       </div>
-    </Layout>
+    </PlacesContainer>
   );
 }

@@ -21,28 +21,37 @@ const resolvers = {
   Query: {
     places: async (
       _,
-      { coordinates: { lat, lng }, pagetoken = null },
+      {
+        coordinates: { lat, lng },
+        pagetoken = null,
+        keyword = 'indoor outdoor dining',
+        opennow = true,
+      },
       { mapClient }
     ) => {
       const params = {
         key,
         location: `${lat},${lng}`,
-        keyword: 'indoor dinning',
+        keyword,
         rankby: 'distance',
+        opennow,
       };
 
       if (pagetoken) {
         (params as any).pagetoken = pagetoken;
       }
 
-      const places = await mapClient.placesNearby({
-        params,
-      });
-
-      return {
-        places: places.data.results,
-        next_page_token: places.data.next_page_token,
-      };
+      try {
+        const places = await mapClient.placesNearby({
+          params,
+        });
+        return {
+          places: places.data.results,
+          next_page_token: places.data.next_page_token,
+        };
+      } catch (error) {
+        return error;
+      }
     },
     place: async (_, { placeId }, { mapClient }) => {
       const place = await mapClient.placeDetails({
