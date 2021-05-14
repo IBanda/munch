@@ -1,4 +1,5 @@
 $secondary: #f3f6f8;
+$primary: #28a745;
 
 @import '~@progress/kendo-theme-bootstrap/dist/all.scss';
 @import '~bootstrap/scss/bootstrap.scss';
@@ -10,6 +11,7 @@ html,
 body,
 #root {
   height: 100%;
+  font-family: 'Montserrat', sans-serif;
 }
 body {
   margin: 0;
@@ -358,4 +360,59 @@ form {
 
 .min-h-100 {
   min-height: 100%;
+}
+
+.m__filter-dropdowns {
+  .k-dropdown {
+    &-wrap {
+      background-color: #fff !important;
+      border: 1px solid #d3dee5;
+    }
+  }
+}
+
+/*
+* Drawer
+*/
+
+.m__drawer-container {
+  &.k-drawer {
+    &-container {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      top: 130px;
+      .k-drawer {
+        position: absolute;
+        height: 100%;
+        display: none;
+        z-index: 100000;
+        &-content {
+          position: relative;
+          height: 100%;
+        }
+        &-wrapper {
+          height: 100%;
+        }
+      }
+      &.expanded {
+        .k-drawer {
+          display: unset;
+        }
+      }
+    }
+  }
+}
+
+.k-drawer-item {
+  &,
+  &:hover {
+    background-color: #fff !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+}
+
+.k-list-container {
+  z-index: 100000;
 }
