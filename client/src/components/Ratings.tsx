@@ -80,7 +80,9 @@ export default function Ratings({ placeId }: Props) {
     <div className=" mb-4 rounded">
       <div className="d-flex align-items-center">
         {averageRating ? (
-          <h1 className="mr-2 text-muted">{averageRating.toPrecision(2)}</h1>
+          <h1 className="mr-2 text-muted mb-0">
+            {averageRating.toPrecision(2)}
+          </h1>
         ) : null}
         <Rating value={averageRating} precision="half" readonly />
         <span>

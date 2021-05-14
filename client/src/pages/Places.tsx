@@ -97,6 +97,7 @@ export default function Places() {
     places: { places, next_page_token },
   } = data || { places: {} };
 
+  console.log(next_page_token);
   const scrollHandler = (event: any) => {
     if (isScrollatBottom(event.nativeEvent) && next_page_token && !loading) {
       fetchMore?.({

@@ -47,7 +47,6 @@ export default function ReviewEditor({ placeId }: Props) {
             const place = { ...copy[index] };
             place.ratings = updateRating(place.ratings, review.rating);
             copy[index] = place;
-            console.log(copy);
             return {
               next_page_token: existing.next_page_token,
               places: copy,

@@ -61,7 +61,7 @@ const apolloClient = new ApolloClient({
             },
           },
           places: {
-            keyArgs: ['coordinates'],
+            keyArgs: ['coordinates', 'keyword', 'opennow'],
             read(existing) {
               return existing;
             },

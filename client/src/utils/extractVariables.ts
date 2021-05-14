@@ -4,7 +4,7 @@ export default function extractVariables(params: URLSearchParams) {
   for (const v of possibleVariables) {
     if (params.has(v)) {
       if (v !== 'open') {
-        variables.keyword += params.get(v);
+        variables.keyword += `${params.get(v)} `;
       } else {
         variables.open = params.get(v) === 'true' ? true : false;
       }

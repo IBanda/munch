@@ -112,13 +112,12 @@ export default function ReviewList({ placeId }: Props) {
     });
   }, [placeId, subscribeToMore]);
 
-  console.log(reviews);
   if (error) return <p>Error</p>;
 
   return (
     <SimpleBar
       scrollableNodeProps={{ ref: scrollBarRef }}
-      className="m__listview-reviews shadow rounded mb-4"
+      className="m__listview-reviews shadow rounded "
     >
       <ListView item={RenderItem} data={reviews} className="rounded" />
       {loading && networkStatus === 3 && (

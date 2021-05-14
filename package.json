@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "precommit:client":"cd client && yarn precommit",
-    "precommit:server":"cd server && yarn precommit",
-    "precommit":"npm-run-all precommit:client precommit:server"
+    "precommit:client": "cd client && yarn precommit",
+    "precommit:server": "cd server && yarn precommit",
+    "precommit": "npm-run-all precommit:client precommit:server"
   },
   "author": "Ian Banda",
   "license": "ISC",

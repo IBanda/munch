@@ -24,7 +24,7 @@ const resolvers = {
       {
         coordinates: { lat, lng },
         pagetoken = null,
-        keyword = 'indoor outdoor dining',
+        keyword = 'indoor outdoor dining ',
         opennow = true,
       },
       { mapClient }
@@ -32,7 +32,7 @@ const resolvers = {
       const params = {
         key,
         location: `${lat},${lng}`,
-        keyword,
+        keyword: keyword + 'restaurant',
         rankby: 'distance',
         opennow,
       };
