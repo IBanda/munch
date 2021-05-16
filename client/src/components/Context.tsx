@@ -1,12 +1,28 @@
 import React, { createContext, Dispatch, useContext } from 'react';
+import { ModalDisatch } from './Modal';
 
 interface Context {
   id?: string;
   setId?: Dispatch<React.SetStateAction<string>>;
   setWindow?: Dispatch<React.SetStateAction<{ open: boolean; id: string }>>;
 }
+
+interface AuthFormControlInterface extends ModalDisatch {
+  form: 'signup' | 'login';
+  setForm: Dispatch<React.SetStateAction<'login' | 'signup'>>;
+  modal: 'hidden' | 'visible';
+}
+
+interface UploadContext {
+  (id: string): void;
+}
+
 const AppState = createContext<Context | null>(null);
 const AppDispatch = createContext<Context | null>(null);
+export const UploadState = createContext<UploadContext | null>(null);
+export const AuthFormControl = createContext<AuthFormControlInterface | null>(
+  null
+);
 
 interface Props {
   children: React.ReactNode;
@@ -38,8 +54,12 @@ export function useDispatch() {
   return context;
 }
 
-interface UploadContext {
-  (id: string): void;
+export function useAuthFormControls() {
+  const context = useContext(AuthFormControl);
+  if (!context) {
+    throw new Error(
+      'useAuthFormControls should only be used in AuthFormControl'
+    );
+  }
+  return context;
 }
-
-export const UploadState = createContext<UploadContext | null>(null);
