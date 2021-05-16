@@ -1,9 +1,9 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, Dispatch, useContext } from 'react';
 
 interface Context {
   id?: string;
-  setId?: React.SetStateAction<any>;
-  setWindow?: React.SetStateAction<any>;
+  setId?: Dispatch<React.SetStateAction<string>>;
+  setWindow?: Dispatch<React.SetStateAction<{ open: boolean; id: string }>>;
 }
 const AppState = createContext<Context | null>(null);
 const AppDispatch = createContext<Context | null>(null);

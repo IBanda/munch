@@ -78,11 +78,11 @@ export default function Ratings({ placeId }: Props) {
 
   return totalNumofRatings ? (
     <div className=" mb-4 rounded">
-      <div className="d-flex align-items-center">
+      <div className="d-flex align-items-center flex-wrap mb-2">
         {averageRating ? (
-          <h1 className="mr-2 text-muted mb-0">
+          <h3 className="mr-2 text-muted mb-0">
             {averageRating.toPrecision(2)}
-          </h1>
+          </h3>
         ) : null}
         <Rating value={averageRating} precision="half" readonly />
         <span>
@@ -123,7 +123,7 @@ function RatingsBar({ rating, total, percent }: RatingBarProps) {
         label={(props) => <span>{props.value ? `${props.value}%` : ''}</span>}
       />
       <span className="ml-2">
-        <small>{total || ''}</small>
+        <small>{total}</small>
       </span>
     </div>
   );

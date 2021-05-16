@@ -14,6 +14,7 @@ const wsLink = new WebSocketLink({
 
 const httpLink = createUploadLink({
   uri: 'http://localhost:4000/graphql',
+  credentials: 'include',
 });
 
 const link = split(

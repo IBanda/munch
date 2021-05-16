@@ -11,6 +11,7 @@ import session from 'express-session';
 import mongoDBSession from 'connect-mongodb-session';
 import mapClient from './lib/mapClient';
 import mocks from './utils/mocks';
+import cors from 'cors';
 import { graphqlUploadExpress } from 'graphql-upload';
 
 export default async function apolloExpressServer() {
@@ -29,17 +30,29 @@ export default async function apolloExpressServer() {
     subscriptions: {
       path: '/subscriptions',
     },
-    context: ({ req }) => ({
-      mapClient,
-      models: {
-        User,
-        Review,
-      },
-      req,
-    }),
+    context: ({ req, res }) => {
+      if (req) {
+        res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+      }
+
+      return {
+        mapClient,
+        models: {
+          User,
+          Review,
+        },
+        req,
+      };
+    },
     mocks: process.env.MOCK ? mocks : false,
   });
   await server.start();
+  app.use(
+    cors({
+      origin: 'http://localhost:3000',
+      credentials: true,
+    })
+  );
 
   app.use(
     session({

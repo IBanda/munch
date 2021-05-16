@@ -24,7 +24,7 @@ export default function ImageGrid({ images, name }: Props) {
     <div className="row no-gutters">
       {!hasImages ? (
         <>
-          <div className={`position-relative col-lg-5 m__img-grid-wrapper`}>
+          <div className={`position-relative col-5 m__img-grid-wrapper`}>
             <Image
               src={`data:image/png;base64,${images?.[0].photo_reference}`}
               // src={images?.[0]}
@@ -33,7 +33,7 @@ export default function ImageGrid({ images, name }: Props) {
               className="m__img-grid"
             />
           </div>
-          <div className="col-lg-7">
+          <div className="col-7">
             <div className="row no-gutters">
               {images.slice(1).map((image, indx) => (
                 <div
@@ -66,7 +66,7 @@ export default function ImageGrid({ images, name }: Props) {
 }
 
 function indexer(index: number) {
-  if (index === 1 || index === 2) return 'col-lg-6';
-  if (index >= 3 && index <= 5) return 'col-lg-4';
+  if (index === 1 || index === 2) return 'col-6';
+  if (index >= 3 && index <= 5) return 'col-4';
   return 'd-none';
 }

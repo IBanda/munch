@@ -7,6 +7,7 @@ const pbkdf2 = util.promisify(crypto.pbkdf2);
 interface User extends Document {
   name: string;
   email: string;
+  profilePic: string;
   salt: string;
   hash: string;
   signingkey: string;
@@ -17,7 +18,7 @@ interface User extends Document {
 const UserSchema: Schema = new Schema({
   name: String,
   email: { type: String, unique: true },
-  password: String,
+  profilePic: String,
   salt: String,
   hash: String,
   signingkey: String,

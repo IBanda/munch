@@ -9,7 +9,7 @@ interface Props {
 export default function Reviews({ placeId }: Props) {
   return (
     <div className="m__details-reviews">
-      <h2 className="font-weight-bold my-4 m__details-reviews-title">
+      <h2 className="font-weight-bold my-2 m__details-reviews-title">
         Customer Reviews
       </h2>
       <Ratings placeId={placeId} />

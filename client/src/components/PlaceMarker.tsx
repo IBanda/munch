@@ -1,4 +1,4 @@
-import { memo, useRef, useState } from 'react';
+import { Dispatch, memo, useRef, useState } from 'react';
 import { SvgIcon } from '@progress/kendo-react-common';
 import { useAppState } from './Context';
 import { Tooltip } from '@progress/kendo-react-tooltip';
@@ -9,7 +9,7 @@ interface MarkerProps {
   id: string;
   name: string;
   open: boolean | null;
-  setWindow?: React.SetStateAction<any>;
+  setWindow?: Dispatch<React.SetStateAction<{ open: boolean; id: string }>>;
   lat?: number;
   lng?: number;
 }
@@ -30,7 +30,7 @@ function Marker({ openTooltip, name, open, setWindow, id }: MarkerProps) {
     >
       <div
         ref={marker}
-        onClick={() => setWindow({ open: true, id })}
+        onClick={() => setWindow?.({ open: true, id })}
         onMouseOver={() => setTooltipState(true)}
         onMouseOut={() => setTooltipState(false)}
         title={name}

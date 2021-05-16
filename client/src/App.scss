@@ -417,3 +417,53 @@ form {
 .k-list-container {
   z-index: 100000;
 }
+
+/*
+* Modal
+*/
+
+.m__modal {
+  z-index: 10004;
+  .k-window-titlebar {
+    padding: 0 0.45em;
+    .k-button {
+      &::before,
+      &::after {
+        background-color: #fff !important;
+        box-shadow: none !important;
+        outline: none !important;
+        &:hover {
+          background-color: #fff !important;
+        }
+      }
+    }
+  }
+}
+
+/*
+* Overlay
+*/
+.m__overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10003;
+}
+
+.m__avatar-img {
+  max-width: 2em;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.k-overlay {
+  z-index: 10003;
+}

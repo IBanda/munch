@@ -81,7 +81,7 @@ function Details({ error, loading, data }: DetailsProps) {
   const hide = place?.opening_hours?.open_now == null;
 
   return (
-    <div className="container m__details">
+    <div className="container m__details p-0">
       <ImageGrid images={place?.photos} name={place?.name} />
       <div className="mt-2 d-flex align-items-center">
         <h2 className="font-weight-bold mt-2 m__details-name">{place.name}</h2>

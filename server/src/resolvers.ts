@@ -21,12 +21,7 @@ const resolvers = {
   Query: {
     places: async (
       _,
-      {
-        coordinates: { lat, lng },
-        pagetoken = null,
-        keyword = 'indoor outdoor dining ',
-        opennow = true,
-      },
+      { coordinates: { lat, lng }, pagetoken = null, keyword = '' },
       { mapClient }
     ) => {
       const params = {
@@ -34,7 +29,6 @@ const resolvers = {
         location: `${lat},${lng}`,
         keyword: keyword + 'restaurant',
         rankby: 'distance',
-        opennow,
       };
 
       if (pagetoken) {
@@ -77,6 +71,17 @@ const resolvers = {
       const ratings = getRatings(placeId);
       return { placeId, ratings };
     },
+    getUser: async (_, __, { req, models }) => {
+      const id = req.session.user;
+      if (!id) return null;
+      const user = await models.User.findOne({ _id: id });
+      return {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        profilePic: user.profilePic,
+      };
+    },
   },
   Photo: {
     photo_reference: async (parent, _, { mapClient }) => {
@@ -97,19 +102,35 @@ const resolvers = {
     },
   },
   Mutation: {
-    signup: async (_, { user: { email, name, password } }, { models, req }) => {
+    signup: async (
+      _,
+      { user: { email, name, password, profilePic } },
+      { models, req }
+    ) => {
       const doesUserExist = await models.User.exists({ email });
       if (doesUserExist)
         throw new UserInputError('User with this email already exists');
 
-      const user = new models.User({ email, name });
+      let imgUrl;
+      if (profilePic) {
+        const path = join(tmpdir(), profilePic.file.filename);
+        await pipeline(
+          profilePic.file.createReadStream(),
+          fs.createWriteStream(path)
+        );
+        imgUrl = await uploadImage('prfpics-' + profilePic.file.filename, path);
+      }
+
+      const user = new models.User({ email, name, profilePic: imgUrl });
       await user.pHash(password);
       const newUser = await user.save();
       req.session.user = newUser.id;
+
       return {
         id: newUser._id,
         name: newUser.name,
         email: newUser.email,
+        profilePic: newUser.profilePic,
       };
     },
     signin: async (_, { user: { email, password } }, { models, req }) => {
@@ -127,6 +148,7 @@ const resolvers = {
         id: user._id,
         name: user.name,
         email: user.email,
+        profilePic: user.profilePic,
       };
     },
     postReview: async (_, { review, files }, { models }) => {
@@ -166,6 +188,9 @@ const resolvers = {
     deleteReview: async (_, { id }, { models }) => {
       const review = await models.Review.findOneAndDelete({ _id: id });
       return review._id;
+    },
+    logout: async (_, __, { req }) => {
+      await req.session.destroy();
     },
   },
   Subscription: {

@@ -7,14 +7,11 @@ import {
   RatingChangeEvent,
 } from '@progress/kendo-react-inputs';
 import { Loader } from '@progress/kendo-react-indicators';
-import {
-  Upload,
-  UploadFileInfo,
-  UploadOnAddEvent,
-} from '@progress/kendo-react-upload';
-import UploadListItem from './UploadListItem';
-import { UploadState } from './Context';
+import { UploadFileInfo, UploadOnAddEvent } from '@progress/kendo-react-upload';
 import updateRating from 'utils/updateRating';
+import ImageUpload from './ImageUpload';
+import useUser from './AuthProvider';
+import Login from './Login';
 
 const POST_REVIEW = gql`
   mutation PostReview($review: ReviewInput, $files: [Upload]) {
@@ -32,6 +29,7 @@ interface Props {
 }
 
 export default function ReviewEditor({ placeId }: Props) {
+  const { user } = useUser();
   const [value, setValue] = useState('');
   const [rating, setRating] = useState(0);
   const [files, setFiles] = useState<Array<UploadFileInfo>>([]);
@@ -66,7 +64,7 @@ export default function ReviewEditor({ placeId }: Props) {
           review: value,
           placeId,
           rating,
-          user: '609b9bde25e9f52edc0652aa',
+          user: user?.id,
         },
         files: rawFiles,
       },
@@ -87,7 +85,7 @@ export default function ReviewEditor({ placeId }: Props) {
   const handleChange = (e: RatingChangeEvent) => {
     setRating(e.value);
   };
-  return (
+  return user ? (
     <form onSubmit={onPostReview}>
       <div>
         <Rating
@@ -106,21 +104,12 @@ export default function ReviewEditor({ placeId }: Props) {
         }}
         className="w-100 bg-secondary m__editor"
       />
-      <UploadState.Provider value={removeFile}>
-        <Upload
-          files={files}
-          onAdd={onAdd}
-          listItemUI={UploadListItem}
-          multiple={true}
-          withCredentials={false}
-          autoUpload={false}
-          showActionButtons={false}
-          restrictions={{
-            allowedExtensions: ['.png', '.jpg'],
-            maxFileSize: 250000,
-          }}
-        />
-      </UploadState.Provider>
+      <ImageUpload
+        files={files}
+        onAdd={onAdd}
+        multiple={true}
+        removeFile={removeFile}
+      />
       <small className="text-muted">Upload a maximum of 3 images</small>
       <div className="text-right">
         <Button
@@ -133,5 +122,22 @@ export default function ReviewEditor({ placeId }: Props) {
         </Button>
       </div>
     </form>
+  ) : (
+    <div className="d-flex align-items-center mt-2">
+      <SignInBtn />
+    </div>
+  );
+}
+
+function SignInBtn() {
+  const [modal, setModal] = useState<'hidden' | 'visible'>('hidden');
+  return (
+    <>
+      <Button primary={true} className="btn-sm mr-1">
+        Sign in
+      </Button>
+      <span>to post a review</span>
+      {modal === 'visible' ? <Login setModal={setModal} /> : null}
+    </>
   );
 }

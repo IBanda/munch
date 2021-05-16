@@ -4,6 +4,7 @@ const typeDefs = gql`
   type User {
     id: ID!
     name: String
+    profilePic: String
     email: String
   }
 
@@ -46,6 +47,7 @@ const typeDefs = gql`
   input UserInput {
     email: String
     name: String
+    profilePic: Upload
     password: String
   }
 
@@ -101,11 +103,11 @@ const typeDefs = gql`
       coordinates: PlaceInput
       pagetoken: String
       keyword: String
-      opennow: Boolean
     ): PlacesResult
     place(placeId: ID!): Place
     reviews(placeId: ID!, limit: Int, offset: Int): ReviewsResult
     ratings(placeId: ID!): RatingsResult
+    getUser: User
   }
 
   type Mutation {
@@ -114,6 +116,7 @@ const typeDefs = gql`
     postReview(review: ReviewInput, files: [Upload]): Review
     deleteReview(id: ID!): ID
     editReview(review: String!, id: ID!): Review
+    logout: String
   }
 
   type Subscription {

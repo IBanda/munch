@@ -9,6 +9,7 @@ import { Review } from 'lib/interface';
 import isScrollatBottom from 'utils/isScrollatBottom';
 import AppLoader from './AppLoader';
 import { useQuery, gql } from '@apollo/client';
+import { Avatar } from '@progress/kendo-react-layout';
 
 const GET_REVIEWS = gql`
   query GetReviews($placeId: ID!, $offset: Int = 0) {
@@ -19,6 +20,7 @@ const GET_REVIEWS = gql`
         user {
           id
           name
+          profilePic
         }
         rating
         created_on
@@ -37,6 +39,7 @@ const GET_REVIEW = gql`
       user {
         id
         name
+        profilePic
       }
       rating
       created_on
@@ -95,7 +98,7 @@ export default function ReviewList({ placeId }: Props) {
       scrollBarRef.current.onscroll = scrollHandler;
     }
   }, [scrollHandler]);
-
+  console.log(reviews);
   useEffect(() => {
     subscribeToMore({
       document: GET_REVIEW,
@@ -137,13 +140,19 @@ function RenderItem(props: any) {
     >
       <div className="d-flex flex-column">
         <div className="d-flex align-items-center">
-          <div
-            style={{ width: 30, height: 30 }}
-            className="mr-2 rounded-circle bg-primary text-white text-uppercase d-flex align-items-center justify-content-center"
-          >
-            {item?.user?.name[0]}
-          </div>
-          <span className="m__details-reviews-name">
+          <Avatar shape="circle">
+            {item?.user.profilePic ? (
+              <img
+                className="m__avatar-img "
+                src={item?.user.profilePic}
+                alt={item?.user.name}
+              />
+            ) : (
+              item?.user.name?.[0].toUpperCase()
+            )}
+          </Avatar>
+
+          <span className="m__details-reviews-name ml-2">
             <strong>{item?.user?.name}</strong>
           </span>
         </div>

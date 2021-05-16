@@ -17,12 +17,10 @@ const GET_PLACES = gql`
     $coordinates: PlaceInput
     $pagetoken: String = ""
     $keyword: String
-    $opennow: Boolean
   ) {
     places(
       coordinates: $coordinates
       keyword: $keyword
-      opennow: $opennow
       pagetoken: $pagetoken
     ) {
       places {
@@ -97,7 +95,6 @@ export default function Places() {
     places: { places, next_page_token },
   } = data || { places: {} };
 
-  console.log(next_page_token);
   const scrollHandler = (event: any) => {
     if (isScrollatBottom(event.nativeEvent) && next_page_token && !loading) {
       fetchMore?.({
@@ -120,7 +117,7 @@ export default function Places() {
         className="row no-gutters"
       >
         <div
-          className={`col-lg-4 col-md-6  position-relative h-100 border-right  ${
+          className={`col-xl-4 col-md-6  position-relative h-100 border-right  ${
             open ? '' : 'overflow-auto '
           }`}
           onScroll={scrollHandler}
@@ -138,7 +135,7 @@ export default function Places() {
           </AppDispatchProvider>
           {open ? <PlaceDetails id={placeId} setWindow={setWindow} /> : null}
         </div>
-        <div className="col-lg-8 col-md-6 d-none d-md-block h-100">
+        <div className="col-xl-8 col-md-6 d-none d-md-block h-100">
           <AppStateProvider context={appStateContext}>
             <PlaceMap data={places || []} />
           </AppStateProvider>

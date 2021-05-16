@@ -1,10 +1,10 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { Button } from '@progress/kendo-react-buttons';
 import {
   DropDownList,
   DropDownListChangeEvent,
 } from '@progress/kendo-react-dropdowns';
-import { Checkbox, Input } from '@progress/kendo-react-inputs';
+import { Input } from '@progress/kendo-react-inputs';
 import { DrawerItem, DrawerItemProps } from '@progress/kendo-react-layout';
 import cuisines from '../cusine.json';
 import { useHistory } from 'react-router-dom';
@@ -19,18 +19,15 @@ function getInitialState(params: URLSearchParams, key: string) {
 
 export default function Filters(props: DrawerItemProps) {
   const params = useQueryParams();
-  const [text, setText] = useState(getInitialState(params, 'keyword'));
-  const [cuisine, setCuisine] = useState(getInitialState(params, 'cuisine'));
-  const [dining, setDinningOptions] = useState(
-    getInitialState(params, 'dining')
-  );
-  const [open, setOpen] = useState(() => {
-    const init = getInitialState(params, 'open');
-    if (init) {
-      return init === 'true' ? true : false;
-    }
-    return true;
-  });
+  const [text, setText] = useState('');
+  const [cuisine, setCuisine] = useState('');
+  const [dining, setDinningOptions] = useState('');
+
+  useEffect(() => {
+    setText(getInitialState(params, 'keyword'));
+    setCuisine(getInitialState(params, 'cuisine'));
+    setDinningOptions(getInitialState(params, 'dining'));
+  }, [params]);
 
   const history = useHistory();
   const onSearch = (event: FormEvent) => {
@@ -39,7 +36,6 @@ export default function Filters(props: DrawerItemProps) {
       keyword: text,
       cuisine,
       dining,
-      open,
     };
     history.push(
       `/?${qs.stringify(params, { skipEmptyString: true, skipNull: true })}`
@@ -71,14 +67,6 @@ export default function Filters(props: DrawerItemProps) {
           data={diningOptions}
           onChange={(e) => setDinningOptions(e.value)}
         />
-        <div className="mb-2">
-          <Checkbox
-            value={open}
-            onChange={(e) => setOpen(e.value)}
-            color="success"
-            label="Open now"
-          />
-        </div>
 
         <Button type="submit" className="btn-sm mt-2" primary={true}>
           Search
