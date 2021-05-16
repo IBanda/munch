@@ -35,6 +35,14 @@ header {
   width: 100%;
 }
 
+.m__landing-h1 {
+  font-weight: 900;
+  line-height: 1.5;
+  @media (min-width: 767.98px) {
+    font-size: 3.5rem;
+  }
+}
+
 .m__card-image {
   object-fit: cover;
   object-position: center;
@@ -424,6 +432,7 @@ form {
 
 .m__modal {
   z-index: 10004;
+
   .k-window-titlebar {
     padding: 0 0.45em;
     .k-button {
@@ -440,6 +449,13 @@ form {
   }
 }
 
+.m__home {
+  .m__modal {
+    @media (min-width: 1200px) {
+      left: 400px !important;
+    }
+  }
+}
 /*
 * Overlay
 */
