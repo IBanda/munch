@@ -1,16 +1,16 @@
-import { lazy, Suspense, useState } from 'react';
+import React, { Dispatch, lazy, Suspense } from 'react';
 import { Button } from '@progress/kendo-react-buttons';
 import AppLoader from './AppLoader';
 import useUser from './AuthProvider';
 import { Avatar } from '@progress/kendo-react-layout';
-
+import { Link } from 'react-router-dom';
+import { useAuthFormControls } from './Context';
 const Signup = lazy(() => import('./Signup'));
 const Login = lazy(() => import('./Login'));
 
 export default function Header() {
   const { loading, user, logout } = useUser();
-  const [modal, setModal] = useState<'hidden' | 'visible'>('hidden');
-  const [form, setForm] = useState<'signup' | 'login'>();
+  const { setModal, modal, setForm, form } = useAuthFormControls();
 
   const onOpen = (form: 'signup' | 'login') => {
     setModal('visible');
@@ -18,8 +18,10 @@ export default function Header() {
   };
 
   return (
-    <header className="d-flex justify-content-between border p-2 align-items-center">
-      <img className="logo" src="logo.jpg" alt="logo" />
+    <header className="d-flex justify-content-between  p-2 align-items-center">
+      <Link to="/">
+        <img className="logo" src="logo.jpg" alt="logo" />
+      </Link>
       {!loading ? (
         user ? (
           <div className="d-flex align-items-center">
