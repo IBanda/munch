@@ -38,7 +38,10 @@ export default function Filters(props: DrawerItemProps) {
       dining,
     };
     history.push(
-      `/?${qs.stringify(params, { skipEmptyString: true, skipNull: true })}`
+      `/places/?${qs.stringify(params, {
+        skipEmptyString: true,
+        skipNull: true,
+      })}`
     );
   };
   return (
