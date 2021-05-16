@@ -1,11 +1,20 @@
-import { BrowserRouter as Router } from 'react-router-dom';
+import Home from 'pages/Home';
+import { lazy } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.scss';
 import Places from './pages/Places';
 
 function App() {
   return (
     <Router>
-      <Places />
+      <Switch>
+        <Route path="/" exact>
+          <Home />
+        </Route>
+        <Route path="/places" exact>
+          <Places />
+        </Route>
+      </Switch>
     </Router>
   );
 }
