@@ -22,11 +22,11 @@ export default function PlacesContainer({ children }: Props) {
     <Layout className="p-0 h-100" fluid>
       <div
         style={{ height: 50 }}
-        className="border-bottom py-2 px-2 d-flex justify-content-end"
+        className="border py-2 px-2 d-flex justify-content-end"
       >
         {hasParams ? (
           <Button
-            onClick={() => history.push('/')}
+            onClick={() => history.push('/places')}
             className="btn-sm mr-2"
             icon="close"
             look="outline"

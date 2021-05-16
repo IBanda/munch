@@ -11,7 +11,7 @@ import { UploadFileInfo, UploadOnAddEvent } from '@progress/kendo-react-upload';
 import updateRating from 'utils/updateRating';
 import ImageUpload from './ImageUpload';
 import useUser from './AuthProvider';
-import Login from './Login';
+import { useAuthFormControls } from './Context';
 
 const POST_REVIEW = gql`
   mutation PostReview($review: ReviewInput, $files: [Upload]) {
@@ -29,6 +29,7 @@ interface Props {
 }
 
 export default function ReviewEditor({ placeId }: Props) {
+  const { setModal, setForm } = useAuthFormControls();
   const { user } = useUser();
   const [value, setValue] = useState('');
   const [rating, setRating] = useState(0);
@@ -85,6 +86,11 @@ export default function ReviewEditor({ placeId }: Props) {
   const handleChange = (e: RatingChangeEvent) => {
     setRating(e.value);
   };
+
+  const onSignIn = () => {
+    setModal('visible');
+    setForm('login');
+  };
   return user ? (
     <form onSubmit={onPostReview}>
       <div>
@@ -123,21 +129,11 @@ export default function ReviewEditor({ placeId }: Props) {
       </div>
     </form>
   ) : (
-    <div className="d-flex align-items-center mt-2">
-      <SignInBtn />
-    </div>
-  );
-}
-
-function SignInBtn() {
-  const [modal, setModal] = useState<'hidden' | 'visible'>('hidden');
-  return (
-    <>
-      <Button primary={true} className="btn-sm mr-1">
+    <div className="d-flex align-items-center mt-4">
+      <Button onClick={onSignIn} primary={true} className="btn-sm mr-1">
         Sign in
       </Button>
       <span>to post a review</span>
-      {modal === 'visible' ? <Login setModal={setModal} /> : null}
-    </>
+    </div>
   );
 }
