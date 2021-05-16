@@ -141,14 +141,14 @@ function RenderItem(props: any) {
       <div className="d-flex flex-column">
         <div className="d-flex align-items-center">
           <Avatar shape="circle">
-            {item?.user.profilePic ? (
+            {item?.user?.profilePic ? (
               <img
                 className="m__avatar-img "
-                src={item?.user.profilePic}
-                alt={item?.user.name}
+                src={item?.user?.profilePic}
+                alt={item?.user?.name}
               />
             ) : (
-              item?.user.name?.[0].toUpperCase()
+              item?.user?.name?.[0].toUpperCase()
             )}
           </Avatar>
 
