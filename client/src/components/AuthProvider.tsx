@@ -28,7 +28,7 @@ const LOGOUT = gql`
   }
 `;
 
-const UserContext = createContext<ContextInterface | null>(null);
+const AuthContext = createContext<ContextInterface | null>(null);
 
 export function AuthProvider({ children }: Props) {
   const { data, loading } = useQuery(GET_USER);
@@ -46,14 +46,14 @@ export function AuthProvider({ children }: Props) {
 
   const user = data?.user;
   return (
-    <UserContext.Provider value={{ user, loading, logout }}>
+    <AuthContext.Provider value={{ user, loading, logout }}>
       {children}
-    </UserContext.Provider>
+    </AuthContext.Provider>
   );
 }
 
 export default function useUser() {
-  const context = useContext(UserContext);
+  const context = useContext(AuthContext);
   if (!context) {
     throw new Error('useUser can only be used withing the AuthProvider');
   }
