@@ -54,9 +54,11 @@ const apolloClient = new ApolloClient({
                   key: 'id',
                 });
               }
-
+              console.log(existing);
+              console.log(incoming);
+              console.log(merged);
               return {
-                hasMore: incoming.hasMore || existing.hasMore,
+                hasMore: incoming.hasMore ?? existing.hasMore,
                 reviews: merged,
               };
             },
