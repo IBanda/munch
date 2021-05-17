@@ -108,8 +108,7 @@ const resolvers = {
       { models, req }
     ) => {
       const doesUserExist = await models.User.exists({ email });
-      if (doesUserExist)
-        throw new UserInputError('User with this email already exists');
+      if (doesUserExist) throw new UserInputError('Email already exists');
 
       let imgUrl;
       if (profilePic) {
@@ -139,10 +138,7 @@ const resolvers = {
         throw new UserInputError('User with this email does not exist');
 
       const isValidPassword = await user.compare(password);
-      if (!isValidPassword)
-        throw new ForbiddenError(
-          'The password provided does not match the user'
-        );
+      if (!isValidPassword) throw new ForbiddenError('Invalid password');
       req.session.user = user.id;
       return {
         id: user._id,
