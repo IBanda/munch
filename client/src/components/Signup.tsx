@@ -7,6 +7,7 @@ import { Label } from '@progress/kendo-react-labels';
 import { useMutation, gql } from '@apollo/client';
 import { Loader } from '@progress/kendo-react-indicators';
 import Modal, { ModalDispatch } from './Modal';
+import { Notification } from '@progress/kendo-react-notification';
 
 const SIGNUP = gql`
   mutation Signup($user: UserInput) {
@@ -42,19 +43,19 @@ export default function Signup({ setModal }: ModalDispatch) {
     setFile((prev) => prev.filter((file) => file.uid !== id));
   };
 
-  const onSubmit = (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    signup({
+    await signup({
       variables: {
         user: { name, email, password, profilePic: file[0]?.getRawFile?.() },
       },
     });
-    !loading && setModal('hidden');
+    !loading && !error && setModal('hidden');
   };
   console.log(file[0]?.getRawFile?.());
   return (
-    <Modal height={440} onClose={() => setModal('hidden')}>
-      <form onSubmit={onSubmit}>
+    <Modal height={450} onClose={() => setModal('hidden')}>
+      <form onSubmit={onSubmit} className="m__auth-form">
         <InputWithLabel
           label="Name"
           id="name"
@@ -78,10 +79,14 @@ export default function Signup({ setModal }: ModalDispatch) {
           required
         />
 
-        <Label className="mb-0 mt-4">Profile Picture</Label>
+        <Label className="mb-0 mt-2">Profile Picture</Label>
         <ImageUpload files={file} onAdd={onAdd} removeFile={removeFile} />
-
-        <Button className="w-100 mt-4 btn-sm" primary={true}>
+        {error ? (
+          <Notification className="w-100" type={{ style: 'error', icon: true }}>
+            {error?.message}
+          </Notification>
+        ) : null}
+        <Button className="w-100 mt-2 " primary={true}>
           {!loading ? 'Sign up' : <Loader />}
         </Button>
       </form>
