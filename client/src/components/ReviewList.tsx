@@ -108,7 +108,6 @@ export default function ReviewList({ placeId }: Props) {
         return {
           reviews: {
             reviews: [subscriptionData.data.review],
-            hasMore: prev.reviews.hasMore,
           },
         };
       },

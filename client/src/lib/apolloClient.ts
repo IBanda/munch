@@ -42,7 +42,7 @@ const apolloClient = new ApolloClient({
             merge(existing = { reviews: [] }, incoming, { readField }) {
               let merged;
 
-              if (existing.reviews.length && incoming.reviews.length === 1) {
+              if (incoming.hasMore == null) {
                 let existingCopy = [...existing.reviews].reverse();
                 merged = simpleMerge(existingCopy, incoming.reviews, {
                   readField,
@@ -56,7 +56,7 @@ const apolloClient = new ApolloClient({
               }
 
               return {
-                hasMore: incoming.hasMore,
+                hasMore: incoming.hasMore || existing.hasMore,
                 reviews: merged,
               };
             },
