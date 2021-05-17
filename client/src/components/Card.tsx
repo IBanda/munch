@@ -39,7 +39,9 @@ export default function PlaceCard({ place }: Props) {
             )}
             <Rating value={averageRating} precision="half" readonly />
             <span>
-              <small>{totalNumofRatings || 'No'} Ratings</small>
+              <small>{`${
+                totalNumofRatings ? totalNumofRatings + ' Rating(s)' : ''
+              }`}</small>
             </span>
           </div>
           <div className="d-flex align-items-center w-100">
