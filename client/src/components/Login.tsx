@@ -1,10 +1,10 @@
 import { Button } from '@progress/kendo-react-buttons';
-import { Error } from '@progress/kendo-react-labels';
 import { FormEvent, useState } from 'react';
 import { InputWithLabel } from './InputWithLabel';
 import Modal, { ModalDispatch } from './Modal';
 import { useMutation, gql } from '@apollo/client';
 import { Loader } from '@progress/kendo-react-indicators';
+import { Notification } from '@progress/kendo-react-notification';
 
 const SIGNIN = gql`
   mutation Signin($user: UserInput) {
@@ -32,9 +32,9 @@ export default function Login({ setModal }: ModalDispatch) {
     },
   });
 
-  const onSubmit = (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    login({
+    await login({
       variables: {
         user: {
           email,
@@ -42,11 +42,13 @@ export default function Login({ setModal }: ModalDispatch) {
         },
       },
     });
-    !loading && setModal('hidden');
+    if (!loading && !error) {
+      setModal('hidden');
+    }
   };
   return (
-    <Modal onClose={() => setModal('hidden')}>
-      <form onSubmit={onSubmit}>
+    <Modal height={320} onClose={() => setModal('hidden')}>
+      <form onSubmit={onSubmit} className="m__auth-form">
         <InputWithLabel
           type="email"
           value={email}
@@ -55,7 +57,6 @@ export default function Login({ setModal }: ModalDispatch) {
           onChange={(e) => setEmail(e.value)}
           required
         />
-        <Error>Email is required</Error>
         <InputWithLabel
           type="password"
           value={password}
@@ -64,9 +65,12 @@ export default function Login({ setModal }: ModalDispatch) {
           onChange={(e) => setPassword(e.value)}
           required
         />
-        <Error>Password is required</Error>
-
-        <Button className="w-100 mt-4 btn-sm" primary={true}>
+        {error ? (
+          <Notification className="w-100" type={{ style: 'error', icon: true }}>
+            {error?.message}
+          </Notification>
+        ) : null}
+        <Button className="w-100 mt-4 " primary={true}>
           {loading ? <Loader /> : 'Sign in'}
         </Button>
       </form>
