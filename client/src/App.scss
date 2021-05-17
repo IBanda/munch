@@ -474,7 +474,7 @@ form {
 }
 
 .m__avatar-img {
-  max-width: 2em;
+  max-width: 3em;
   width: 100%;
   object-fit: cover;
   object-position: center;
@@ -482,4 +482,7 @@ form {
 
 .k-overlay {
   z-index: 10003;
+}
+.k-animation-container {
+  z-index: 10004;
 }

@@ -8,6 +8,7 @@ import ContentLoader from 'react-content-loader';
 const GET_RATINGS = gql`
   query GetRatings($placeId: ID!) {
     ratings(placeId: $placeId) {
+      placeId
       ratings
     }
   }
@@ -16,6 +17,7 @@ const GET_RATINGS = gql`
 const GET_RATING = gql`
   subscription GetRating($placeId: ID!) {
     rating: getRating(placeId: $placeId) {
+      placeId
       ratings
     }
   }
@@ -68,8 +70,8 @@ export default function Ratings({ placeId }: Props) {
         <rect x="0" y="125" rx="5" ry="5" width="300" height="15" />
       </ContentLoader>
     );
-  if (error) return <p>Error</p>;
-
+  if (error) return null;
+  console.log(data);
   const {
     ratings: { ratings },
   } = data;

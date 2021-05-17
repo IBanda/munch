@@ -19,7 +19,7 @@ export default async function apolloExpressServer() {
   const Store = mongoDBSession(session);
 
   const store = new Store({
-    uri: process.env.MONGO_URI,
+    uri: process.env.MONGO_URI as string,
     collection: 'session',
   });
 
@@ -34,7 +34,6 @@ export default async function apolloExpressServer() {
       if (req) {
         res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
       }
-
       return {
         mapClient,
         models: {
@@ -56,7 +55,7 @@ export default async function apolloExpressServer() {
 
   app.use(
     session({
-      secret: process.env.COOKIE_SECRET,
+      secret: process.env.COOKIE_SECRET as string,
       resave: false,
       saveUninitialized: false,
       store,

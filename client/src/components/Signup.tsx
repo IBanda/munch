@@ -6,7 +6,7 @@ import { Button } from '@progress/kendo-react-buttons';
 import { Label } from '@progress/kendo-react-labels';
 import { useMutation, gql } from '@apollo/client';
 import { Loader } from '@progress/kendo-react-indicators';
-import Modal, { ModalDisatch } from './Modal';
+import Modal, { ModalDispatch } from './Modal';
 
 const SIGNUP = gql`
   mutation Signup($user: UserInput) {
@@ -18,7 +18,7 @@ const SIGNUP = gql`
   }
 `;
 
-export default function Signup({ setModal }: ModalDisatch) {
+export default function Signup({ setModal }: ModalDispatch) {
   const [signup, { loading, error }] = useMutation(SIGNUP, {
     update(cache, { data: { signup } }) {
       cache.modify({

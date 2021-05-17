@@ -7,6 +7,8 @@ import Reviews from './Reviews';
 import { SvgIcon } from '@progress/kendo-react-common';
 import { globeLinkIcon } from '@progress/kendo-svg-icons';
 import AppLoader from './AppLoader';
+import AppErrorBoundary from './AppErrorBoundary';
+import { useErrorHandler } from 'react-error-boundary';
 
 const GET_PLACE = gql`
   query GetPlace($placeId: ID!) {
@@ -39,7 +41,7 @@ interface Props {
 }
 
 export default function PlaceDetails({ id, setWindow }: Props) {
-  const { data, error, loading } = useQuery(GET_PLACE, {
+  const { data, error, loading, refetch } = useQuery(GET_PLACE, {
     variables: {
       placeId: id,
     },
@@ -55,7 +57,9 @@ export default function PlaceDetails({ id, setWindow }: Props) {
       maximizeButton={() => null}
       onClose={() => setWindow({ open: false, id: '' })}
     >
-      <Details data={data} error={error} loading={loading} />
+      <AppErrorBoundary onReset={refetch}>
+        <Details data={data} error={error} loading={loading} />
+      </AppErrorBoundary>
     </Window>
   );
 }
@@ -73,8 +77,8 @@ interface DetailsProps {
 }
 
 function Details({ error, loading, data }: DetailsProps) {
+  useErrorHandler(error);
   if (loading) return <AppLoader />;
-  if (error) return <p>Error</p>;
 
   const { place } = data;
   const isOpen = place?.opening_hours?.open_now === true;

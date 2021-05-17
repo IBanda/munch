@@ -84,7 +84,9 @@ const apolloClient = new ApolloClient({
               if (incoming.ratings.length === 1) {
                 updated = updateRating(updated, incoming.ratings[0]);
               }
+
               return {
+                placeId: existing.placeId || incoming.placeId,
                 ratings: updated.length ? updated : incoming.ratings,
               };
             },

@@ -8,7 +8,7 @@ interface Props {
   width?: number;
 }
 
-export interface ModalDisatch {
+export interface ModalDispatch {
   setModal: Dispatch<React.SetStateAction<'hidden' | 'visible'>>;
 }
 

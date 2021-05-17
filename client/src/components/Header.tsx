@@ -1,4 +1,4 @@
-import React, { Dispatch, lazy, Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 import { Button } from '@progress/kendo-react-buttons';
 import AppLoader from './AppLoader';
 import useUser from './AuthProvider';
@@ -16,7 +16,7 @@ export default function Header() {
     setModal('visible');
     setForm(form);
   };
-
+  const name = user?.name?.split(' ')[0];
   return (
     <header className="d-flex justify-content-between  p-2 align-items-center">
       <Link to="/">
@@ -25,7 +25,9 @@ export default function Header() {
       {!loading ? (
         user ? (
           <div className="d-flex align-items-center">
-            <small className="mr-2 d-none d-md-block">{user?.name}</small>
+            <small className="mr-2 d-none d-md-block font-weight-bold">
+              {name}
+            </small>
             <Avatar shape="circle">
               <img
                 className="m__avatar-img"

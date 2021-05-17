@@ -1,5 +1,5 @@
 import getRatings from './utils/getRatings';
-import uploadImage from './lib/uploadImage';
+import { deleteImages, uploadImage } from './lib/s3';
 import st from 'stream';
 import { promisify } from 'util';
 import fs from 'fs';
@@ -177,16 +177,17 @@ const resolvers = {
       });
       return newReview;
     },
-    editReview: async (_, { review, id }, { models }) => {
-      const updatedReview = await models.Review.findOneAndUpdate(
-        { _id: id },
-        { review },
-        { new: true }
-      );
-      return updatedReview;
-    },
-    deleteReview: async (_, { id }, { models }) => {
-      const review = await models.Review.findOneAndDelete({ _id: id });
+    deleteReview: async (_, { id, hasImages }, { models }) => {
+      let review;
+      let images;
+      if (hasImages) {
+        review = await models.Review.findById(id);
+        images = review.images;
+      }
+      review = await models.Review.findOneAndDelete({ _id: id });
+      if (images) {
+        await deleteImages(images);
+      }
       return review._id;
     },
     logout: async (_, __, { req }) => {

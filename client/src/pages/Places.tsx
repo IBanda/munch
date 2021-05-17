@@ -11,6 +11,7 @@ import { Loader } from '@progress/kendo-react-indicators';
 import PlacesContainer from 'components/PlacesContainer';
 import useQueryParams from 'lib/useQueryParams';
 import extractVariables from 'utils/extractVariables';
+import { useErrorHandler } from 'react-error-boundary';
 
 const GET_PLACES = gql`
   query GetPlaces(
@@ -56,6 +57,8 @@ export default function Places() {
   ] = useLazyQuery(GET_PLACES, {
     notifyOnNetworkStatusChange: true,
   });
+
+  useErrorHandler(error);
   const params = useQueryParams();
 
   useBodyOverflow(open);
@@ -88,8 +91,6 @@ export default function Places() {
       });
     }
   }, [coords.lat, coords.lng, getPlaces, params]);
-
-  if (error) return <p>Error</p>;
 
   const {
     places: { places, next_page_token },

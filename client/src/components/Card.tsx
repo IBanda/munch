@@ -27,9 +27,6 @@ export default function PlaceCard({ place }: Props) {
       <CardBody className="d-flex">
         <CardImage
           src={`${photo ? `data:image/png;base64,${photo}` : '/place.png'}`}
-          // src={
-          //   'https://www.elitetraveler.com/wp-content/uploads/2007/02/Alain-Ducasse-scaled.jpg'
-          // }
           className="m__card-image rounded mr-2"
         />
         <div className="w-100">

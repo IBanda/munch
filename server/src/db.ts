@@ -9,7 +9,7 @@ export default function db() {
   return {
     connect() {
       mongoose
-        .connect(MONGO_URI, {
+        .connect(MONGO_URI as string, {
           useNewUrlParser: true,
           useUnifiedTopology: true,
           useCreateIndex: true,

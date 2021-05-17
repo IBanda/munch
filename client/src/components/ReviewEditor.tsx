@@ -12,6 +12,8 @@ import updateRating from 'utils/updateRating';
 import ImageUpload from './ImageUpload';
 import useUser from './AuthProvider';
 import { useAuthFormControls } from './Context';
+import { Fade } from '@progress/kendo-react-animation';
+import { Notification } from '@progress/kendo-react-notification';
 
 const POST_REVIEW = gql`
   mutation PostReview($review: ReviewInput, $files: [Upload]) {
@@ -92,7 +94,7 @@ export default function ReviewEditor({ placeId }: Props) {
     setForm('login');
   };
   return user ? (
-    <form onSubmit={onPostReview}>
+    <form onSubmit={onPostReview} className="mt-2">
       <div>
         <Rating
           className="m__shadow-rating"
@@ -127,6 +129,18 @@ export default function ReviewEditor({ placeId }: Props) {
           {!loading ? 'Post' : <Loader themeColor="light" />}
         </Button>
       </div>
+      {error ? (
+        <Fade>
+          <Notification
+            type={{
+              style: 'error',
+              icon: true,
+            }}
+          >
+            {error?.message}
+          </Notification>
+        </Fade>
+      ) : null}
     </form>
   ) : (
     <div className="d-flex align-items-center mt-4">

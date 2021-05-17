@@ -2136,6 +2136,14 @@
   dependencies:
     "@types/node" "*"
 
+"@types/connect-mongodb-session@^2.4.0":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@types/connect-mongodb-session/-/connect-mongodb-session-2.4.0.tgz#3fb633389e6283bcae1f917f2feb648d2e875e18"
+  integrity sha512-MJvyX17eV/V6/q9xynexbSKIbHk/gzrJ5pXDlSQ7F63NiQOUamY6BfXIaO+xtveZusdKsXOwzx7VsWUdI1byCg==
+  dependencies:
+    "@types/express-session" "*"
+    "@types/mongodb" "*"
+
 "@types/connect@*":
   version "3.4.34"
   resolved "https://registry.yarnpkg.com/@types/connect/-/connect-3.4.34.tgz#170a40223a6d666006d93ca128af2beb1d9b1901"
@@ -2177,6 +2185,13 @@
     "@types/qs" "*"
     "@types/range-parser" "*"
 
+"@types/express-session@*", "@types/express-session@^1.17.3":
+  version "1.17.3"
+  resolved "https://registry.yarnpkg.com/@types/express-session/-/express-session-1.17.3.tgz#4a37c5c4428b8f922ac8ac1cb4bd9190a4d2b097"
+  integrity sha512-57DnyxiqClXOIjoCgeKCUYfKxBPOlOY/k+l1TPK+7bSwyiPTrS5FIk1Ycql7twk4wO7P5lfOVy6akDGiaMSLfw==
+  dependencies:
+    "@types/express" "*"
+
 "@types/express@*", "@types/express@4.17.11":
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/@types/express/-/express-4.17.11.tgz#debe3caa6f8e5fcda96b47bd54e2f40c4ee59545"
@@ -2200,6 +2215,16 @@
   integrity sha512-anKkLmZZ+xm4p8JWBf4hElkM4XR+EZeA2M9BAkkTldmcyDY4mbdIJnRghDJH3Ov5ooY7/UAoENtmdMSkaAd7Cw==
   dependencies:
     "@types/node" "*"
+
+"@types/graphql-upload@^8.0.4":
+  version "8.0.4"
+  resolved "https://registry.yarnpkg.com/@types/graphql-upload/-/graphql-upload-8.0.4.tgz#23a8ffb3d2fe6e0ee07e6f16ee9d9d5e995a2f4f"
+  integrity sha512-0TRyJD2o8vbkmJF8InppFcPVcXKk+Rvlg/xvpHBIndSJYpmDWfmtx/ZAtl4f3jR2vfarpTqYgj8MZuJssSoU7Q==
+  dependencies:
+    "@types/express" "*"
+    "@types/fs-capacitor" "*"
+    "@types/koa" "*"
+    graphql "^15.3.0"
 
 "@types/http-assert@*":
   version "1.5.1"
@@ -4660,7 +4685,7 @@ graphql-upload@^12.0.0:
     isobject "^4.0.0"
     object-path "^0.11.5"
 
-graphql@^15.4.0, graphql@^15.5.0:
+graphql@^15.3.0, graphql@^15.4.0, graphql@^15.5.0:
   version "15.5.0"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-15.5.0.tgz#39d19494dbe69d1ea719915b578bf920344a69d5"
   integrity sha512-OmaM7y0kaK31NKG31q4YbD2beNYa6jBBKtMFT6gLYJljHLJr42IqJ8KX08u3Li/0ifzTU5HjmoOOrwa5BRLeDA==

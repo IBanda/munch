@@ -2,7 +2,7 @@ import { Button } from '@progress/kendo-react-buttons';
 import { Error } from '@progress/kendo-react-labels';
 import { FormEvent, useState } from 'react';
 import { InputWithLabel } from './InputWithLabel';
-import Modal, { ModalDisatch } from './Modal';
+import Modal, { ModalDispatch } from './Modal';
 import { useMutation, gql } from '@apollo/client';
 import { Loader } from '@progress/kendo-react-indicators';
 
@@ -17,7 +17,7 @@ const SIGNIN = gql`
   }
 `;
 
-export default function Login({ setModal }: ModalDisatch) {
+export default function Login({ setModal }: ModalDispatch) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [login, { loading, error }] = useMutation(SIGNIN, {

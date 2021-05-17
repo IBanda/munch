@@ -114,8 +114,7 @@ const typeDefs = gql`
     signup(user: UserInput): User
     signin(user: UserInput): User
     postReview(review: ReviewInput, files: [Upload]): Review
-    deleteReview(id: ID!): ID
-    editReview(review: String!, id: ID!): Review
+    deleteReview(id: ID!, hasImages: Boolean): ID
     logout: String
   }
 

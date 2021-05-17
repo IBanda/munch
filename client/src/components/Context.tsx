@@ -1,13 +1,13 @@
 import React, { createContext, Dispatch, useContext } from 'react';
-import { ModalDisatch } from './Modal';
+import { ModalDispatch } from './Modal';
 
 interface Context {
-  id?: string;
+  id?: string | null;
   setId?: Dispatch<React.SetStateAction<string>>;
   setWindow?: Dispatch<React.SetStateAction<{ open: boolean; id: string }>>;
 }
 
-interface AuthFormControlInterface extends ModalDisatch {
+interface AuthFormControlInterface extends ModalDispatch {
   form: 'signup' | 'login';
   setForm: Dispatch<React.SetStateAction<'login' | 'signup'>>;
   modal: 'hidden' | 'visible';
