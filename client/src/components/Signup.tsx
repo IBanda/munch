@@ -1,6 +1,6 @@
 import { FormEvent, useState } from 'react';
 import ImageUpload from './ImageUpload';
-import { InputWithLabel } from './InputWithLabel';
+import { Input } from '@progress/kendo-react-inputs';
 import { UploadFileInfo, UploadOnAddEvent } from '@progress/kendo-react-upload';
 import { Button } from '@progress/kendo-react-buttons';
 import { Label } from '@progress/kendo-react-labels';
@@ -56,26 +56,29 @@ export default function Signup({ setModal }: ModalDispatch) {
   return (
     <Modal height={450} onClose={() => setModal('hidden')}>
       <form onSubmit={onSubmit} className="m__auth-form">
-        <InputWithLabel
+        <Input
           label="Name"
           id="name"
           value={name}
           onChange={(e) => setName(e.value)}
+          valid={true}
           required
         />
-        <InputWithLabel
+        <Input
           label="Email"
           id="email"
           value={email}
           onChange={(e) => setEmail(e.value)}
+          valid={true}
           required
         />
-        <InputWithLabel
+        <Input
           label="Pasword"
           id="password"
           value={password}
           type="password"
           onChange={(e) => setPassword(e.value)}
+          valid={true}
           required
         />
 

@@ -77,14 +77,14 @@ header {
   }
   &.m__places-listview {
     .k-listview-content {
-      overflow: unset;
+      // overflow: unset;
+      height: 100%;
       padding: 0;
     }
   }
 }
 .m__listview-reviews {
   max-height: 400px;
-  overflow-y: auto;
 }
 
 /*
@@ -98,8 +98,8 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 30px;
-  width: 30px;
+  height: 20px;
+  width: 20px;
   transform: translate(-50%, -50%);
   cursor: pointer;
   &:hover {
@@ -423,7 +423,7 @@ form {
 }
 
 .k-list-container {
-  z-index: 100000;
+  z-index: 100000 !important;
 }
 
 /*
@@ -495,4 +495,11 @@ form {
   .k-notification-container {
     width: 100%;
   }
+}
+
+/*
+*
+*/
+.k-textbox-container {
+  width: 100%;
 }

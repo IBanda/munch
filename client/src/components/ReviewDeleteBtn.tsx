@@ -4,8 +4,8 @@ import { useMutation, gql } from '@apollo/client';
 import updateRating, { indexMapper } from 'utils/updateRating';
 
 const DELETE_REVIEW = gql`
-  mutation DeleteReview($id: ID!, $hasImages: Boolean) {
-    deleteReview(id: $id, hasImages: $hasImages)
+  mutation DeleteReview($id: ID!, $hasImages: Boolean, $placeId: ID!) {
+    deleteReview(id: $id, hasImages: $hasImages, placeId: $placeId)
   }
 `;
 
@@ -25,7 +25,7 @@ export default function ReviewDeleteBtn({
 }: ActionButtonProps) {
   const { user } = useUser();
   const [deleteReview] = useMutation(DELETE_REVIEW, {
-    update(cache, { data: { deleteReview } }) {
+    update(cache) {
       cache.modify({
         fields: {
           places: (existing) => {
@@ -38,12 +38,6 @@ export default function ReviewDeleteBtn({
               next_page_token: existing.next_page_token,
               places: copy,
             };
-          },
-          reviews(existing = { hasMore: false, review: [] }, { readField }) {
-            const filtered = existing.reviews.filter(
-              (review: any) => readField('id', review) !== deleteReview
-            );
-            return { ...existing, reviews: filtered };
           },
           ratings(existing) {
             if (existing.placeId === placeId) {
@@ -63,6 +57,7 @@ export default function ReviewDeleteBtn({
       variables: {
         id: reviewId,
         hasImages,
+        placeId,
       },
     });
   };

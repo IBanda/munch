@@ -55,7 +55,7 @@ export function AuthProvider({ children }: Props) {
 export default function useUser() {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useUser can only be used withing the AuthProvider');
+    throw new Error('useUser can only be used within the AuthProvider');
   }
   return context;
 }

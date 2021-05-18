@@ -31,7 +31,7 @@ export default function ImageUpload({
         showActionButtons={false}
         restrictions={{
           allowedExtensions: ['.png', '.jpg'],
-          maxFileSize: 250000,
+          maxFileSize: 2000000,
         }}
       />
     </UploadState.Provider>

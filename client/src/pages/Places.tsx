@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import useGeo from 'lib/useGeo';
 import { useLazyQuery, gql } from '@apollo/client';
 import PlaceListView from 'components/PlaceListView';
@@ -53,22 +53,23 @@ export default function Places() {
   const [{ id: placeId, open }, setWindow] = useState({ open: false, id: '' });
   const [
     getPlaces,
-    { data, error, loading, fetchMore, networkStatus },
+    { data, error, loading, fetchMore, networkStatus, subscribeToMore },
   ] = useLazyQuery(GET_PLACES, {
     notifyOnNetworkStatusChange: true,
   });
 
   useErrorHandler(error);
   const params = useQueryParams();
-
+  useBodyOverflow(loading);
   useBodyOverflow(open);
 
   const dispatchContext = useMemo(
     () => ({
       setId,
       setWindow,
+      subscribeToMore,
     }),
-    []
+    [subscribeToMore]
   );
 
   const appStateContext = useMemo(
@@ -96,15 +97,19 @@ export default function Places() {
     places: { places, next_page_token },
   } = data || { places: {} };
 
-  const scrollHandler = (event: any) => {
-    if (isScrollatBottom(event.nativeEvent) && next_page_token && !loading) {
-      fetchMore?.({
-        variables: {
-          pagetoken: next_page_token,
-        },
-      });
-    }
-  };
+  const scrollHandler = useCallback(
+    (event: any) => {
+      if (isScrollatBottom(event.nativeEvent) && next_page_token && !loading) {
+        fetchMore?.({
+          variables: {
+            pagetoken: next_page_token,
+          },
+        });
+      }
+    },
+    [fetchMore, loading, next_page_token]
+  );
+
   const placeholder = Array(6).fill(1);
   return (
     <PlacesContainer>
@@ -119,12 +124,12 @@ export default function Places() {
       >
         <div
           className={`col-xl-4 col-md-6  position-relative h-100 border-right  ${
-            open ? '' : 'overflow-auto '
+            open ? '' : 'ooverflow-auto '
           }`}
-          onScroll={scrollHandler}
         >
           <AppDispatchProvider context={dispatchContext}>
             <PlaceListView
+              loadMore={scrollHandler}
               data={places || placeholder}
               loading={!data && !error}
             />
@@ -133,8 +138,8 @@ export default function Places() {
                 <Loader type="converging-spinner" themeColor="light" />
               </div>
             ) : null}
+            {open ? <PlaceDetails id={placeId} setWindow={setWindow} /> : null}
           </AppDispatchProvider>
-          {open ? <PlaceDetails id={placeId} setWindow={setWindow} /> : null}
         </div>
         <div className="col-xl-8 col-md-6 d-none d-md-block h-100">
           <AppStateProvider context={appStateContext}>

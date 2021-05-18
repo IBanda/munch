@@ -28,7 +28,7 @@ export default function ImageGrid({ images, name }: Props) {
                   key={indx}
                   className={`${indexer(indx)}   m__img-grid-wrapper`}
                 >
-                  <img
+                  <Image
                     className="m__img-grid"
                     src={`data:image/png;base64,${image.photo_reference}`}
                     style={{ height: indx > 2 ? '4em' : '5.8em' }}

@@ -1,6 +1,5 @@
-import { useEffect, useRef, useCallback, useState } from 'react';
-import { ListView } from '@progress/kendo-react-listview';
-import SimpleBar from 'simplebar-react';
+import { useEffect, useState } from 'react';
+import { ListView, ListViewEvent } from '@progress/kendo-react-listview';
 import 'simplebar/dist/simplebar.min.css';
 import { Review } from 'lib/interface';
 import isScrollatBottom from 'utils/isScrollatBottom';
@@ -47,6 +46,15 @@ const GET_REVIEW = gql`
   }
 `;
 
+const DELETE_REVIEW_SUB = gql`
+  subscription DeleteReviewSub($placeId: ID!) {
+    deleteReview(placeId: $placeId) {
+      placeId
+      id
+    }
+  }
+`;
+
 interface Props {
   placeId: string;
 }
@@ -59,45 +67,18 @@ interface Data {
 }
 
 export default function ReviewList({ placeId }: Props) {
-  const scrollBarRef = useRef<HTMLDivElement>(null);
   const [offset, setOffset] = useState(6);
-  const {
-    data,
-    loading,
-    error,
-    fetchMore,
-    subscribeToMore,
-    networkStatus,
-  } = useQuery(GET_REVIEWS, {
-    variables: {
-      placeId,
-    },
-    notifyOnNetworkStatusChange: true,
-  });
+  const { data, loading, error, fetchMore, subscribeToMore, networkStatus } =
+    useQuery(GET_REVIEWS, {
+      variables: {
+        placeId,
+      },
+      notifyOnNetworkStatusChange: true,
+    });
 
   const {
     reviews: { reviews = [], hasMore },
   }: Data = data ?? { reviews: {} };
-
-  const scrollHandler = useCallback(
-    async (event: any) => {
-      if (isScrollatBottom(event) && hasMore) {
-        fetchMore({
-          variables: {
-            offset,
-          },
-        });
-        setOffset((p) => p + 6);
-      }
-    },
-    [fetchMore, hasMore, offset]
-  );
-
-  useEffect(() => {
-    if (scrollBarRef.current) {
-      scrollBarRef.current.onscroll = scrollHandler;
-    }
-  }, [scrollHandler]);
 
   useEffect(() => {
     subscribeToMore({
@@ -114,17 +95,50 @@ export default function ReviewList({ placeId }: Props) {
     });
   }, [placeId, subscribeToMore]);
 
-  if (error) return <p>Error</p>;
+  useEffect(() => {
+    subscribeToMore({
+      document: DELETE_REVIEW_SUB,
+      variables: { placeId },
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) return prev;
+        const item = prev.reviews.reviews.find(
+          (review: any) => review.id === subscriptionData.data.deleteReview.id
+        );
+        const deleted = { ...item };
+        deleted.created_on = 'DELETED';
+        return {
+          reviews: {
+            hasMore: prev.reviews.hasMore,
+            reviews: [deleted],
+          },
+        };
+      },
+    });
+  }, [placeId, subscribeToMore]);
+
+  const scrollHandler = (event: ListViewEvent) => {
+    if (isScrollatBottom(event.nativeEvent) && hasMore) {
+      fetchMore({
+        variables: {
+          offset,
+        },
+      });
+      setOffset((p) => p + 6);
+    }
+  };
+  if (error) return null;
 
   return (
-    <SimpleBar
-      scrollableNodeProps={{ ref: scrollBarRef }}
-      className="m__listview-reviews shadow rounded "
-    >
-      <ListView item={ReviewCard} data={reviews} className="rounded" />
+    <div className="shadow p-2">
+      <ListView
+        onScroll={scrollHandler}
+        item={ReviewCard}
+        data={reviews}
+        className="rounded m__listview-reviews"
+      />
       {loading && networkStatus === 3 && (
         <AppLoader wrapperClassName="py-2" type="pulsing" />
       )}
-    </SimpleBar>
+    </div>
   );
 }

@@ -66,7 +66,7 @@ export default async function apolloExpressServer() {
       },
     })
   );
-  app.use(graphqlUploadExpress({ maxFileSize: 250000, maxFiles: 3 }));
+  app.use(graphqlUploadExpress({ maxFileSize: 2000000, maxFiles: 3 }));
   server.applyMiddleware({ app });
 
   const httpServer = http.createServer(app);

@@ -1,10 +1,10 @@
 import { Button } from '@progress/kendo-react-buttons';
 import { FormEvent, useState } from 'react';
-import { InputWithLabel } from './InputWithLabel';
 import Modal, { ModalDispatch } from './Modal';
 import { useMutation, gql } from '@apollo/client';
 import { Loader } from '@progress/kendo-react-indicators';
 import { Notification } from '@progress/kendo-react-notification';
+import { Input } from '@progress/kendo-react-inputs';
 
 const SIGNIN = gql`
   mutation Signin($user: UserInput) {
@@ -34,6 +34,7 @@ export default function Login({ setModal }: ModalDispatch) {
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
     await login({
       variables: {
         user: {
@@ -49,21 +50,25 @@ export default function Login({ setModal }: ModalDispatch) {
   return (
     <Modal height={320} onClose={() => setModal('hidden')}>
       <form onSubmit={onSubmit} className="m__auth-form">
-        <InputWithLabel
+        <Input
           type="email"
           value={email}
           id="email"
           label="Email"
-          onChange={(e) => setEmail(e.value)}
+          valid={true}
           required
+          onChange={(e) => setEmail(e.value)}
         />
-        <InputWithLabel
+
+        <Input
           type="password"
           value={password}
           id="password"
           label="Password"
-          onChange={(e) => setPassword(e.value)}
           required
+          width="100%"
+          valid={true}
+          onChange={(e) => setPassword(e.value)}
         />
         {error ? (
           <Notification className="w-100" type={{ style: 'error', icon: true }}>

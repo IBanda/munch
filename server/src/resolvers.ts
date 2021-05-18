@@ -171,9 +171,16 @@ const resolvers = {
       pubsub.publish('GET_RATINGS', {
         getRating: { placeId: newReview.placeId, ratings: [newReview.rating] },
       });
+      pubsub.publish('UPDATE_REVIEWS', {
+        updatePlaceReviews: {
+          placeId: newReview.placeId,
+          rating: newReview.rating,
+          type: 'CREATE',
+        },
+      });
       return newReview;
     },
-    deleteReview: async (_, { id, hasImages }, { models }) => {
+    deleteReview: async (_, { id, hasImages, placeId }, { models }) => {
       let review;
       let images;
       if (hasImages) {
@@ -181,9 +188,22 @@ const resolvers = {
         images = review.images;
       }
       review = await models.Review.findOneAndDelete({ _id: id });
+
       if (images) {
         await deleteImages(images);
       }
+
+      pubsub.publish('DELETE_REVIEW', {
+        deleteReview: { id, placeId },
+      });
+      pubsub.publish('UPDATE_REVIEWS', {
+        updatePlaceReviews: {
+          id,
+          placeId,
+          rating: review.rating,
+          type: 'DELETE',
+        },
+      });
       return review._id;
     },
     logout: async (_, __, { req }) => {
@@ -203,6 +223,14 @@ const resolvers = {
       subscribe: withFilter(
         () => pubsub.asyncIterator(['GET_RATINGS']),
         ({ getRating }, variables) => getRating.placeId === variables.placeId
+      ),
+    },
+    deleteReview: {
+      subscribe: withFilter(
+        () => pubsub.asyncIterator(['DELETE_REVIEW']),
+        ({ deleteReview }, variables) => {
+          return deleteReview.placeId === variables.placeId;
+        }
       ),
     },
   },

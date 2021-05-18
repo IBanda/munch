@@ -19,7 +19,7 @@ export default function PlaceMap({ data }: Props) {
         options={{
           fullscreenControl: false,
         }}
-        zoom={10}
+        zoom={14}
         // center={{ lat: Number(center.lat), lng: Number(center.lng) }}
         center={{ lat: 40.73061, lng: -73.935242 }}
         // center={{ lat: 51.509865, lng: -0.118092 }}

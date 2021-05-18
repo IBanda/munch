@@ -1,6 +1,6 @@
 import { ApolloClient, InMemoryCache, split } from '@apollo/client';
 import { WebSocketLink } from '@apollo/client/link/ws';
-import { getMainDefinition } from '@apollo/client/utilities';
+import { getMainDefinition, StoreObject } from '@apollo/client/utilities';
 import simpleMerge from 'utils/simpleMerge';
 import { createUploadLink } from 'apollo-upload-client';
 import updateRating from 'utils/updateRating';
@@ -42,6 +42,20 @@ const apolloClient = new ApolloClient({
             merge(existing = { reviews: [] }, incoming, { readField }) {
               let merged;
 
+              if (
+                incoming.reviews.length === 1 &&
+                readField('created_on', incoming.reviews[0]) === 'DELETED'
+              ) {
+                return {
+                  hasMore: incoming.hasMore ?? existing.hasMore,
+                  reviews: existing.reviews.filter(
+                    (review: StoreObject) =>
+                      readField('id', review) !==
+                      readField('id', incoming.reviews[0])
+                  ),
+                };
+              }
+
               if (incoming.hasMore == null) {
                 let existingCopy = [...existing.reviews].reverse();
                 merged = simpleMerge(existingCopy, incoming.reviews, {
@@ -54,9 +68,6 @@ const apolloClient = new ApolloClient({
                   key: 'id',
                 });
               }
-              console.log(existing);
-              console.log(incoming);
-              console.log(merged);
               return {
                 hasMore: incoming.hasMore ?? existing.hasMore,
                 reviews: merged,
@@ -68,6 +79,7 @@ const apolloClient = new ApolloClient({
             read(existing) {
               return existing;
             },
+
             merge(existing = { places: [] }, incoming, { readField }) {
               return {
                 next_page_token: incoming.next_page_token,

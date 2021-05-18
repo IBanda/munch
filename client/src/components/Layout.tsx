@@ -16,7 +16,7 @@ export default function Layout({ children, fluid, className }: Props) {
     <div className={`container${fluid ? '-fluid' : ''} ${className}`}>
       <AuthFormControl.Provider value={{ setModal, setForm, modal, form }}>
         <Header />
-        {children}
+        <main>{children}</main>
       </AuthFormControl.Provider>
     </div>
   );

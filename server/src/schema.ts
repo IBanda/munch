@@ -98,6 +98,13 @@ const typeDefs = gql`
     ratings: [Int]
   }
 
+  type UpdateReviewResult {
+    id: ID
+    placeId: ID
+    rating: Int
+    type: String
+  }
+
   type Query {
     places(
       coordinates: PlaceInput
@@ -114,13 +121,14 @@ const typeDefs = gql`
     signup(user: UserInput): User
     signin(user: UserInput): User
     postReview(review: ReviewInput, files: [Upload]): Review
-    deleteReview(id: ID!, hasImages: Boolean): ID
+    deleteReview(id: ID!, hasImages: Boolean, placeId: ID!): ID
     logout: String
   }
 
   type Subscription {
     getReview(placeId: ID!): Review
     getRating(placeId: ID!): RatingsResult
+    deleteReview(placeId: ID!): UpdateReviewResult
   }
 `;
 

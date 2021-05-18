@@ -71,7 +71,6 @@ export default function Ratings({ placeId }: Props) {
       </ContentLoader>
     );
   if (error) return null;
-  console.log(data);
   const {
     ratings: { ratings },
   } = data;

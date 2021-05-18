@@ -1,4 +1,4 @@
-import { ListView } from '@progress/kendo-react-listview';
+import { ListView, ListViewEvent } from '@progress/kendo-react-listview';
 import { Place } from 'lib/interface';
 import PlaceCard from './Card';
 import CardLoader from './CardLoader';
@@ -7,6 +7,7 @@ import { useDispatch } from './Context';
 interface Props {
   data: Place[];
   loading: boolean;
+  loadMore: (event: ListViewEvent) => void;
 }
 
 const RenderItem = (props: any) => {
@@ -24,12 +25,13 @@ const RenderItem = (props: any) => {
   );
 };
 
-export default function PlaceListView({ data, loading }: Props) {
+export default function PlaceListView({ data, loading, loadMore }: Props) {
   return (
     <ListView
+      onScroll={loadMore}
       data={data}
       item={!loading ? RenderItem : CardLoader}
-      className="m__places-listview p-0"
+      className="m__places-listview p-0 h-100"
     />
   );
 }

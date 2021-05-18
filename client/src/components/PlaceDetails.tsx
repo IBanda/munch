@@ -4,11 +4,14 @@ import { Place } from 'lib/interface';
 import ImageGrid from './ImageGrid';
 import isToday from 'utils/isToday';
 import Reviews from './Reviews';
-import { SvgIcon } from '@progress/kendo-react-common';
-import { globeLinkIcon } from '@progress/kendo-svg-icons';
+import { globeLinkIcon, mapMarkerTargetIcon } from '@progress/kendo-svg-icons';
 import AppLoader from './AppLoader';
 import AppErrorBoundary from './AppErrorBoundary';
 import { useErrorHandler } from 'react-error-boundary';
+import { lazy, Suspense } from 'react';
+import { SvgIcon } from '@progress/kendo-react-common';
+
+const GoogleMapReact: any = lazy(() => import('google-map-react'));
 
 const GET_PLACE = gql`
   query GetPlace($placeId: ID!) {
@@ -83,7 +86,10 @@ function Details({ error, loading, data }: DetailsProps) {
   const { place } = data;
   const isOpen = place?.opening_hours?.open_now === true;
   const hide = place?.opening_hours?.open_now == null;
-
+  const latLng = {
+    lat: place.geometry.location.lat,
+    lng: place.geometry.location.lng,
+  };
   return (
     <div className="container m__details p-0">
       <ImageGrid images={place?.photos} name={place?.name} />
@@ -99,24 +105,30 @@ function Details({ error, loading, data }: DetailsProps) {
           </span>
         )}
       </div>
+
       {place.website ? (
-        <a href={place.website} target="_blank" rel="noreferrer">
+        <a
+          href={place.website}
+          className="btn btn-primary btn-sm mb-2"
+          target="_blank"
+          rel="noreferrer"
+        >
           <SvgIcon icon={globeLinkIcon} />
           <small>Website</small>
         </a>
       ) : null}
       <div className="m__details-info rounded">
         <ul className="p-0 m-0 list-unstyled">
-          <li>
+          <li className="mb-2">
             <strong>Phone: </strong>
             {place.formatted_phone_number}
           </li>
-          <li>
+          <li className="mb-2">
             <strong>Address: </strong>
             {place.formatted_address}
           </li>
           {!hide && (
-            <li className="bg-secondary p-2 mt-2 rounded">
+            <li className="bg-secondary p-2 mb-4 rounded">
               <strong>Hours: </strong>
               <ul>
                 {place.opening_hours.weekday_text.map((txt) => (
@@ -127,7 +139,32 @@ function Details({ error, loading, data }: DetailsProps) {
           )}
         </ul>
       </div>
+      <div className="d-md-none" style={{ height: 150, width: '100%' }}>
+        <Suspense fallback={() => <AppLoader />}>
+          <GoogleMapReact
+            bootstrapURLKeys={{
+              key: process.env.REACT_APP_GOOGLE_MAP_API_KEY as string,
+            }}
+            center={latLng}
+            zoom={12}
+          >
+            <Marker lat={latLng.lat} lng={latLng.lng} />
+          </GoogleMapReact>
+        </Suspense>
+      </div>
       <Reviews placeId={place.place_id} />
+    </div>
+  );
+}
+
+function Marker({ lat, lng }: { lat: number; lng: number }) {
+  return (
+    <div>
+      <SvgIcon
+        themeColor={'tertiary'}
+        className="m__marker"
+        icon={mapMarkerTargetIcon}
+      />
     </div>
   );
 }

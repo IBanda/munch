@@ -32,6 +32,7 @@ export default function Home() {
         </div>
         <div className="col-xl-6 d-flex align-items-center justify-content-center justify-content-xl-end ">
           <img
+            className="shadow-lg"
             style={{ maxWidth: '30em', width: '100%' }}
             src="/home.jpg"
             alt="food"

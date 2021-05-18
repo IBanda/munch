@@ -36,6 +36,7 @@ export default function ReviewEditor({ placeId }: Props) {
   const [value, setValue] = useState('');
   const [rating, setRating] = useState(0);
   const [files, setFiles] = useState<Array<UploadFileInfo>>([]);
+
   const [postReview, { loading, error }] = useMutation(POST_REVIEW, {
     update(cache, { data: { review } }) {
       cache.modify({
