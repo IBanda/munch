@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "munch server",
   "main": "server.js",
-  "type": "module",
   "scripts": {
     "dev": "ts-node-dev src/start.ts",
     "start": "node dist/start.js",
