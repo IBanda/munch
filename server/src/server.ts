@@ -44,7 +44,7 @@ export default async function apolloExpressServer() {
   await server.start();
   app.use(
     cors({
-      origin: 'https://munch.vercel.app/',
+      origin: 'https://munch.vercel.app',
       credentials: true,
     })
   );

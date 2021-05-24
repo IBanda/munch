@@ -55,7 +55,7 @@ function apolloExpressServer() {
         });
         yield server.start();
         app.use(cors_1.default({
-            origin: 'https://munch.vercel.app/',
+            origin: 'https://munch.vercel.app',
             credentials: true,
         }));
         app.use(express_session_1.default({
