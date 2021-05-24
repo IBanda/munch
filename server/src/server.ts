@@ -27,9 +27,6 @@ export default async function apolloExpressServer() {
     resolvers,
     uploads: false,
     context: ({ req, res }) => {
-      if (req) {
-        res.header('Access-Control-Allow-Origin', 'https://munch.vercel.app/');
-      }
       return {
         mapClient,
         models: {
@@ -44,7 +41,7 @@ export default async function apolloExpressServer() {
   await server.start();
   app.use(
     cors({
-      origin: 'https://munch.vercel.app/',
+      origin: 'https://munch.vercel.app',
       credentials: true,
     })
   );
