@@ -139,8 +139,8 @@ const resolvers = {
       };
     },
     postReview: async (_, { review, files }, { req, models }) => {
-      if (!req.session.user)
-        throw new ForbiddenError('You must be signed in to post a review');
+      // if (!req.session.user)
+      //   throw new ForbiddenError('You must be signed in to post a review');
       const fileUrls = [];
       if (files?.length) {
         const resolvedFiles = await Promise.all(
@@ -164,7 +164,7 @@ const resolvers = {
       return newReview;
     },
     deleteReview: async (_, { id, hasImages }, { req, models }) => {
-      if (!req.session.user) throw new ForbiddenError('You must be signed');
+      // if (!req.session.user) throw new ForbiddenError('You must be signed');
 
       let review;
       let images;
