@@ -135,6 +135,9 @@ header {
 }
 .m__window {
   box-shadow: 14px 5px 25px 3px rgba(0, 0, 0, 0.23);
+  @media (max-width: 576px) {
+    position: fixed !important;
+  }
 }
 /*
 * Image Grid

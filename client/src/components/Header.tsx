@@ -10,6 +10,7 @@ import {
 } from '@progress/kendo-react-layout';
 import { Link } from 'react-router-dom';
 import { useAuthFormControls } from './Context';
+import { Skeleton } from '@progress/kendo-react-indicators';
 const Signup = lazy(() => import('./Signup'));
 const Login = lazy(() => import('./Login'));
 
@@ -39,11 +40,15 @@ export default function Header() {
                   {name}
                 </small>
                 <Avatar shape="circle">
-                  <img
-                    className="m__avatar-img"
-                    src={user?.profilePic}
-                    alt={user?.name}
-                  />
+                  {user?.profilePic ? (
+                    <img
+                      className="m__avatar-img"
+                      src={user?.profilePic}
+                      alt={user?.name}
+                    />
+                  ) : (
+                    user?.name?.[0].toUpperCase()
+                  )}
                 </Avatar>
                 <Button
                   onClick={() => logout()}
@@ -87,7 +92,9 @@ export default function Header() {
                 ) : null}
               </>
             )
-          ) : null}
+          ) : (
+            <Skeleton shape="rectangle" style={{ width: 100, height: 40 }} />
+          )}
         </AppBarSection>
       </AppBar>
     </header>
