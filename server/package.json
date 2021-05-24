@@ -4,8 +4,10 @@
   "description": "munch server",
   "main": "server.js",
   "scripts": {
-    "start": "ts-node-dev src/start.ts",
-    "mock": "cross-env MOCK=true yarn start",
+    "dev": "ts-node-dev src/start.ts",
+    "start": "node src/start.ts",
+    "postinstall": "tsc",
+    "mock": "cross-env MOCK=true yarn dev",
     "precommit": "lint-staged",
     "lint": "eslint src/*.ts --fix",
     "format": "prettier . --write",
