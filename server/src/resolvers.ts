@@ -5,16 +5,10 @@ import { promisify } from 'util';
 import fs from 'fs';
 import { tmpdir } from 'os';
 import { join } from 'path';
-import {
-  PubSub,
-  withFilter,
-  UserInputError,
-  ForbiddenError,
-} from 'apollo-server-express';
+import { UserInputError, ForbiddenError } from 'apollo-server-express';
 
 const pipeline = promisify(st.pipeline);
 
-const pubsub = new PubSub();
 const key = process.env.GOOGLE_MAPS_API_KEY;
 
 const resolvers = {
@@ -35,17 +29,13 @@ const resolvers = {
         (params as any).pagetoken = pagetoken;
       }
 
-      try {
-        const places = await mapClient.placesNearby({
-          params,
-        });
-        return {
-          places: places.data.results,
-          next_page_token: places.data.next_page_token,
-        };
-      } catch (error) {
-        return error;
-      }
+      const places = await mapClient.placesNearby({
+        params,
+      });
+      return {
+        places: places.data.results,
+        next_page_token: places.data.next_page_token,
+      };
     },
     place: async (_, { placeId }, { mapClient }) => {
       const place = await mapClient.placeDetails({
@@ -67,10 +57,7 @@ const resolvers = {
 
       return { reviews, hasMore };
     },
-    ratings: async (_, { placeId }) => {
-      const ratings = getRatings(placeId);
-      return { placeId, ratings };
-    },
+
     getUser: async (_, __, { req, models }) => {
       const id = req.session.user;
       if (!id) return null;
@@ -81,6 +68,10 @@ const resolvers = {
         email: user.email,
         profilePic: user.profilePic,
       };
+    },
+    ratings: async (_, { placeId }) => {
+      const ratings = await getRatings(placeId);
+      return { placeId, ratings };
     },
   },
   Photo: {
@@ -96,8 +87,8 @@ const resolvers = {
     },
   },
   Place: {
-    async ratings(parent) {
-      const ratings = getRatings(parent.place_id);
+    ratings: async (parent) => {
+      const ratings = await getRatings(parent.place_id);
       return ratings;
     },
   },
@@ -147,7 +138,9 @@ const resolvers = {
         profilePic: user.profilePic,
       };
     },
-    postReview: async (_, { review, files }, { models }) => {
+    postReview: async (_, { review, files }, { req, models }) => {
+      if (!req.session.user)
+        throw new ForbiddenError('You must be signed in to post a review');
       const fileUrls = [];
       if (files?.length) {
         const resolvedFiles = await Promise.all(
@@ -167,20 +160,12 @@ const resolvers = {
       });
 
       await models.Review.populate(newReview, { path: 'user' });
-      pubsub.publish('GET_REVIEW', { getReview: newReview });
-      pubsub.publish('GET_RATINGS', {
-        getRating: { placeId: newReview.placeId, ratings: [newReview.rating] },
-      });
-      pubsub.publish('UPDATE_REVIEWS', {
-        updatePlaceReviews: {
-          placeId: newReview.placeId,
-          rating: newReview.rating,
-          type: 'CREATE',
-        },
-      });
+
       return newReview;
     },
-    deleteReview: async (_, { id, hasImages, placeId }, { models }) => {
+    deleteReview: async (_, { id, hasImages }, { req, models }) => {
+      if (!req.session.user) throw new ForbiddenError('You must be signed');
+
       let review;
       let images;
       if (hasImages) {
@@ -193,45 +178,11 @@ const resolvers = {
         await deleteImages(images);
       }
 
-      pubsub.publish('DELETE_REVIEW', {
-        deleteReview: { id, placeId },
-      });
-      pubsub.publish('UPDATE_REVIEWS', {
-        updatePlaceReviews: {
-          id,
-          placeId,
-          rating: review.rating,
-          type: 'DELETE',
-        },
-      });
-      return review._id;
+      return review;
     },
     logout: async (_, __, { req }) => {
       await req.session.destroy();
-    },
-  },
-  Subscription: {
-    getReview: {
-      subscribe: withFilter(
-        () => pubsub.asyncIterator(['GET_REVIEW']),
-        ({ getReview }, variables) => {
-          return getReview.placeId === variables.placeId;
-        }
-      ),
-    },
-    getRating: {
-      subscribe: withFilter(
-        () => pubsub.asyncIterator(['GET_RATINGS']),
-        ({ getRating }, variables) => getRating.placeId === variables.placeId
-      ),
-    },
-    deleteReview: {
-      subscribe: withFilter(
-        () => pubsub.asyncIterator(['DELETE_REVIEW']),
-        ({ deleteReview }, variables) => {
-          return deleteReview.placeId === variables.placeId;
-        }
-      ),
+      return null;
     },
   },
 };

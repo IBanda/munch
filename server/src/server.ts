@@ -2,7 +2,6 @@
 require('dotenv').config();
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
-import http from 'http';
 import typeDefs from './schema';
 import resolvers from './resolvers';
 import User from './models/user';
@@ -27,9 +26,6 @@ export default async function apolloExpressServer() {
     typeDefs,
     resolvers,
     uploads: false,
-    subscriptions: {
-      path: '/subscriptions',
-    },
     context: ({ req, res }) => {
       if (req) {
         res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
@@ -69,8 +65,5 @@ export default async function apolloExpressServer() {
   app.use(graphqlUploadExpress({ maxFileSize: 2000000, maxFiles: 3 }));
   server.applyMiddleware({ app });
 
-  const httpServer = http.createServer(app);
-  server.installSubscriptionHandlers(httpServer);
-
-  return { server, httpServer };
+  return { server, app };
 }
