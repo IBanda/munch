@@ -9,7 +9,7 @@ import { SvgIcon } from '@progress/kendo-react-common';
 import { mapMarkerIcon } from '@progress/kendo-svg-icons';
 import { Place } from 'lib/interface';
 import { Rating } from '@progress/kendo-react-inputs';
-import ratingData from 'utils/ratingData';
+import ratingData, { formatRating } from 'utils/ratingData';
 
 interface Props {
   place: Place;
@@ -37,10 +37,14 @@ export default function PlaceCard({ place }: Props) {
                 <small>{averageRating || ''}</small>
               </span>
             )}
-            <Rating value={averageRating} precision="half" readonly />
+            <Rating
+              value={formatRating(averageRating)}
+              precision="half"
+              readonly
+            />
             <span>
               <small>{`${
-                totalNumofRatings ? totalNumofRatings + ' Rating(s)' : ''
+                totalNumofRatings ? '(' + totalNumofRatings + ')' : ''
               }`}</small>
             </span>
           </div>

@@ -17,5 +17,6 @@ export default function updateRating(
   } else {
     updated[indexMapper[index]] -= 1;
   }
+
   return updated;
 }

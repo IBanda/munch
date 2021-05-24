@@ -19,3 +19,12 @@ export default function ratingData(data: number[]) {
     ratingValue,
   };
 }
+
+export function formatRating(avg: number) {
+  const avgStr = String(avg);
+  if (avgStr[2] !== '0' && avgStr[2] !== '5' && avg && avgStr.length === 3) {
+    const standardized = avgStr.slice(0, 2) + '5';
+    return Number(standardized);
+  }
+  return avg;
+}

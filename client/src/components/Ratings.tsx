@@ -1,22 +1,13 @@
 import { useEffect } from 'react';
 import { ProgressBar } from '@progress/kendo-react-progressbars';
-import { useQuery, gql } from '@apollo/client';
 import { Rating } from '@progress/kendo-react-inputs';
-import ratingData from 'utils/ratingData';
-import ContentLoader from 'react-content-loader';
+import ratingData, { formatRating } from 'utils/ratingData';
+import { gql, useQuery } from '@apollo/client';
+import { useErrorHandler } from 'react-error-boundary';
 
 const GET_RATINGS = gql`
   query GetRatings($placeId: ID!) {
     ratings(placeId: $placeId) {
-      placeId
-      ratings
-    }
-  }
-`;
-
-const GET_RATING = gql`
-  subscription GetRating($placeId: ID!) {
-    rating: getRating(placeId: $placeId) {
       placeId
       ratings
     }
@@ -28,49 +19,23 @@ interface Props {
 }
 
 export default function Ratings({ placeId }: Props) {
-  const { loading, error, data, subscribeToMore } = useQuery(GET_RATINGS, {
-    variables: {
-      placeId,
-    },
-  });
-
-  useEffect(() => {
-    subscribeToMore({
-      document: GET_RATING,
+  const { data, error, loading, startPolling, stopPolling } = useQuery(
+    GET_RATINGS,
+    {
       variables: {
         placeId,
       },
-      updateQuery: (prev, { subscriptionData }) => {
-        if (!subscriptionData.data) return prev;
+    }
+  );
 
-        return {
-          ratings: {
-            ratings: subscriptionData.data.rating.ratings,
-          },
-        };
-      },
-    });
-  }, [placeId, subscribeToMore]);
+  useEffect(() => {
+    startPolling(5000);
+    return () => stopPolling();
+  }, [startPolling, stopPolling]);
 
-  if (loading)
-    return (
-      <ContentLoader
-        speed={2}
-        width={400}
-        height={160}
-        viewBox="0 0 400 160"
-        backgroundColor="#f3f3f3"
-        foregroundColor="#ecebeb"
-      >
-        <rect x="0" y="6" rx="0" ry="0" width="190" height="21" />
-        <rect x="0" y="41" rx="5" ry="5" width="300" height="15" />
-        <rect x="0" y="62" rx="5" ry="5" width="300" height="15" />
-        <rect x="0" y="83" rx="5" ry="5" width="300" height="15" />
-        <rect x="0" y="104" rx="5" ry="5" width="300" height="15" />
-        <rect x="0" y="125" rx="5" ry="5" width="300" height="15" />
-      </ContentLoader>
-    );
-  if (error) return null;
+  useErrorHandler(error);
+  if (loading) return <p>Loading</p>;
+
   const {
     ratings: { ratings },
   } = data;
@@ -85,9 +50,9 @@ export default function Ratings({ placeId }: Props) {
             {averageRating.toPrecision(2)}
           </h3>
         ) : null}
-        <Rating value={averageRating} precision="half" readonly />
+        <Rating value={formatRating(averageRating)} precision="half" readonly />
         <span>
-          <small>{totalNumofRatings || 'No'} Review(s)</small>
+          <small data-testid="num-of-ratings">({totalNumofRatings})</small>
         </span>
       </div>
       <div>

@@ -1,15 +1,17 @@
+import { lazy, Suspense } from 'react';
 import { Window } from '@progress/kendo-react-dialogs';
 import { useQuery, gql, ApolloError } from '@apollo/client';
 import { Place } from 'lib/interface';
 import ImageGrid from './ImageGrid';
 import isToday from 'utils/isToday';
-import Reviews from './Reviews';
 import { globeLinkIcon, mapMarkerTargetIcon } from '@progress/kendo-svg-icons';
 import AppLoader from './AppLoader';
 import AppErrorBoundary from './AppErrorBoundary';
 import { useErrorHandler } from 'react-error-boundary';
-import { lazy, Suspense } from 'react';
 import { SvgIcon } from '@progress/kendo-react-common';
+import ReviewEditor from './ReviewEditor';
+import ReviewList from './ReviewList';
+import Ratings from './Ratings';
 
 const GoogleMapReact: any = lazy(() => import('google-map-react'));
 
@@ -43,10 +45,10 @@ interface Props {
   setWindow: any;
 }
 
-export default function PlaceDetails({ id, setWindow }: Props) {
+export default function PlaceDetails({ id: placeId, setWindow }: Props) {
   const { data, error, loading, refetch } = useQuery(GET_PLACE, {
     variables: {
-      placeId: id,
+      placeId,
     },
   });
 
@@ -67,7 +69,7 @@ export default function PlaceDetails({ id, setWindow }: Props) {
   );
 }
 
-interface PlaceDetail extends Place {
+export interface PlaceDetail extends Place {
   formatted_address: string;
   formatted_phone_number: string;
   website: string;
@@ -79,7 +81,7 @@ interface DetailsProps {
   data: { place: PlaceDetail };
 }
 
-function Details({ error, loading, data }: DetailsProps) {
+export function Details({ error, loading, data }: DetailsProps) {
   useErrorHandler(error);
   if (loading) return <AppLoader />;
 
@@ -91,7 +93,7 @@ function Details({ error, loading, data }: DetailsProps) {
     lng: place.geometry.location.lng,
   };
   return (
-    <div className="container m__details p-0">
+    <div data-testid="place-details" className="container m__details p-0">
       <ImageGrid images={place?.photos} name={place?.name} />
       <div className="mt-2 d-flex align-items-center">
         <h2 className="font-weight-bold mt-2 m__details-name">{place.name}</h2>
@@ -140,19 +142,29 @@ function Details({ error, loading, data }: DetailsProps) {
         </ul>
       </div>
       <div className="d-md-none" style={{ height: 150, width: '100%' }}>
-        <Suspense fallback={() => <AppLoader />}>
+        <Suspense fallback={<AppLoader />}>
           <GoogleMapReact
             bootstrapURLKeys={{
               key: process.env.REACT_APP_GOOGLE_MAP_API_KEY as string,
             }}
             center={latLng}
             zoom={12}
+            options={{
+              fullscreenControl: false,
+            }}
           >
             <Marker lat={latLng.lat} lng={latLng.lng} />
           </GoogleMapReact>
         </Suspense>
       </div>
-      <Reviews placeId={place.place_id} />
+      <div className="m__details-reviews">
+        <h2 className="font-weight-bold my-2 m__details-reviews-title">
+          Customer Reviews
+        </h2>
+        <Ratings placeId={place.place_id} />
+        <ReviewList placeId={place.place_id} />
+        <ReviewEditor placeId={place.place_id} />
+      </div>
     </div>
   );
 }

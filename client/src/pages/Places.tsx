@@ -51,12 +51,10 @@ export default function Places() {
   const coords = useGeo();
   const [id, setId] = useState('');
   const [{ id: placeId, open }, setWindow] = useState({ open: false, id: '' });
-  const [
-    getPlaces,
-    { data, error, loading, fetchMore, networkStatus, subscribeToMore },
-  ] = useLazyQuery(GET_PLACES, {
-    notifyOnNetworkStatusChange: true,
-  });
+  const [getPlaces, { data, error, loading, fetchMore, networkStatus }] =
+    useLazyQuery(GET_PLACES, {
+      notifyOnNetworkStatusChange: true,
+    });
 
   useErrorHandler(error);
   const params = useQueryParams();
@@ -67,9 +65,8 @@ export default function Places() {
     () => ({
       setId,
       setWindow,
-      subscribeToMore,
     }),
-    [subscribeToMore]
+    []
   );
 
   const appStateContext = useMemo(
@@ -85,20 +82,19 @@ export default function Places() {
       const variables = extractVariables(params);
       getPlaces({
         variables: {
-          // coordinates: { lat: coords.lat, lng: coords.lng },
-          coordinates: { lat: 40.73061, lng: -73.935242 },
+          coordinates: { lat: coords.lat, lng: coords.lng },
+          // coordinates: { lat: 40.73061, lng: -73.935242 },
           ...variables,
         },
       });
     }
   }, [coords.lat, coords.lng, getPlaces, params]);
-
   const {
     places: { places, next_page_token },
   } = data || { places: {} };
-
   const scrollHandler = useCallback(
     (event: any) => {
+      console.log('scroll');
       if (isScrollatBottom(event.nativeEvent) && next_page_token && !loading) {
         fetchMore?.({
           variables: {
@@ -109,7 +105,6 @@ export default function Places() {
     },
     [fetchMore, loading, next_page_token]
   );
-
   const placeholder = Array(6).fill(1);
   return (
     <PlacesContainer>

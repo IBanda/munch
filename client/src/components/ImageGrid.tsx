@@ -31,7 +31,7 @@ export default function ImageGrid({ images, name }: Props) {
                   <Image
                     className="m__img-grid"
                     src={`data:image/png;base64,${image.photo_reference}`}
-                    style={{ height: indx > 2 ? '4em' : '5.8em' }}
+                    style={{ height: indx > 2 ? '4em' : '5.85em' }}
                     alt={`${name}-${indx + 1}`}
                   />
                 </div>

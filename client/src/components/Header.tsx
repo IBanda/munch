@@ -16,12 +16,12 @@ const Login = lazy(() => import('./Login'));
 export default function Header() {
   const { loading, user, logout } = useUser();
   const { setModal, modal, setForm, form } = useAuthFormControls();
-
   const onOpen = (form: 'signup' | 'login') => {
     setModal('visible');
     setForm(form);
   };
   const name = user?.name?.split(' ')[0];
+
   return (
     <header>
       <AppBar className="shadow-none bg-white px-2">

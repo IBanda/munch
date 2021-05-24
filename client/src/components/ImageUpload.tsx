@@ -22,6 +22,7 @@ export default function ImageUpload({
   return (
     <UploadState.Provider value={removeFile}>
       <Upload
+        data-testid="upload"
         files={files}
         onAdd={onAdd}
         listItemUI={UploadListItem}

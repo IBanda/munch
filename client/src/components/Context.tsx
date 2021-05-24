@@ -20,9 +20,8 @@ interface UploadContext {
 const AppState = createContext<Context | null>(null);
 const AppDispatch = createContext<Context | null>(null);
 export const UploadState = createContext<UploadContext | null>(null);
-export const AuthFormControl = createContext<AuthFormControlInterface | null>(
-  null
-);
+export const AuthFormControl =
+  createContext<AuthFormControlInterface | null>(null);
 
 interface Props {
   children: React.ReactNode;

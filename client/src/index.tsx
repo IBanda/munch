@@ -1,18 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import { ApolloProvider } from '@apollo/client';
 import reportWebVitals from './reportWebVitals';
-import apolloClient from 'lib/apolloClient';
-import { AuthProvider } from 'components/AuthProvider';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ApolloProvider client={apolloClient}>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
-    </ApolloProvider>
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );

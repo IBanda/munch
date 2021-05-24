@@ -15,6 +15,7 @@ const RenderItem = (props: any) => {
   const id = props.dataItem.place_id;
   return (
     <button
+      data-testid="place"
       className="mb-2 w-100 bg-transparent border-0 p-0 text-left m__outline-none"
       onClick={() => setWindow?.({ open: true, id })}
       onMouseOver={() => setId?.(id)}

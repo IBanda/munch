@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import ContentLoader from 'react-content-loader';
+import { Skeleton } from '@progress/kendo-react-indicators';
 
 interface ImageProps {
   src: string;
@@ -16,26 +16,21 @@ export default function Image({ src, alt, style, className }: ImageProps) {
   return (
     <div className="position-relative">
       {loaded ? null : (
-        <ContentLoader
+        <Skeleton
+          shape="rectangle"
           style={{
             position: 'absolute',
-            zIndex: 10,
             top: 0,
-            bottom: 0,
+            left: 0,
             height: '100%',
             width: '100%',
+            zIndex: 2,
           }}
-          speed={2}
-          width="100%"
-          backgroundColor="#f3f3f3"
-          foregroundColor="#ecebeb"
-        >
-          <rect x="0" y="" rx="0" ry="0" width="100%" height="100%" />
-        </ContentLoader>
+        />
       )}
       <img
         onLoad={onLoad}
-        style={style}
+        style={{ ...style, opacity: loaded ? 1 : 0 }}
         className={className}
         src={src}
         alt={alt}

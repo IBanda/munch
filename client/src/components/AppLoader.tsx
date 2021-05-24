@@ -13,10 +13,13 @@ interface Props {
 export default function AppLoader({
   type = 'converging-spinner',
   theme = 'primary',
-  wrapperClassName,
+  wrapperClassName = '',
 }: Props) {
   return (
-    <div className={`d-flex justify-content-center ${wrapperClassName}`}>
+    <div
+      data-testid="loader"
+      className={`d-flex justify-content-center ${wrapperClassName}`}
+    >
       <Loader type={type} themeColor={theme} />
     </div>
   );

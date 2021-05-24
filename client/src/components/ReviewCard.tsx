@@ -34,7 +34,7 @@ export default function ReviewCard(props: any) {
           </span>
         </div>
 
-        <div className="d-flex flex-column ">
+        <div data-testid="review-card" className="d-flex flex-column ">
           <div>
             <div className="d-flex align-items-center m__meta">
               <Rating
@@ -64,9 +64,8 @@ export default function ReviewCard(props: any) {
         <ReviewDeleteBtn
           hasImages={Boolean(item?.images?.length)}
           reviewId={item?.id}
-          placeId={item?.placeId}
           creatorId={item?.user?.id}
-          rating={item?.rating}
+          placeId={item.placeId}
         />
       </CardBody>
     </Card>

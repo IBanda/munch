@@ -100,10 +100,13 @@ header {
   justify-content: center;
   height: 20px;
   width: 20px;
+  border-radius: 50%;
   transform: translate(-50%, -50%);
   cursor: pointer;
   &:hover {
     z-index: 2;
+    box-shadow: 0 0 5px 5px rgba(105, 103, 105, 0.5);
+    background-color: rgba(105, 103, 105, 0.5);
   }
 }
 .m__marker-tooltip {
@@ -356,8 +359,8 @@ form {
 * Review Images
 */
 .m__review-img {
-  width: 4em;
-  height: 3em;
+  width: 5em;
+  height: 4em;
   object-fit: cover;
   object-position: center;
   border-radius: 2px;
@@ -431,7 +434,7 @@ form {
 */
 
 .m__modal {
-  z-index: 10004;
+  z-index: 100004;
 
   .k-window-titlebar {
     padding: 0 0.45em;
@@ -446,6 +449,9 @@ form {
         }
       }
     }
+  }
+  @media (min-width: 576px) {
+    width: 350px !important;
   }
 }
 
@@ -470,7 +476,7 @@ form {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 10003;
+  z-index: 100003;
 }
 
 .m__avatar-img {
@@ -481,7 +487,7 @@ form {
 }
 
 .k-overlay {
-  z-index: 10003;
+  z-index: 100003;
 }
 .k-animation-container {
   z-index: 10004;

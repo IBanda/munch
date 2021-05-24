@@ -1,0 +1,401 @@
+{
+  "places": [
+    {
+      "name": "Rules",
+      "place_id": "ChIJbUnC58oEdkgR4pwzPtYGrbY",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": {
+        "photo_reference": ""
+      },
+      "geometry": {
+        "location": {
+          "lat": 51.5107984,
+          "lng": -0.1231629
+        }
+      },
+      "vicinity": "34-35 Maiden Ln, London",
+      "ratings": [100, 20, 5, 1, 0]
+    },
+    {
+      "name": "SUSHISAMBA Covent Garden",
+      "place_id": "ChIJoEdkgR4pwzW7PbgAYFdkgRKzZcm_oVjnM",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": {
+        "photo_reference": ""
+      },
+      "geometry": {
+        "location": {
+          "lat": 51.5123967,
+          "lng": -0.1224727
+        }
+      },
+      "vicinity": "35 The Market, London",
+      "ratings": [100, 30, 0, 15, 0]
+    },
+    {
+      "name": "TGI Fridays - Covent Garden",
+      "place_id": "ChIJy3SZHMwEdkgRKE_aVloEdkgR4pwz9IJLY",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": {
+        "photo_reference": ""
+      },
+      "geometry": {
+        "location": {
+          "lat": 51.5102215,
+          "lng": -0.1241165
+        }
+      },
+      "vicinity": "6 Bedford St, London",
+      "ratings": [10, 10, 20, 19, 0]
+    },
+    {
+      "name": "TGI Fridays - Leicester Square",
+      "place_id": "ChIoEdkgR4pwzJfXuq-80EdkgR2wZJuV13B5k",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": {
+        "photo_reference": ""
+      },
+      "geometry": {
+        "location": {
+          "lat": 51.5101582,
+          "lng": -0.1293771
+        }
+      },
+      "vicinity": "30 Leicester Square, London",
+      "ratings": [1, 30, 50, 1, 0]
+    },
+    {
+      "name": "SUSHISAMBA Covent Garden",
+      "place_id": "ChIJW7PbgAYFoEdkgR4pwzdkgRKzZcm_oVjnM",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": {
+        "photo_reference": ""
+      },
+      "geometry": {
+        "location": {
+          "lat": 51.5123967,
+          "lng": -0.1224727
+        }
+      },
+      "vicinity": "35 The Market, London",
+      "ratings": [100, 30, 0, 15, 0]
+    },
+    {
+      "name": "TGI Fridays - Covent Garden",
+      "place_id": "ChIJy3SZHMwEdkoEdkgR4pwzgRKE_aVl9IJLY",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": {
+        "photo_reference": ""
+      },
+      "geometry": {
+        "location": {
+          "lat": 51.5102215,
+          "lng": -0.1241165
+        }
+      },
+      "vicinity": "6 Bedford St, London",
+      "ratings": [10, 10, 20, 19, 0]
+    },
+    {
+      "name": "TGI Fridays - Leicester Square",
+      "place_id": "ChIJfXuq-80EdkgR2wZJuV13B5dkgR2wZJuV13Bk",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": {
+        "photo_reference": ""
+      },
+      "geometry": {
+        "location": {
+          "lat": 51.5101582,
+          "lng": -0.1293771
+        }
+      },
+      "vicinity": "30 Leicester Square, London",
+      "ratings": [1, 30, 50, 1, 0]
+    },
+    {
+      "name": "SUSHISAMBA Covent Garden",
+      "place_id": "ChIJW7PdkgR2wZJuV13BbgAYFdkgRKzZcm_oVjnM",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": {
+        "photo_reference": ""
+      },
+      "geometry": {
+        "location": {
+          "lat": 51.5123967,
+          "lng": -0.1224727
+        }
+      },
+      "vicinity": "35 The Market, London",
+      "ratings": [100, 30, 0, 15, 0]
+    },
+    {
+      "name": "TGI Fridays - Covent Garden",
+      "place_id": "ChIJy3SZHMwEddkgR2wZJuV13BkgRKE_aVl9IJLY",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": {
+        "photo_reference": ""
+      },
+      "geometry": {
+        "location": {
+          "lat": 51.5102215,
+          "lng": -0.1241165
+        }
+      },
+      "vicinity": "6 Bedford St, London",
+      "ratings": [10, 10, 20, 19, 0]
+    },
+    {
+      "name": "TGI Fridays - Leicester Square",
+      "place_id": "ChIJfXuq-8Ec",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": {
+        "photo_reference": ""
+      },
+      "geometry": {
+        "location": {
+          "lat": 51.5101582,
+          "lng": -0.1293771
+        }
+      },
+      "vicinity": "30 Leicester Square, London",
+      "ratings": [1, 30, 50, 1, 0]
+    },
+    {
+      "name": "SUSHISAMBA Covent Garden",
+      "place_id": "ChIJW7PzZcm_oVjnM",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": {
+        "photo_reference": ""
+      },
+      "geometry": {
+        "location": {
+          "lat": 51.5123967,
+          "lng": -0.1224727
+        }
+      },
+      "vicinity": "35 The Market, London",
+      "ratings": [100, 30, 0, 15, 0]
+    },
+    {
+      "name": "TGI Fridays - Covent Garden",
+      "place_id": "ChIJy3bgAYFdkgRKSZHMwEdwewrwefdkgRKE_aVl9IJLY",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": {
+        "photo_reference": ""
+      },
+      "geometry": {
+        "location": {
+          "lat": 51.5102215,
+          "lng": -0.1241165
+        }
+      },
+      "vicinity": "6 Bedford St, London",
+      "ratings": [10, 10, 20, 19, 0]
+    },
+    {
+      "name": "TGI Fridays - Leicester Square",
+      "place_id": "ChIJbgAYFdkgRKfXuq-80EdkgR2wZJuV13B5k",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": {
+        "photo_reference": ""
+      },
+      "geometry": {
+        "location": {
+          "lat": 51.5101582,
+          "lng": -0.1293771
+        }
+      },
+      "vicinity": "30 Leicester Square, London",
+      "ratings": [1, 30, 50, 1, 0]
+    },
+    {
+      "name": "SUSHISAMBA Covent Garden",
+      "place_id": "ChIJbgAYFdkgRKW7PbgAYFdkgRKzZcm_oVjnM",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": {
+        "photo_reference": ""
+      },
+      "geometry": {
+        "location": {
+          "lat": 51.5123967,
+          "lng": -0.1224727
+        }
+      },
+      "vicinity": "35 The Market, London",
+      "ratings": [100, 30, 0, 15, 0]
+    },
+    {
+      "name": "TGI Fridays - Covent Garden",
+      "place_id": "ChIJbgAYFdkgRKy3SZHMwEdkgRKE_aVl9IJLY",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": {
+        "photo_reference": ""
+      },
+      "geometry": {
+        "location": {
+          "lat": 51.5102215,
+          "lng": -0.1241165
+        }
+      },
+      "vicinity": "6 Bedford St, London",
+      "ratings": [10, 10, 20, 19, 0]
+    },
+    {
+      "name": "TGI Fridays - Leicester Square",
+      "place_id": "ChIJfXbgAYFdkgRKuq-80EdkgR2wZJuV13B5k",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": {
+        "photo_reference": ""
+      },
+      "geometry": {
+        "location": {
+          "lat": 51.5101582,
+          "lng": -0.1293771
+        }
+      },
+      "vicinity": "30 Leicester Square, London",
+      "ratings": [1, 30, 50, 1, 0]
+    },
+    {
+      "name": "SUSHISAMBA Covent Garden",
+      "place_id": "ChIJW7bgAYFdkgRKPbgAYFdkgRKzZcm_oVjnM",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": {
+        "photo_reference": ""
+      },
+      "geometry": {
+        "location": {
+          "lat": 51.5123967,
+          "lng": -0.1224727
+        }
+      },
+      "vicinity": "35 The Market, London",
+      "ratings": [100, 30, 0, 15, 0]
+    },
+    {
+      "name": "TGI Fridays - Covent Garden",
+      "place_id": "ChIJy3bgAYFdkgRKSZHMwEdkgRKE_aVl9IJLY",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": {
+        "photo_reference": ""
+      },
+      "geometry": {
+        "location": {
+          "lat": 51.5102215,
+          "lng": -0.1241165
+        }
+      },
+      "vicinity": "6 Bedford St, London",
+      "ratings": [10, 10, 20, 19, 0]
+    },
+    {
+      "name": "TGI Fridays - Leicester Square",
+      "place_id": "ChIJfXuq-bgAYFdkgRK80EdkgR2wZJuV13B5k",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": {
+        "photo_reference": ""
+      },
+      "geometry": {
+        "location": {
+          "lat": 51.5101582,
+          "lng": -0.1293771
+        }
+      },
+      "vicinity": "30 Leicester Square, London",
+      "ratings": [1, 30, 50, 1, 0]
+    },
+    {
+      "name": "SUSHISAMBA Covent Garden",
+      "place_id": "ChIJWbgAYFdkgRK7PbgAYFdkgRKzZcm_oVjnM",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": {
+        "photo_reference": ""
+      },
+      "geometry": {
+        "location": {
+          "lat": 51.5123967,
+          "lng": -0.1224727
+        }
+      },
+      "vicinity": "35 The Market, London",
+      "ratings": [100, 30, 0, 15, 0]
+    },
+    {
+      "name": "TGI Fridays - Covent Garden",
+      "place_id": "ChIJy3SZHMwEdkgRKE_abgAYFdkgRKVl9IJLY",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": {
+        "photo_reference": ""
+      },
+      "geometry": {
+        "location": {
+          "lat": 51.5102215,
+          "lng": -0.1241165
+        }
+      },
+      "vicinity": "6 Bedford St, London",
+      "ratings": [10, 10, 20, 19, 0]
+    },
+    {
+      "name": "TGI Fridays - Leicester Square",
+      "place_id": "ChIJbgAYFdkgRKfXuq-80EdkgR2wZJeret555uV13B5k",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": {
+        "photo_reference": ""
+      },
+      "geometry": {
+        "location": {
+          "lat": 51.5101582,
+          "lng": -0.1293771
+        }
+      },
+      "vicinity": "30 Leicester Square, London",
+      "ratings": [1, 30, 50, 1, 0]
+    }
+  ],
+  "next_page_token": "google_token"
+}

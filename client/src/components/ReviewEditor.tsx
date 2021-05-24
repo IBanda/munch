@@ -21,7 +21,14 @@ const POST_REVIEW = gql`
       id
       review
       placeId
+      user {
+        id
+        name
+        profilePic
+      }
+      images
       rating
+      created_on
     }
   }
 `;
@@ -52,6 +59,36 @@ export default function ReviewEditor({ placeId }: Props) {
             return {
               next_page_token: existing.next_page_token,
               places: copy,
+            };
+          },
+          reviews(existing = { reviews: [], hasMore: false }) {
+            const reviewRef = cache.writeFragment({
+              data: review,
+              fragment: gql`
+                fragment NewReview on Review {
+                  id
+                  review
+                  placeId
+                  user {
+                    id
+                    name
+                    profilePic
+                  }
+                  images
+                  rating
+                  created_on
+                }
+              `,
+            });
+            return {
+              reviews: [reviewRef, ...existing.reviews],
+              hasMore: existing.hasMore,
+            };
+          },
+          ratings: (existing) => {
+            return {
+              placeId: review.placeId,
+              ratings: updateRating(existing.ratings, review.rating),
             };
           },
         },
@@ -94,9 +131,10 @@ export default function ReviewEditor({ placeId }: Props) {
     setModal('visible');
     setForm('login');
   };
+
   return user ? (
     <form onSubmit={onPostReview} className="mt-2">
-      <div>
+      <div data-testid="rating">
         <Rating
           className="m__shadow-rating"
           value={rating}
@@ -107,6 +145,7 @@ export default function ReviewEditor({ placeId }: Props) {
       <TextArea
         placeholder="Share your experience"
         value={value}
+        data-testid="editor"
         rows={3}
         onChange={(e) => {
           setValue(e.value as any);
@@ -127,7 +166,13 @@ export default function ReviewEditor({ placeId }: Props) {
           className="mt-3  btn-sm"
           primary={true}
         >
-          {!loading ? 'Post' : <Loader themeColor="light" />}
+          {!loading ? (
+            'Post'
+          ) : (
+            <div data-testid="loader">
+              <Loader themeColor="light" />
+            </div>
+          )}
         </Button>
       </div>
       {error ? (
@@ -145,7 +190,12 @@ export default function ReviewEditor({ placeId }: Props) {
     </form>
   ) : (
     <div className="d-flex align-items-center mt-4">
-      <Button onClick={onSignIn} primary={true} className="btn-sm mr-1">
+      <Button
+        data-testid="indetail-signin"
+        onClick={onSignIn}
+        primary={true}
+        className="btn-sm mr-1"
+      >
         Sign in
       </Button>
       <span>to post a review</span>

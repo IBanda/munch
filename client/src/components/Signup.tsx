@@ -9,11 +9,12 @@ import { Loader } from '@progress/kendo-react-indicators';
 import Modal, { ModalDispatch } from './Modal';
 import { Notification } from '@progress/kendo-react-notification';
 
-const SIGNUP = gql`
+export const SIGNUP = gql`
   mutation Signup($user: UserInput) {
     signup(user: $user) {
       id
       name
+      email
       profilePic
     }
   }
@@ -45,14 +46,16 @@ export default function Signup({ setModal }: ModalDispatch) {
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    await signup({
-      variables: {
-        user: { name, email, password, profilePic: file[0]?.getRawFile?.() },
-      },
-    });
-    !loading && !error && setModal('hidden');
+    try {
+      await signup({
+        variables: {
+          user: { name, email, password, profilePic: file[0]?.getRawFile?.() },
+        },
+      });
+      !loading && !error && setModal('hidden');
+    } catch (error) {}
   };
-  console.log(file[0]?.getRawFile?.());
+
   return (
     <Modal height={450} onClose={() => setModal('hidden')}>
       <form onSubmit={onSubmit} className="m__auth-form">
@@ -73,7 +76,7 @@ export default function Signup({ setModal }: ModalDispatch) {
           required
         />
         <Input
-          label="Pasword"
+          label="Password"
           id="password"
           value={password}
           type="password"
@@ -82,15 +85,28 @@ export default function Signup({ setModal }: ModalDispatch) {
           required
         />
 
-        <Label className="mb-0 mt-2">Profile Picture</Label>
+        <Label editorId="" className="mb-0 mt-2">
+          Profile Picture
+        </Label>
         <ImageUpload files={file} onAdd={onAdd} removeFile={removeFile} />
         {error ? (
           <Notification className="w-100" type={{ style: 'error', icon: true }}>
             {error?.message}
           </Notification>
         ) : null}
-        <Button className="w-100 mt-2 " primary={true}>
-          {!loading ? 'Sign up' : <Loader />}
+        <Button
+          type="submit"
+          data-testid="signup-btn"
+          className="w-100 mt-2 "
+          primary={true}
+        >
+          {!loading ? (
+            'Sign up'
+          ) : (
+            <div data-testid="loader">
+              <Loader />
+            </div>
+          )}
         </Button>
       </form>
     </Modal>

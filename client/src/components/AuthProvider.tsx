@@ -11,7 +11,7 @@ interface ContextInterface {
   logout: MutationFunction;
 }
 
-const GET_USER = gql`
+export const GET_USER = gql`
   query GetUser {
     user: getUser {
       id

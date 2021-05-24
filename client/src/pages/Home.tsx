@@ -14,7 +14,7 @@ export default function Home() {
         }}
         className="row"
       >
-        <div className="col-xl-6 d-flex justify-content-center text-center text-xl-left flex-column px-3">
+        <div className="col-xl-6 mb-3 mb-xl-0 d-flex justify-content-center text-center text-xl-left flex-column px-3">
           <h1 className="m__landing-h1">
             Discover great{' '}
             <span className="text-uppercase bg-primary text-white px-1">
@@ -23,7 +23,11 @@ export default function Home() {
             near you.
           </h1>
           <div className=" mt-4">
-            <Link to="/places" className="text-decoration-none">
+            <Link
+              to="/places"
+              data-testid="link-to-places"
+              className="text-decoration-none"
+            >
               <Button icon="marker-pin-target" primary={true}>
                 Discover
               </Button>

@@ -2,7 +2,7 @@ import { Dispatch, memo, useRef, useState } from 'react';
 import { SvgIcon } from '@progress/kendo-react-common';
 import { useAppState } from './Context';
 import { Tooltip } from '@progress/kendo-react-tooltip';
-import { mapMarkerTargetIcon, mapMarkerIcon } from '@progress/kendo-svg-icons';
+import { mapMarkerTargetIcon } from '@progress/kendo-svg-icons';
 
 interface MarkerProps {
   openTooltip?: boolean;
@@ -32,6 +32,7 @@ function Marker({ openTooltip, name, open, setWindow, id }: MarkerProps) {
     >
       <div
         ref={marker}
+        data-testid="marker"
         onClick={() => setWindow?.({ open: true, id })}
         onMouseOver={() => setTooltipState(true)}
         onMouseOut={() => setTooltipState(false)}
@@ -41,8 +42,8 @@ function Marker({ openTooltip, name, open, setWindow, id }: MarkerProps) {
         <SvgIcon
           style={{ width: 25, height: 25 }}
           className="mt-n1"
-          icon={isActive ? mapMarkerTargetIcon : mapMarkerIcon}
-          themeColor={!isUnknown ? (open ? 'success' : 'error') : 'info'}
+          icon={mapMarkerTargetIcon}
+          themeColor={!isUnknown ? (open ? 'success' : 'error') : 'error'}
           size="medium"
         />
       </div>

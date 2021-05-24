@@ -34,22 +34,27 @@ export default function Login({ setModal }: ModalDispatch) {
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
-    await login({
-      variables: {
-        user: {
-          email,
-          password,
+    try {
+      await login({
+        variables: {
+          user: {
+            email,
+            password,
+          },
         },
-      },
-    });
-    if (!loading && !error) {
-      setModal('hidden');
-    }
+      });
+      if (!loading && !error) {
+        setModal('hidden');
+      }
+    } catch (error) {}
   };
   return (
     <Modal height={320} onClose={() => setModal('hidden')}>
-      <form onSubmit={onSubmit} className="m__auth-form">
+      <form
+        data-testid="auth-form"
+        onSubmit={onSubmit}
+        className="m__auth-form"
+      >
         <Input
           type="email"
           value={email}
@@ -75,8 +80,14 @@ export default function Login({ setModal }: ModalDispatch) {
             {error?.message}
           </Notification>
         ) : null}
-        <Button className="w-100 mt-4 " primary={true}>
-          {loading ? <Loader /> : 'Sign in'}
+        <Button data-testid="signin-btn" className="w-100 mt-4 " primary={true}>
+          {loading ? (
+            <div data-testid="loader">
+              <Loader />
+            </div>
+          ) : (
+            'Sign in'
+          )}
         </Button>
       </form>
     </Modal>

@@ -11,7 +11,7 @@ export interface Place {
     open_now: boolean;
     weekday_text: string[];
   };
-  types: string[];
+
   geometry: {
     location: {
       lat: number;

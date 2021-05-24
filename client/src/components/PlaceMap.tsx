@@ -10,6 +10,7 @@ interface Props {
 
 export default function PlaceMap({ data }: Props) {
   const center = useGeo();
+
   return center.lat || center.lng ? (
     <div className="h-100 w-100">
       <GoogleMapReact
@@ -19,9 +20,9 @@ export default function PlaceMap({ data }: Props) {
         options={{
           fullscreenControl: false,
         }}
-        zoom={14}
-        // center={{ lat: Number(center.lat), lng: Number(center.lng) }}
-        center={{ lat: 40.73061, lng: -73.935242 }}
+        zoom={12}
+        center={{ lat: Number(center.lat), lng: Number(center.lng) }}
+        // center={{ lat: 40.73061, lng: -73.935242 }}
         // center={{ lat: 51.509865, lng: -0.118092 }}
       >
         {data.map((place) => (
@@ -37,7 +38,10 @@ export default function PlaceMap({ data }: Props) {
       </GoogleMapReact>
     </div>
   ) : (
-    <div className="h-100 w-100 d-flex align-items-center justify-content-center">
+    <div
+      data-testid="map-loader"
+      className="h-100 w-100 d-flex align-items-center  justify-content-center"
+    >
       <Loader themeColor="primary" type="converging-spinner" />
     </div>
   );
