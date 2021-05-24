@@ -7,7 +7,7 @@ const ReviewSchema = new mongoose_1.Schema({
     placeId: { type: String, required: true },
     rating: Number,
     images: [String],
-    created_on: { type: String, default: Date.now() },
+    created_on: { type: Date, default: Date.now },
 });
 const ReviewModel = mongoose_1.model('review', ReviewSchema);
 exports.default = ReviewModel;
