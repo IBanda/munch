@@ -48,7 +48,7 @@ export const cache = new InMemoryCache({
 
 const apolloClient = new ApolloClient({
   link: createUploadLink({
-    uri: 'http://localhost:4000/graphql',
+    uri: process.env.REACT_APP_GRAPHQL_ENDPOINT,
     credentials: 'include',
   }),
   cache,
