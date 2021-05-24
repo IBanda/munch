@@ -23,9 +23,9 @@ const typeDefs = gql`
     geometry: Geometry
     website: String
     price_level: String
-    ratings: [Int]
     opening_hours: OpenHours
     vicinity: String
+    ratings: [Int]
     types: [String]
   }
 
@@ -93,16 +93,14 @@ const typeDefs = gql`
     next_page_token: String
   }
 
-  type RatingsResult {
-    placeId: ID
-    ratings: [Int]
+  type UpdateReviewResult {
+    review: Review
+    type: String
   }
 
-  type UpdateReviewResult {
-    id: ID
+  type Ratings {
     placeId: ID
-    rating: Int
-    type: String
+    ratings: [Int]
   }
 
   type Query {
@@ -113,7 +111,7 @@ const typeDefs = gql`
     ): PlacesResult
     place(placeId: ID!): Place
     reviews(placeId: ID!, limit: Int, offset: Int): ReviewsResult
-    ratings(placeId: ID!): RatingsResult
+    ratings(placeId: ID!): Ratings
     getUser: User
   }
 
@@ -121,14 +119,8 @@ const typeDefs = gql`
     signup(user: UserInput): User
     signin(user: UserInput): User
     postReview(review: ReviewInput, files: [Upload]): Review
-    deleteReview(id: ID!, hasImages: Boolean, placeId: ID!): ID
+    deleteReview(id: ID!, hasImages: Boolean, placeId: ID!): Review
     logout: String
-  }
-
-  type Subscription {
-    getReview(placeId: ID!): Review
-    getRating(placeId: ID!): RatingsResult
-    deleteReview(placeId: ID!): UpdateReviewResult
   }
 `;
 
