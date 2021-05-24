@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "ts-node-dev src/start.ts",
-    "start": "node src/start.ts",
+    "start": "node dist/start.js",
     "postinstall": "tsc",
     "mock": "cross-env MOCK=true yarn dev",
     "precommit": "lint-staged",
