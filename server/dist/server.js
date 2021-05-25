@@ -58,6 +58,9 @@ function apolloExpressServer() {
             origin: 'https://munch.vercel.app',
             credentials: true,
         }));
+        if (process.env.NODE_ENV === 'production') {
+            app.set('trust proxy', 1);
+        }
         app.use(express_session_1.default({
             secret: process.env.COOKIE_SECRET,
             resave: false,
