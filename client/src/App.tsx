@@ -1,6 +1,5 @@
 import AppErrorBoundary from 'components/AppErrorBoundary';
-import Home from 'pages/Home';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import './App.scss';
 import Places from './pages/Places';
 import { ApolloProvider } from '@apollo/client';
@@ -12,16 +11,9 @@ function App() {
     <ApolloProvider client={apolloClient}>
       <AuthProvider>
         <Router>
-          <Switch>
-            <Route path="/" exact>
-              <Home />
-            </Route>
-            <Route path="/places" exact>
-              <AppErrorBoundary>
-                <Places />
-              </AppErrorBoundary>
-            </Route>
-          </Switch>
+          <AppErrorBoundary>
+            <Places />
+          </AppErrorBoundary>
         </Router>
       </AuthProvider>
     </ApolloProvider>
