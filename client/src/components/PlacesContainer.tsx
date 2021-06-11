@@ -26,7 +26,7 @@ export default function PlacesContainer({ children }: Props) {
       >
         {hasParams ? (
           <Button
-            onClick={() => history.push('/places')}
+            onClick={() => history.push('/')}
             className="btn-sm mr-2"
             icon="close"
             look="outline"

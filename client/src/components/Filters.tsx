@@ -34,7 +34,7 @@ export default function Filters(props: DrawerItemProps) {
       dining,
     };
     history.push(
-      `/places/?${qs.stringify(params, {
+      `/?${qs.stringify(params, {
         skipEmptyString: true,
         skipNull: true,
       })}`
