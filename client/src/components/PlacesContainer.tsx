@@ -21,7 +21,7 @@ export default function PlacesContainer({ children }: Props) {
   return (
     <Layout className="p-0 h-100" fluid>
       <div
-        style={{ height: 50, zIndex: 10005 }}
+        style={{ height: 50, zIndex: 10004 }}
         className="border py-2 px-2 d-flex justify-content-end bg-white position-relative"
       >
         {hasParams ? (

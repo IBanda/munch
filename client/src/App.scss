@@ -29,7 +29,7 @@ body {
 
 header {
   height: 80px;
-  z-index: 10005;
+  z-index: 10004;
   position: relative;
   background-color: #fff;
 }
@@ -77,7 +77,7 @@ header {
   border: 0;
   &-content {
     position: relative;
-    z-index: 10006;
+    z-index: 10005;
     padding: 0 0.5em;
   }
   &.m__places-listview {
@@ -143,7 +143,7 @@ header {
   @media (max-width: 576px) {
     position: fixed !important;
   }
-  z-index: 10006;
+  z-index: 10004;
 }
 /*
 * Image Grid
@@ -499,7 +499,7 @@ form {
   z-index: 100003;
 }
 .k-animation-container {
-  z-index: 10004;
+  z-index: 10003;
 }
 
 /*
