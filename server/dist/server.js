@@ -59,7 +59,7 @@ function apolloExpressServer() {
             credentials: true,
         }));
         if (process.env.NODE_ENV === 'production') {
-            app.set('trust proxy', 1);
+            app.set('trust proxy', true);
         }
         app.use(express_session_1.default({
             secret: process.env.COOKIE_SECRET,
