@@ -29,7 +29,7 @@ body {
 
 header {
   height: 80px;
-  z-index: 10006;
+  z-index: 100006;
   position: relative;
   background-color: #fff;
 }
@@ -143,7 +143,7 @@ header {
   @media (max-width: 576px) {
     position: fixed !important;
   }
-  z-index: 10004;
+  z-index: 100004;
 }
 /*
 * Image Grid
