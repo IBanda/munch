@@ -93,7 +93,7 @@ export default function Header() {
               </>
             )
           ) : (
-            <Skeleton shape="rectangle" style={{ width: 100, height: 40 }} />
+            <Skeleton shape="rectangle" style={{ width: 100, height: 30 }} />
           )}
         </AppBarSection>
       </AppBar>

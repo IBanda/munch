@@ -30,6 +30,8 @@ body {
 header {
   height: 80px;
   z-index: 10005;
+  position: relative;
+  background-color: #fff;
 }
 .logo {
   max-width: 70px;
@@ -74,6 +76,8 @@ header {
   // height: 100%;
   border: 0;
   &-content {
+    position: relative;
+    z-index: 10006;
     padding: 0 0.5em;
   }
   &.m__places-listview {
