@@ -27,6 +27,7 @@ const RenderItem = (props: any) => {
 };
 
 export default function PlaceListView({ data, loading, loadMore }: Props) {
+  if (!loading && !data?.length) return <p>No results match your search</p>;
   return (
     <ListView
       onScroll={loadMore}
