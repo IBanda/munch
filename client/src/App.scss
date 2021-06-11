@@ -29,6 +29,7 @@ body {
 
 header {
   height: 80px;
+  z-index: 10005;
 }
 .logo {
   max-width: 70px;
@@ -138,6 +139,7 @@ header {
   @media (max-width: 576px) {
     position: fixed !important;
   }
+  z-index: 10006;
 }
 /*
 * Image Grid
