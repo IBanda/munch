@@ -46,7 +46,7 @@ const GET_PLACES = gql`
     }
   }
 `;
-
+const style = { zIndex: 10005 };
 export default function Places() {
   const coords = useGeo();
   const [id, setId] = useState('');
@@ -118,9 +118,8 @@ export default function Places() {
         className="row no-gutters"
       >
         <div
-          className={`col-xl-4 col-md-6  position-relative h-100 border-right  ${
-            open ? '' : 'ooverflow-auto '
-          }`}
+          className="col-xl-4 col-md-6  position-relative h-100 border-right"
+          style={style}
         >
           <AppDispatchProvider context={dispatchContext}>
             <PlaceListView
