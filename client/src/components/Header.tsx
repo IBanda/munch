@@ -24,8 +24,8 @@ export default function Header() {
   const name = user?.name?.split(' ')[0];
 
   return (
-    <header className="p-2">
-      <AppBar className="shadow-none bg-white">
+    <header className="p-2 border-bottom">
+      <AppBar className="shadow-none bg-white p-0">
         <AppBarSection>
           <Link to="/">
             <img className="logo" src="logo.jpg" alt="logo" />

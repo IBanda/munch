@@ -189,7 +189,7 @@ export default function ReviewEditor({ placeId }: Props) {
       ) : null}
     </form>
   ) : (
-    <div className="d-flex align-items-center mt-4">
+    <div className="d-flex align-items-center mt-4 pb-4">
       <Button
         data-testid="indetail-signin"
         onClick={onSignIn}
